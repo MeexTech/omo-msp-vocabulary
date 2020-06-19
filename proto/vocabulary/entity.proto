@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+
+service EntityService{
+    rpc AddOne(ReqEntityAdd) returns (ReplyEntityOne) {}
+    rpc GetOne(ReqEntity) returns (ReplyEntityOne) {}
+    rpc RemoveOne(ReqEntity) returns (ReplyEntityRemove) {}
+    rpc GetListByOwner(ReqEntityBy) returns (ReplyEntityList) {}
+    rpc UpdateEvents(ReqEntityEvents) returns (ReplyEntityUpdate) {}
+    rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityUpdate) {}
+    rpc AppendAsset(ReqEntityAsset) returns (ReplyEntityAsset) {}
+    rpc UnAppendAsset(ReqEntityAsset) returns (ReplyEntityAsset) {}
+}
+
+enum ResultStatus {
+    Success = 0;
+    MaxLimit = 1;
+    Repeated = 2;
+    NotExisted = 3;
+    DBException = 4;
+}
+
+message EntityInfo {
+    string uid = 1;
+    string name = 2;
+    string owner = 3;
+    string cover = 4;
+    string concept = 5;
+    string description = 6;
+    repeated string titles = 7;
+    repeated string synonyms = 8;
+    repeated string tags = 9;
+    repeated PropertyInfo properties = 10;
+    repeated EventInfo events = 11;
+    repeated string assets = 12;
+}
+
+message PropertyInfo {
+    string key = 1;
+    repeated WordInfo words = 2;
+}
+
+message WordInfo {
+    string uid = 1;
+    string name = 2;
+}
+
+message DateInfo {
+    string uid = 1;
+    string name = 2;
+    string begin = 3;
+    string end = 4;
+}
+
+message PlaceInfo {
+    string uid = 1;
+    string name = 2;
+    string location = 3;
+}
+
+message RelationInfo {
+    int32 direction = 1;
+    string name = 2;
+    string category = 3;
+    string entity = 4;
+    string uid = 5;
+}
+
+message EventInfo {
+    uint64 id = 1;
+    string description = 2;
+    DateInfo date = 3;
+    PlaceInfo place = 4;
+    repeated string images = 5;
+    repeated RelationInfo relations = 6;
+}
+
+message ReqEntityAdd {
+    string uid = 1;
+    string name = 2;
+    string owner = 3;
+    string cover = 4;
+    string concept = 5;
+    string description = 6;
+    repeated string titles = 7;
+    repeated string synonyms = 8;
+    repeated string tags = 9;
+}
+
+message ReqEntity {
+    string uid = 1;
+}
+
+message ReqEntityBy {
+    uint32 status = 1;
+    string owner = 2;
+}
+
+message ReplyEntityOne {
+    EntityInfo info = 1;
+    ResultStatus errorCode = 2;
+    string errorMsg = 3;
+}
+
+message ReplyEntityList {
+    string flag = 1;
+    repeated EntityInfo list = 2;
+}
+
+message ReplyEntityRemove {
+    string uid = 1;
+    ResultStatus errorCode = 2;
+    string errorMsg = 3;
+}
+
+message ReqEntityEvents {
+     string uid = 1;
+     repeated EventInfo events = 2;
+}
+
+message ReqEntityProperties {
+    string uid = 1;
+    repeated PropertyInfo properties = 2;
+}
+
+message ReplyEntityUpdate {
+    EntityInfo info = 1;
+    ResultStatus errorCode = 2;
+    string errorMsg = 3;
+}
+
+message ReqEntityAsset {
+    string uid = 1;
+}
+
+message ReplyEntityAsset {
+    string uid = 1;
+}
+
