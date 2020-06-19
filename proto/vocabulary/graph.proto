@@ -2,7 +2,74 @@ syntax = "proto3";
 
 package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
-
+import "proto/vocabulary/common.proto";
 service GraphService {
+    rpc AddNode(ReqNodeAdd) returns (ReplyNodeOne) {}
+    rpc AddLink(ReqLinkAdd) returns (ReplyLinkOne) {}
+    rpc RemoveNode(RequestInfo) returns (ReplyInfo) {}
+    rpc RemoveLink(RequestInfo) returns (ReplyInfo) {}
+    rpc FindPath(ReqGraphPath) returns (ReplyGraphInfo) {}
+    rpc FindGraph(RequestInfo) returns (ReplyGraphInfo) {}
+}
 
+enum DirectionType {
+    Double = 0;
+    FromTo = 1;
+    ToFrom = 2;
+}
+
+message NodeInfo {
+    int64 id = 1;
+    string name = 2;
+    string concept = 3;
+    string entity = 4;
+    repeated string labels = 5;
+}
+
+message LinkInfo {
+    int64 id = 1;
+    string name = 2;
+    string key = 3;
+    DirectionType direction = 4;
+    string from = 5;
+    string to = 6;
+    bool custom = 7;
+}
+
+message ReqNodeAdd {
+    string name = 1;
+    string concept = 2;
+    string entity = 3;
+    string label = 4;
+    string cover = 5;
+}
+
+message ReplyNodeOne {
+    NodeInfo info = 1;
+    ResultStatus errorCode = 2;
+}
+
+message ReqLinkAdd {
+    string name = 1;
+    DirectionType direction = 2;
+    string key = 3;
+    string from = 4;
+    string to = 5;
+    bool custom = 6;
+}
+
+message ReplyLinkOne {
+    LinkInfo info = 1;
+    ResultStatus errorCode = 2;
+}
+
+message ReqGraphPath {
+    string from = 1;
+    string to = 2;
+}
+
+message ReplyGraphInfo {
+    string center = 1;
+    repeated NodeInfo nodes = 2;
+    repeated LinkInfo links = 3;
 }

@@ -42,6 +42,12 @@ func NewGraphServiceEndpoints() []*api.Endpoint {
 // Client API for GraphService service
 
 type GraphService interface {
+	AddNode(ctx context.Context, in *ReqNodeAdd, opts ...client.CallOption) (*ReplyNodeOne, error)
+	AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkOne, error)
+	RemoveNode(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	RemoveLink(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	FindPath(ctx context.Context, in *ReqGraphPath, opts ...client.CallOption) (*ReplyGraphInfo, error)
+	FindGraph(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error)
 }
 
 type graphService struct {
@@ -56,13 +62,85 @@ func NewGraphService(name string, c client.Client) GraphService {
 	}
 }
 
+func (c *graphService) AddNode(ctx context.Context, in *ReqNodeAdd, opts ...client.CallOption) (*ReplyNodeOne, error) {
+	req := c.c.NewRequest(c.name, "GraphService.AddNode", in)
+	out := new(ReplyNodeOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkOne, error) {
+	req := c.c.NewRequest(c.name, "GraphService.AddLink", in)
+	out := new(ReplyLinkOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) RemoveNode(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.RemoveNode", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) RemoveLink(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.RemoveLink", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) FindPath(ctx context.Context, in *ReqGraphPath, opts ...client.CallOption) (*ReplyGraphInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.FindPath", in)
+	out := new(ReplyGraphInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) FindGraph(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.FindGraph", in)
+	out := new(ReplyGraphInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for GraphService service
 
 type GraphServiceHandler interface {
+	AddNode(context.Context, *ReqNodeAdd, *ReplyNodeOne) error
+	AddLink(context.Context, *ReqLinkAdd, *ReplyLinkOne) error
+	RemoveNode(context.Context, *RequestInfo, *ReplyInfo) error
+	RemoveLink(context.Context, *RequestInfo, *ReplyInfo) error
+	FindPath(context.Context, *ReqGraphPath, *ReplyGraphInfo) error
+	FindGraph(context.Context, *RequestInfo, *ReplyGraphInfo) error
 }
 
 func RegisterGraphServiceHandler(s server.Server, hdlr GraphServiceHandler, opts ...server.HandlerOption) error {
 	type graphService interface {
+		AddNode(ctx context.Context, in *ReqNodeAdd, out *ReplyNodeOne) error
+		AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkOne) error
+		RemoveNode(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		RemoveLink(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		FindPath(ctx context.Context, in *ReqGraphPath, out *ReplyGraphInfo) error
+		FindGraph(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error
 	}
 	type GraphService struct {
 		graphService
@@ -73,4 +151,28 @@ func RegisterGraphServiceHandler(s server.Server, hdlr GraphServiceHandler, opts
 
 type graphServiceHandler struct {
 	GraphServiceHandler
+}
+
+func (h *graphServiceHandler) AddNode(ctx context.Context, in *ReqNodeAdd, out *ReplyNodeOne) error {
+	return h.GraphServiceHandler.AddNode(ctx, in, out)
+}
+
+func (h *graphServiceHandler) AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkOne) error {
+	return h.GraphServiceHandler.AddLink(ctx, in, out)
+}
+
+func (h *graphServiceHandler) RemoveNode(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
+	return h.GraphServiceHandler.RemoveNode(ctx, in, out)
+}
+
+func (h *graphServiceHandler) RemoveLink(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
+	return h.GraphServiceHandler.RemoveLink(ctx, in, out)
+}
+
+func (h *graphServiceHandler) FindPath(ctx context.Context, in *ReqGraphPath, out *ReplyGraphInfo) error {
+	return h.GraphServiceHandler.FindPath(ctx, in, out)
+}
+
+func (h *graphServiceHandler) FindGraph(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error {
+	return h.GraphServiceHandler.FindGraph(ctx, in, out)
 }

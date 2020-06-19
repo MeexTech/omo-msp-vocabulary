@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+
+enum ResultStatus {
+    Success = 0;
+    MaxLimit = 1;
+    Repeated = 2;
+    NotExisted = 3;
+    DBException = 4;
+}
+
+enum AttributeType {
+    String = 0;
+    Date    = 1;
+    Number  = 2;
+    Entity  = 3;
+    Sex     = 4;
+    Address = 5;
+}
+
+message RequestInfo {
+    string uid = 1;
+    string key = 2;
+    uint64 id = 3;
+}
+
+message ReplyInfo {
+    string uid = 1;
+    string key = 2;
+    uint64 id = 3;
+    ResultStatus errorCode = 4;
+}
+
+message AttributeInfo {
+    string uid = 1;
+    uint64 id = 2;
+    AttributeType type = 3;
+    string name = 4;
+    string key = 5;
+    string begin = 6;
+    string end = 7;
+    string remark = 8;
+}
+
+message AssetInfo {
+    string uid = 1;
+    string name = 2;
+    string md5 = 3;
+    string format = 4;
+    string version = 5;
+    uint64 size = 6;
+    string language = 7;
+    string file = 8;
+}

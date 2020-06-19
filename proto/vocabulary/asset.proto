@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service AssetService {
+    rpc AddOne(ReqAssetAdd) returns (ReplyAssetOne) {}
+    rpc GetOne(RequestInfo) returns (ReplyAssetOne) {}
+    rpc RemoveOne(RequestInfo) returns (ReplyAssetOne) {}
+    rpc GetList(ReqAssetList) returns (ReplyAssetList) {}
+}
+
+message ReqAssetAdd {
+    string name = 1;
+    string md5 = 2;
+    string format = 3;
+    string version = 4;
+    uint64 size = 5;
+    string language = 6;
+    string file = 7;
+}
+
+message ReplyAssetOne {
+    AssetInfo info = 1;
+    ResultStatus errorCode = 2;
+}
+
+message ReqAssetList {
+    repeated string list = 1;
+}
+
+message ReplyAssetList {
+    repeated AssetInfo list = 1;
+}

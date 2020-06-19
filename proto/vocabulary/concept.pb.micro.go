@@ -42,6 +42,12 @@ func NewConceptServiceEndpoints() []*api.Endpoint {
 // Client API for ConceptService service
 
 type ConceptService interface {
+	AddOne(ctx context.Context, in *ReqConceptAdd, opts ...client.CallOption) (*ReplyConceptInfo, error)
+	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptInfo, error)
+	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptList, error)
+	AppendAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error)
+	RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error)
 }
 
 type conceptService struct {
@@ -56,13 +62,85 @@ func NewConceptService(name string, c client.Client) ConceptService {
 	}
 }
 
+func (c *conceptService) AddOne(ctx context.Context, in *ReqConceptAdd, opts ...client.CallOption) (*ReplyConceptInfo, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.AddOne", in)
+	out := new(ReplyConceptInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conceptService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptInfo, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.GetOne", in)
+	out := new(ReplyConceptInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conceptService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.RemoveOne", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conceptService) GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptList, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.GetAll", in)
+	out := new(ReplyConceptList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conceptService) AppendAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.AppendAttribute", in)
+	out := new(ReplyConceptAttribute)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *conceptService) RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.RemoveAttribute", in)
+	out := new(ReplyConceptAttribute)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for ConceptService service
 
 type ConceptServiceHandler interface {
+	AddOne(context.Context, *ReqConceptAdd, *ReplyConceptInfo) error
+	GetOne(context.Context, *RequestInfo, *ReplyConceptInfo) error
+	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
+	GetAll(context.Context, *RequestInfo, *ReplyConceptList) error
+	AppendAttribute(context.Context, *ReqConceptAttribute, *ReplyConceptAttribute) error
+	RemoveAttribute(context.Context, *ReqConceptAttribute, *ReplyConceptAttribute) error
 }
 
 func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, opts ...server.HandlerOption) error {
 	type conceptService interface {
+		AddOne(ctx context.Context, in *ReqConceptAdd, out *ReplyConceptInfo) error
+		GetOne(ctx context.Context, in *RequestInfo, out *ReplyConceptInfo) error
+		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error
+		AppendAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error
+		RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error
 	}
 	type ConceptService struct {
 		conceptService
@@ -73,4 +151,28 @@ func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, 
 
 type conceptServiceHandler struct {
 	ConceptServiceHandler
+}
+
+func (h *conceptServiceHandler) AddOne(ctx context.Context, in *ReqConceptAdd, out *ReplyConceptInfo) error {
+	return h.ConceptServiceHandler.AddOne(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyConceptInfo) error {
+	return h.ConceptServiceHandler.GetOne(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
+	return h.ConceptServiceHandler.RemoveOne(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error {
+	return h.ConceptServiceHandler.GetAll(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) AppendAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error {
+	return h.ConceptServiceHandler.AppendAttribute(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error {
+	return h.ConceptServiceHandler.RemoveAttribute(ctx, in, out)
 }

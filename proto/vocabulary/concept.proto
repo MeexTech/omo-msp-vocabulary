@@ -2,7 +2,69 @@ syntax = "proto3";
 
 package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
 
 service ConceptService {
+    rpc AddOne(ReqConceptAdd) returns (ReplyConceptInfo) {}
+    rpc GetOne(RequestInfo) returns (ReplyConceptInfo) {}
+    rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+    rpc GetAll(RequestInfo) returns (ReplyConceptList) {}
+    rpc AppendAttribute(ReqConceptAttribute) returns (ReplyConceptAttribute) {}
+    rpc RemoveAttribute(ReqConceptAttribute) returns (ReplyConceptAttribute) {}
+}
 
+enum ConceptType {
+    Unknown = 0;
+    Personal = 1;
+    Utensil = 2; // 器物
+    Event = 3; //事件
+    Organize = 4; // 组织
+    Idea = 5; //思想理论
+    Book = 6; //经籍著作
+    Culture = 7; //文化
+    Faction = 8; //派别
+    Nature = 9; //自然
+    Honor = 10; //荣誉奖项
+}
+
+message ConceptInfo {
+    ConceptType type = 1;
+    string name = 2;
+    string uid = 3;
+    string cover = 4;
+    string remark = 5;
+    string table = 6;
+    repeated ConceptInfo children = 7;
+    repeated AttributeInfo attributes = 8;
+}
+
+message ReqConceptAdd {
+    ConceptType type = 1;
+    string name = 2;
+    string uid = 3;
+    string cover = 4;
+    string remark = 5;
+    string table = 6;
+}
+
+message ReplyConceptInfo {
+    ConceptInfo info = 1;
+    ResultStatus errorCode = 2;
+    string errorMsg = 3;
+}
+
+message ReplyConceptList {
+    string flag = 1;
+    repeated ConceptInfo list = 2;
+}
+
+message ReqConceptAttribute {
+    string uid = 1;
+    string concept = 2;
+}
+
+message ReplyConceptAttribute {
+    string uid = 1;
+    string concept = 2;
+    ResultStatus errorCode = 3;
 }

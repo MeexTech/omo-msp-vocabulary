@@ -2,24 +2,22 @@ syntax = "proto3";
 
 package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
 
 service EntityService{
     rpc AddOne(ReqEntityAdd) returns (ReplyEntityOne) {}
-    rpc GetOne(ReqEntity) returns (ReplyEntityOne) {}
-    rpc RemoveOne(ReqEntity) returns (ReplyEntityRemove) {}
+    rpc GetOne(RequestInfo) returns (ReplyEntityOne) {}
+    rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetListByOwner(ReqEntityBy) returns (ReplyEntityList) {}
-    rpc UpdateEvents(ReqEntityEvents) returns (ReplyEntityUpdate) {}
-    rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityUpdate) {}
-    rpc AppendAsset(ReqEntityAsset) returns (ReplyEntityAsset) {}
-    rpc UnAppendAsset(ReqEntityAsset) returns (ReplyEntityAsset) {}
-}
-
-enum ResultStatus {
-    Success = 0;
-    MaxLimit = 1;
-    Repeated = 2;
-    NotExisted = 3;
-    DBException = 4;
+    rpc UpdateTags(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
+    rpc UpdateTitles(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
+    rpc UpdateSynonyms(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
+    rpc AppendAsset(RequestInfo) returns (ReplyEntityAsset) {}
+    rpc SubtractAsset(RequestInfo) returns (ReplyEntityAsset) {}
+    rpc AppendEvent(ReqEntityEvent) returns (ReplyEntityEvents) {}
+    rpc SubtractEvent(RequestInfo) returns (ReplyEntityEvents) {}
+    rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
+    rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
 }
 
 message EntityInfo {
@@ -32,9 +30,9 @@ message EntityInfo {
     repeated string titles = 7;
     repeated string synonyms = 8;
     repeated string tags = 9;
-    repeated PropertyInfo properties = 10;
-    repeated EventInfo events = 11;
-    repeated string assets = 12;
+    repeated string assets = 10;
+    repeated PropertyInfo properties = 11;
+    repeated EventInfo events = 12;
 }
 
 message PropertyInfo {
@@ -73,7 +71,7 @@ message EventInfo {
     string description = 2;
     DateInfo date = 3;
     PlaceInfo place = 4;
-    repeated string images = 5;
+    repeated string assets = 5;
     repeated RelationInfo relations = 6;
 }
 
@@ -89,10 +87,6 @@ message ReqEntityAdd {
     repeated string tags = 9;
 }
 
-message ReqEntity {
-    string uid = 1;
-}
-
 message ReqEntityBy {
     uint32 status = 1;
     string owner = 2;
@@ -101,7 +95,6 @@ message ReqEntityBy {
 message ReplyEntityOne {
     EntityInfo info = 1;
     ResultStatus errorCode = 2;
-    string errorMsg = 3;
 }
 
 message ReplyEntityList {
@@ -109,33 +102,43 @@ message ReplyEntityList {
     repeated EntityInfo list = 2;
 }
 
-message ReplyEntityRemove {
-    string uid = 1;
-    ResultStatus errorCode = 2;
-    string errorMsg = 3;
-}
-
-message ReqEntityEvents {
+message ReqEntityEvent {
      string uid = 1;
-     repeated EventInfo events = 2;
+     EventInfo event = 2;
 }
 
-message ReqEntityProperties {
+message ReplyEntityEvents {
+    string uid = 1;
+    repeated EventInfo events = 2;
+    ResultStatus errorCode = 3;
+}
+
+message ReqEntityProperty {
+    string uid = 1;
+    PropertyInfo property = 2;
+}
+
+message ReplyEntityProperties {
     string uid = 1;
     repeated PropertyInfo properties = 2;
+    ResultStatus errorCode = 3;
+}
+
+message ReqEntityUpdate {
+    string uid = 1;
+    repeated string list = 2;
 }
 
 message ReplyEntityUpdate {
-    EntityInfo info = 1;
-    ResultStatus errorCode = 2;
-    string errorMsg = 3;
-}
-
-message ReqEntityAsset {
     string uid = 1;
+    repeated string list = 2;
+    ResultStatus errorCode = 3;
 }
 
 message ReplyEntityAsset {
     string uid = 1;
+    repeated string assets = 2;
+    ResultStatus errorCode = 3;
 }
+
 

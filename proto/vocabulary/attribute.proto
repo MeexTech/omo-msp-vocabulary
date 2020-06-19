@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service AttributeService {
+    rpc AddOne(ReqAttributeAdd) returns (ReplyAttributeOne) {}
+    rpc GetOne(RequestInfo) returns (ReplyAttributeOne) {}
+    rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+    rpc GetList(ReqAttributeList) returns (ReplyAttributeList) {}
+}
+
+message ReqAttributeAdd {
+    AttributeType type = 1;
+    string name = 2;
+    string key = 3;
+    string begin = 4;
+    string end = 5;
+}
+
+message ReplyAttributeOne {
+    AttributeInfo info = 1;
+    ResultStatus errorCode = 2;
+}
+
+message ReqAttributeList {
+    repeated string list = 1;
+}
+
+message ReplyAttributeList {
+    repeated AttributeInfo list = 1;
+}
