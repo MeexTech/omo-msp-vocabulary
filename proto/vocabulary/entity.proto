@@ -58,7 +58,7 @@ message PlaceInfo {
     string location = 3;
 }
 
-message RelationInfo {
+message RelationshipInfo {
     int32 direction = 1;
     string name = 2;
     string category = 3;
@@ -72,7 +72,7 @@ message EventInfo {
     DateInfo date = 3;
     PlaceInfo place = 4;
     repeated string assets = 5;
-    repeated RelationInfo relations = 6;
+    repeated RelationshipInfo relations = 6;
 }
 
 message ReqEntityAdd {
