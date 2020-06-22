@@ -12,12 +12,6 @@ service GraphService {
     rpc FindGraph(RequestInfo) returns (ReplyGraphInfo) {}
 }
 
-enum DirectionType {
-    Double = 0;
-    FromTo = 1;
-    ToFrom = 2;
-}
-
 message NodeInfo {
     int64 id = 1;
     string name = 2;

@@ -20,6 +20,12 @@ enum AttributeType {
     Address = 5;
 }
 
+enum DirectionType {
+    Double = 0;
+    FromTo = 1;
+    ToFrom = 2;
+}
+
 message RequestInfo {
     string uid = 1;
     string key = 2;

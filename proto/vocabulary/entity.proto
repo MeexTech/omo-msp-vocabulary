@@ -59,7 +59,7 @@ message PlaceInfo {
 }
 
 message RelationshipInfo {
-    int32 direction = 1;
+    DirectionType direction = 1;
     string name = 2;
     string category = 3;
     string entity = 4;

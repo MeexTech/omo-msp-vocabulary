@@ -138,6 +138,55 @@ func (AttributeType) EnumDescriptor() ([]byte, []int) {
 	return file_proto_vocabulary_common_proto_rawDescGZIP(), []int{1}
 }
 
+type DirectionType int32
+
+const (
+	DirectionType_Double DirectionType = 0
+	DirectionType_FromTo DirectionType = 1
+	DirectionType_ToFrom DirectionType = 2
+)
+
+// Enum value maps for DirectionType.
+var (
+	DirectionType_name = map[int32]string{
+		0: "Double",
+		1: "FromTo",
+		2: "ToFrom",
+	}
+	DirectionType_value = map[string]int32{
+		"Double": 0,
+		"FromTo": 1,
+		"ToFrom": 2,
+	}
+)
+
+func (x DirectionType) Enum() *DirectionType {
+	p := new(DirectionType)
+	*p = x
+	return p
+}
+
+func (x DirectionType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DirectionType) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_vocabulary_common_proto_enumTypes[2].Descriptor()
+}
+
+func (DirectionType) Type() protoreflect.EnumType {
+	return &file_proto_vocabulary_common_proto_enumTypes[2]
+}
+
+func (x DirectionType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DirectionType.Descriptor instead.
+func (DirectionType) EnumDescriptor() ([]byte, []int) {
+	return file_proto_vocabulary_common_proto_rawDescGZIP(), []int{2}
+}
+
 type RequestInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -532,8 +581,12 @@ var file_proto_vocabulary_common_proto_rawDesc = []byte{
 	0x61, 0x74, 0x65, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x10,
 	0x02, 0x12, 0x0a, 0x0a, 0x06, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x10, 0x03, 0x12, 0x07, 0x0a,
 	0x03, 0x53, 0x65, 0x78, 0x10, 0x04, 0x12, 0x0b, 0x0a, 0x07, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x10, 0x05, 0x42, 0x12, 0x5a, 0x10, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x6f, 0x63,
-	0x61, 0x62, 0x75, 0x6c, 0x61, 0x72, 0x79, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x10, 0x05, 0x2a, 0x33, 0x0a, 0x0d, 0x44, 0x69, 0x72, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x54, 0x79, 0x70, 0x65, 0x12, 0x0a, 0x0a, 0x06, 0x44, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x10, 0x00,
+	0x12, 0x0a, 0x0a, 0x06, 0x46, 0x72, 0x6f, 0x6d, 0x54, 0x6f, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06,
+	0x54, 0x6f, 0x46, 0x72, 0x6f, 0x6d, 0x10, 0x02, 0x42, 0x12, 0x5a, 0x10, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2f, 0x76, 0x6f, 0x63, 0x61, 0x62, 0x75, 0x6c, 0x61, 0x72, 0x79, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -548,15 +601,16 @@ func file_proto_vocabulary_common_proto_rawDescGZIP() []byte {
 	return file_proto_vocabulary_common_proto_rawDescData
 }
 
-var file_proto_vocabulary_common_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_proto_vocabulary_common_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_proto_vocabulary_common_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_vocabulary_common_proto_goTypes = []interface{}{
 	(ResultStatus)(0),     // 0: omo.msp.vocabulary.ResultStatus
 	(AttributeType)(0),    // 1: omo.msp.vocabulary.AttributeType
-	(*RequestInfo)(nil),   // 2: omo.msp.vocabulary.RequestInfo
-	(*ReplyInfo)(nil),     // 3: omo.msp.vocabulary.ReplyInfo
-	(*AttributeInfo)(nil), // 4: omo.msp.vocabulary.AttributeInfo
-	(*AssetInfo)(nil),     // 5: omo.msp.vocabulary.AssetInfo
+	(DirectionType)(0),    // 2: omo.msp.vocabulary.DirectionType
+	(*RequestInfo)(nil),   // 3: omo.msp.vocabulary.RequestInfo
+	(*ReplyInfo)(nil),     // 4: omo.msp.vocabulary.ReplyInfo
+	(*AttributeInfo)(nil), // 5: omo.msp.vocabulary.AttributeInfo
+	(*AssetInfo)(nil),     // 6: omo.msp.vocabulary.AssetInfo
 }
 var file_proto_vocabulary_common_proto_depIdxs = []int32{
 	0, // 0: omo.msp.vocabulary.ReplyInfo.errorCode:type_name -> omo.msp.vocabulary.ResultStatus
@@ -628,7 +682,7 @@ func file_proto_vocabulary_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_vocabulary_common_proto_rawDesc,
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
