@@ -9,8 +9,9 @@ service EntityService{
     rpc GetOne(RequestInfo) returns (ReplyEntityOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetListByOwner(ReqEntityBy) returns (ReplyEntityList) {}
+    rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
+    rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
     rpc UpdateTags(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
-    rpc UpdateTitles(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
     rpc UpdateSynonyms(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
     rpc AppendAsset(RequestInfo) returns (ReplyEntityAsset) {}
     rpc SubtractAsset(RequestInfo) returns (ReplyEntityAsset) {}
@@ -20,6 +21,13 @@ service EntityService{
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
 }
 
+enum EntityStatus {
+    Idle = 0;
+    Pending = 1;
+    Usable = 2;
+    Failed = 3;
+}
+
 message EntityInfo {
     string uid = 1;
     string name = 2;
@@ -27,7 +35,7 @@ message EntityInfo {
     string cover = 4;
     string concept = 5;
     string description = 6;
-    repeated string titles = 7;
+    string add = 7;
     repeated string synonyms = 8;
     repeated string tags = 9;
     repeated string assets = 10;
@@ -76,13 +84,13 @@ message EventInfo {
 }
 
 message ReqEntityAdd {
-    string uid = 1;
+    string creator = 1;
     string name = 2;
     string owner = 3;
     string cover = 4;
     string concept = 5;
     string description = 6;
-    repeated string titles = 7;
+    string add = 7;
     repeated string synonyms = 8;
     repeated string tags = 9;
 }
@@ -124,9 +132,29 @@ message ReplyEntityProperties {
     ResultStatus errorCode = 3;
 }
 
+message ReqEntityBase {
+    string uid = 1;
+    string name = 2;
+    string desc = 3;
+    string add = 4;
+    string concept = 5;
+    string cover = 6;
+}
+
+message ReqEntityStatus {
+    string uid = 1;
+    EntityStatus status = 2;
+}
+
+message ReplyEntityStatus {
+    string uid = 1;
+    EntityStatus status = 2;
+}
+
 message ReqEntityUpdate {
     string uid = 1;
     repeated string list = 2;
+    ResultStatus errorCode = 3;
 }
 
 message ReplyEntityUpdate {

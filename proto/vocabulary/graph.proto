@@ -15,7 +15,7 @@ service GraphService {
 message NodeInfo {
     int64 id = 1;
     string name = 2;
-    string concept = 3;
+    string cover = 3;
     string entity = 4;
     repeated string labels = 5;
 }
@@ -23,19 +23,23 @@ message NodeInfo {
 message LinkInfo {
     int64 id = 1;
     string name = 2;
-    string key = 3;
+    string relation = 3;
     DirectionType direction = 4;
     string from = 5;
     string to = 6;
-    bool custom = 7;
+}
+
+message GraphInfo {
+    string center = 1;
+    repeated NodeInfo nodes = 2;
+    repeated LinkInfo links = 3;
 }
 
 message ReqNodeAdd {
     string name = 1;
-    string concept = 2;
-    string entity = 3;
-    string label = 4;
-    string cover = 5;
+    string entity = 2;
+    string label = 3;
+    string cover = 4;
 }
 
 message ReplyNodeOne {
@@ -49,7 +53,7 @@ message ReqLinkAdd {
     string key = 3;
     string from = 4;
     string to = 5;
-    bool custom = 6;
+    string relation = 6;
 }
 
 message ReplyLinkOne {
@@ -63,7 +67,6 @@ message ReqGraphPath {
 }
 
 message ReplyGraphInfo {
-    string center = 1;
-    repeated NodeInfo nodes = 2;
-    repeated LinkInfo links = 3;
+    GraphInfo graph = 1;
+    ResultStatus errorCode = 2;
 }

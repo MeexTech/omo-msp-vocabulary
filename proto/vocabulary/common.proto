@@ -9,6 +9,7 @@ enum ResultStatus {
     Repeated = 2;
     NotExisted = 3;
     DBException = 4;
+    Empty = 5;
 }
 
 enum AttributeType {
