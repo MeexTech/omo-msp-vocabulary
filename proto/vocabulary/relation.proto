@@ -15,9 +15,10 @@ message RelationInfo {
     string type = 2;
     string name = 3;
     string remark = 4;
-    uint64 time = 5;
+    int64 time = 5;
     bool custom = 6;
-    repeated RelationInfo children = 7;
+    int64 update = 7;
+    repeated RelationInfo children = 8;
 }
 
 message ReqRelationAdd {
