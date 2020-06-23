@@ -49,6 +49,7 @@ message AttributeInfo {
     string begin = 6;
     string end = 7;
     string remark = 8;
+    uint64 time = 9;
 }
 
 message AssetInfo {
@@ -60,4 +61,5 @@ message AssetInfo {
     uint64 size = 6;
     string language = 7;
     string file = 8;
+    uint64 time = 9;
 }

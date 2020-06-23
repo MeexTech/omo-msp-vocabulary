@@ -36,11 +36,12 @@ message EntityInfo {
     string concept = 5;
     string description = 6;
     string add = 7;
-    repeated string synonyms = 8;
-    repeated string tags = 9;
-    repeated string assets = 10;
-    repeated PropertyInfo properties = 11;
-    repeated EventInfo events = 12;
+    uint64 time = 8;
+    repeated string synonyms = 9;
+    repeated string tags = 10;
+    repeated string assets = 11;
+    repeated PropertyInfo properties = 12;
+    repeated EventInfo events = 13;
 }
 
 message PropertyInfo {
@@ -149,6 +150,7 @@ message ReqEntityStatus {
 message ReplyEntityStatus {
     string uid = 1;
     EntityStatus status = 2;
+    ResultStatus errorCode = 3;
 }
 
 message ReqEntityUpdate {

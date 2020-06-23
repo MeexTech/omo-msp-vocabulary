@@ -15,13 +15,16 @@ message RelationInfo {
     string type = 2;
     string name = 3;
     string remark = 4;
-    repeated RelationInfo children = 5;
+    uint64 time = 5;
+    bool custom = 6;
+    repeated RelationInfo children = 7;
 }
 
 message ReqRelationAdd {
     string name = 1;
     string remark = 2;
     string parent = 3;
+    bool custom = 4;
 }
 
 message ReplyRelationOne {

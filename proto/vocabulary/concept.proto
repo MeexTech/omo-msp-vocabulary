@@ -34,8 +34,9 @@ message ConceptInfo {
     string cover = 4;
     string remark = 5;
     string table = 6;
-    repeated ConceptInfo children = 7;
-    repeated AttributeInfo attributes = 8;
+    uint64 time = 7;
+    repeated ConceptInfo children = 8;
+    repeated AttributeInfo attributes = 9;
 }
 
 message ReqConceptAdd {
