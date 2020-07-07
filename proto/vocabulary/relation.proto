@@ -3,6 +3,7 @@ syntax = "proto3";
 package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
 import "proto/vocabulary/common.proto";
+
 service RelationService {
     rpc AddOne(ReqRelationAdd) returns (ReplyRelationOne) {}
     rpc GetOne(RequestInfo) returns (ReplyRelationOne) {}
@@ -17,8 +18,9 @@ message RelationInfo {
     string remark = 4;
     int64 time = 5;
     bool custom = 6;
-    int64 update = 7;
-    repeated RelationInfo children = 8;
+    int64 created = 7;
+    int64 updated = 8;
+    repeated RelationInfo children = 9;
 }
 
 message ReqRelationAdd {

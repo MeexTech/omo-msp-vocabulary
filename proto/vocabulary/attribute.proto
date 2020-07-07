@@ -9,6 +9,7 @@ service AttributeService {
     rpc GetOne(RequestInfo) returns (ReplyAttributeOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetList(ReqAttributeList) returns (ReplyAttributeList) {}
+    rpc Update(ReqAttributeUpdate) returns(ReplyAttributeOne) {}
 }
 
 message ReqAttributeAdd {
@@ -22,6 +23,15 @@ message ReqAttributeAdd {
 message ReplyAttributeOne {
     AttributeInfo info = 1;
     ResultStatus errorCode = 2;
+}
+
+message ReqAttributeUpdate {
+    string uid = 1;
+    AttributeType type = 2;
+    string name = 3;
+    string key = 4;
+    string begin = 5;
+    string end = 6;
 }
 
 message ReqAttributeList {

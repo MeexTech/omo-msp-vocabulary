@@ -46,6 +46,7 @@ type ConceptService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptList, error)
+	Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error)
 	AppendAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error)
 	RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error)
 }
@@ -102,6 +103,16 @@ func (c *conceptService) GetAll(ctx context.Context, in *RequestInfo, opts ...cl
 	return out, nil
 }
 
+func (c *conceptService) Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.Update", in)
+	out := new(ReplyConceptInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *conceptService) AppendAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error) {
 	req := c.c.NewRequest(c.name, "ConceptService.AppendAttribute", in)
 	out := new(ReplyConceptAttribute)
@@ -129,6 +140,7 @@ type ConceptServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyConceptInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyConceptList) error
+	Update(context.Context, *ReqConceptUpdate, *ReplyConceptInfo) error
 	AppendAttribute(context.Context, *ReqConceptAttribute, *ReplyConceptAttribute) error
 	RemoveAttribute(context.Context, *ReqConceptAttribute, *ReplyConceptAttribute) error
 }
@@ -139,6 +151,7 @@ func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, 
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyConceptInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error
+		Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error
 		AppendAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error
 		RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error
 	}
@@ -167,6 +180,10 @@ func (h *conceptServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, 
 
 func (h *conceptServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error {
 	return h.ConceptServiceHandler.GetAll(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error {
+	return h.ConceptServiceHandler.Update(ctx, in, out)
 }
 
 func (h *conceptServiceHandler) AppendAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error {

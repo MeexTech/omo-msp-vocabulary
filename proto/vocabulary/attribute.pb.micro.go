@@ -46,6 +46,7 @@ type AttributeService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *ReqAttributeList, opts ...client.CallOption) (*ReplyAttributeList, error)
+	Update(ctx context.Context, in *ReqAttributeUpdate, opts ...client.CallOption) (*ReplyAttributeOne, error)
 }
 
 type attributeService struct {
@@ -100,6 +101,16 @@ func (c *attributeService) GetList(ctx context.Context, in *ReqAttributeList, op
 	return out, nil
 }
 
+func (c *attributeService) Update(ctx context.Context, in *ReqAttributeUpdate, opts ...client.CallOption) (*ReplyAttributeOne, error) {
+	req := c.c.NewRequest(c.name, "AttributeService.Update", in)
+	out := new(ReplyAttributeOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AttributeService service
 
 type AttributeServiceHandler interface {
@@ -107,6 +118,7 @@ type AttributeServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyAttributeOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *ReqAttributeList, *ReplyAttributeList) error
+	Update(context.Context, *ReqAttributeUpdate, *ReplyAttributeOne) error
 }
 
 func RegisterAttributeServiceHandler(s server.Server, hdlr AttributeServiceHandler, opts ...server.HandlerOption) error {
@@ -115,6 +127,7 @@ func RegisterAttributeServiceHandler(s server.Server, hdlr AttributeServiceHandl
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyAttributeOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *ReqAttributeList, out *ReplyAttributeList) error
+		Update(ctx context.Context, in *ReqAttributeUpdate, out *ReplyAttributeOne) error
 	}
 	type AttributeService struct {
 		attributeService
@@ -141,4 +154,8 @@ func (h *attributeServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo
 
 func (h *attributeServiceHandler) GetList(ctx context.Context, in *ReqAttributeList, out *ReplyAttributeList) error {
 	return h.AttributeServiceHandler.GetList(ctx, in, out)
+}
+
+func (h *attributeServiceHandler) Update(ctx context.Context, in *ReqAttributeUpdate, out *ReplyAttributeOne) error {
+	return h.AttributeServiceHandler.Update(ctx, in, out)
 }

@@ -52,8 +52,6 @@ type EntityService interface {
 	UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, opts ...client.CallOption) (*ReplyEntityUpdate, error)
 	AppendAsset(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityAsset, error)
 	SubtractAsset(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityAsset, error)
-	AppendEvent(ctx context.Context, in *ReqEntityEvent, opts ...client.CallOption) (*ReplyEntityEvents, error)
-	SubtractEvent(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityEvents, error)
 	AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
 }
@@ -170,26 +168,6 @@ func (c *entityService) SubtractAsset(ctx context.Context, in *RequestInfo, opts
 	return out, nil
 }
 
-func (c *entityService) AppendEvent(ctx context.Context, in *ReqEntityEvent, opts ...client.CallOption) (*ReplyEntityEvents, error) {
-	req := c.c.NewRequest(c.name, "EntityService.AppendEvent", in)
-	out := new(ReplyEntityEvents)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *entityService) SubtractEvent(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityEvents, error) {
-	req := c.c.NewRequest(c.name, "EntityService.SubtractEvent", in)
-	out := new(ReplyEntityEvents)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *entityService) AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error) {
 	req := c.c.NewRequest(c.name, "EntityService.AppendProperty", in)
 	out := new(ReplyEntityProperties)
@@ -223,8 +201,6 @@ type EntityServiceHandler interface {
 	UpdateSynonyms(context.Context, *ReqEntityUpdate, *ReplyEntityUpdate) error
 	AppendAsset(context.Context, *RequestInfo, *ReplyEntityAsset) error
 	SubtractAsset(context.Context, *RequestInfo, *ReplyEntityAsset) error
-	AppendEvent(context.Context, *ReqEntityEvent, *ReplyEntityEvents) error
-	SubtractEvent(context.Context, *RequestInfo, *ReplyEntityEvents) error
 	AppendProperty(context.Context, *ReqEntityProperty, *ReplyEntityProperties) error
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
 }
@@ -241,8 +217,6 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, out *ReplyEntityUpdate) error
 		AppendAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error
 		SubtractAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error
-		AppendEvent(ctx context.Context, in *ReqEntityEvent, out *ReplyEntityEvents) error
-		SubtractEvent(ctx context.Context, in *RequestInfo, out *ReplyEntityEvents) error
 		AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
 	}
@@ -295,14 +269,6 @@ func (h *entityServiceHandler) AppendAsset(ctx context.Context, in *RequestInfo,
 
 func (h *entityServiceHandler) SubtractAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error {
 	return h.EntityServiceHandler.SubtractAsset(ctx, in, out)
-}
-
-func (h *entityServiceHandler) AppendEvent(ctx context.Context, in *ReqEntityEvent, out *ReplyEntityEvents) error {
-	return h.EntityServiceHandler.AppendEvent(ctx, in, out)
-}
-
-func (h *entityServiceHandler) SubtractEvent(ctx context.Context, in *RequestInfo, out *ReplyEntityEvents) error {
-	return h.EntityServiceHandler.SubtractEvent(ctx, in, out)
 }
 
 func (h *entityServiceHandler) AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error {

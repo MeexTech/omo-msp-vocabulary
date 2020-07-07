@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service EventService {
+  rpc AddOne(ReqEventAdd) returns (ReplyEventOne) {}
+  rpc GetOne(RequestInfo) returns (ReplyEventOne) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc GetList(RequestInfo) returns (ReplyEventList) {}
+  rpc Update(ReqEventUpdate) returns(ReplyEventOne) {}
+}
+
+message EventInfo {
+  uint64 id = 1;
+  string uid = 2;
+  int64 created = 3;
+  int64 updated = 4;
+  string name = 5;
+  string parent = 6;
+  string description = 7;
+  DateInfo date = 8;
+  PlaceInfo place = 9;
+  repeated string assets = 10;
+  repeated RelationshipInfo relations = 11;
+}
+
+message DateInfo {
+  string uid = 1;
+  string name = 2;
+  string begin = 3;
+  string end = 4;
+}
+
+message PlaceInfo {
+  string uid = 1;
+  string name = 2;
+  string location = 3;
+}
+
+message RelationshipInfo {
+  DirectionType direction = 1;
+  string name = 2;
+  string category = 3;
+  string entity = 4;
+  string uid = 5;
+}
+
+message ReqEventAdd {
+  string name = 1;
+  string parent = 2;
+  string description = 3;
+  DateInfo date = 4;
+  PlaceInfo place = 5;
+  repeated string assets = 6;
+  repeated RelationshipInfo relations = 7;
+}
+
+message ReqEventUpdate {
+  string uid = 1;
+  string name = 2;
+  string description = 3;
+  DateInfo date = 4;
+  PlaceInfo place = 5;
+}
+
+message ReplyEventOne {
+  EventInfo info = 1;
+  ResultStatus errorCode = 2;
+}
+
+message ReplyEventList {
+  repeated EventInfo list = 1;
+}
+

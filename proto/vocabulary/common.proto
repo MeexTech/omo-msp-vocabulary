@@ -50,7 +50,8 @@ message AttributeInfo {
     string end = 7;
     string remark = 8;
     int64 time = 9;
-    int64 update = 10;
+    int64 updated = 10;
+    int64 created = 11;
 }
 
 message AssetInfo {

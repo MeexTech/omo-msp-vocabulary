@@ -9,6 +9,7 @@ service ConceptService {
     rpc GetOne(RequestInfo) returns (ReplyConceptInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAll(RequestInfo) returns (ReplyConceptList) {}
+    rpc Update(ReqConceptUpdate) returns (ReplyConceptInfo){}
     rpc AppendAttribute(ReqConceptAttribute) returns (ReplyConceptAttribute) {}
     rpc RemoveAttribute(ReqConceptAttribute) returns (ReplyConceptAttribute) {}
 }
@@ -35,19 +36,27 @@ message ConceptInfo {
     string remark = 5;
     string table = 6;
     int64 time = 7;
-    int64 update = 8;
-    repeated ConceptInfo children = 9;
-    repeated AttributeInfo attributes = 10;
+    int64 updated = 8;
+    int64 created = 9;
+    repeated ConceptInfo children = 10;
+    repeated AttributeInfo attributes = 11;
 }
 
 message ReqConceptAdd {
     ConceptType type = 1;
     string name = 2;
-    string uid = 3;
     string cover = 4;
     string remark = 5;
     string table = 6;
     string parent = 7;
+}
+
+message ReqConceptUpdate {
+    string uid = 1;
+    ConceptType type = 2;
+    string name = 3;
+    string cover = 4;
+    string remark = 5;
 }
 
 message ReplyConceptInfo {

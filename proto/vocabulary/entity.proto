@@ -15,8 +15,6 @@ service EntityService{
     rpc UpdateSynonyms(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
     rpc AppendAsset(RequestInfo) returns (ReplyEntityAsset) {}
     rpc SubtractAsset(RequestInfo) returns (ReplyEntityAsset) {}
-    rpc AppendEvent(ReqEntityEvent) returns (ReplyEntityEvents) {}
-    rpc SubtractEvent(RequestInfo) returns (ReplyEntityEvents) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
 }
@@ -37,12 +35,12 @@ message EntityInfo {
     string description = 6;
     string add = 7;
     int64 time = 8;
-    int64 update = 9;
-    repeated string synonyms = 10;
-    repeated string tags = 11;
-    repeated string assets = 12;
-    repeated PropertyInfo properties = 13;
-    repeated EventInfo events = 14;
+    int64 updated = 9;
+    int64 created = 10;
+    repeated string synonyms = 11;
+    repeated string tags = 12;
+    repeated string assets = 13;
+    repeated PropertyInfo properties = 14;
 }
 
 message PropertyInfo {
@@ -53,36 +51,6 @@ message PropertyInfo {
 message WordInfo {
     string uid = 1;
     string name = 2;
-}
-
-message DateInfo {
-    string uid = 1;
-    string name = 2;
-    string begin = 3;
-    string end = 4;
-}
-
-message PlaceInfo {
-    string uid = 1;
-    string name = 2;
-    string location = 3;
-}
-
-message RelationshipInfo {
-    DirectionType direction = 1;
-    string name = 2;
-    string category = 3;
-    string entity = 4;
-    string uid = 5;
-}
-
-message EventInfo {
-    uint64 id = 1;
-    string description = 2;
-    DateInfo date = 3;
-    PlaceInfo place = 4;
-    repeated string assets = 5;
-    repeated RelationshipInfo relations = 6;
 }
 
 message ReqEntityAdd {
@@ -110,17 +78,6 @@ message ReplyEntityOne {
 message ReplyEntityList {
     string flag = 1;
     repeated EntityInfo list = 2;
-}
-
-message ReqEntityEvent {
-     string uid = 1;
-     EventInfo event = 2;
-}
-
-message ReplyEntityEvents {
-    string uid = 1;
-    repeated EventInfo events = 2;
-    ResultStatus errorCode = 3;
 }
 
 message ReqEntityProperty {
@@ -157,7 +114,6 @@ message ReplyEntityStatus {
 message ReqEntityUpdate {
     string uid = 1;
     repeated string list = 2;
-    ResultStatus errorCode = 3;
 }
 
 message ReplyEntityUpdate {
