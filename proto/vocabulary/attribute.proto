@@ -18,6 +18,7 @@ message ReqAttributeAdd {
     string key = 3;
     string begin = 4;
     string end = 5;
+    string creator = 6;
 }
 
 message ReplyAttributeOne {
@@ -32,6 +33,7 @@ message ReqAttributeUpdate {
     string begin = 4;
     string end = 5;
     AttributeType type = 6;
+    string operator = 7;
 }
 
 message ReplyAttributeList {

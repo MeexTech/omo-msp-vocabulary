@@ -28,6 +28,7 @@ message ReqRelationAdd {
     string remark = 2;
     string parent = 3;
     bool custom = 4;
+    string creator = 5;
 }
 
 message ReplyRelationOne {

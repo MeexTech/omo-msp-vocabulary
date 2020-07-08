@@ -68,6 +68,8 @@ message ReqEntityAdd {
 message ReqEntityBy {
     uint32 status = 1;
     string owner = 2;
+    int32 number = 3;
+    int32 page = 4;
 }
 
 message ReplyEntityOne {
@@ -98,11 +100,13 @@ message ReqEntityBase {
     string add = 4;
     string concept = 5;
     string cover = 6;
+    string operator = 7;
 }
 
 message ReqEntityStatus {
     string uid = 1;
-    EntityStatus status = 2;
+    string operator = 2;
+    EntityStatus status = 3;
 }
 
 message ReplyEntityStatus {
@@ -113,6 +117,7 @@ message ReplyEntityStatus {
 
 message ReqEntityUpdate {
     string uid = 1;
+    string operator = 3;
     repeated string list = 2;
 }
 

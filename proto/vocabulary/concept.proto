@@ -38,8 +38,9 @@ message ConceptInfo {
     int64 time = 7;
     int64 updated = 8;
     int64 created = 9;
-    repeated ConceptInfo children = 10;
-    repeated AttributeInfo attributes = 11;
+    string creator = 10;
+    repeated ConceptInfo children = 11;
+    repeated AttributeInfo attributes = 12;
 }
 
 message ReqConceptAdd {
