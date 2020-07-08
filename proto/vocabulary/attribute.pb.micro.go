@@ -45,7 +45,7 @@ type AttributeService interface {
 	AddOne(ctx context.Context, in *ReqAttributeAdd, opts ...client.CallOption) (*ReplyAttributeOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	GetList(ctx context.Context, in *ReqAttributeList, opts ...client.CallOption) (*ReplyAttributeList, error)
+	All(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeList, error)
 	Update(ctx context.Context, in *ReqAttributeUpdate, opts ...client.CallOption) (*ReplyAttributeOne, error)
 }
 
@@ -91,8 +91,8 @@ func (c *attributeService) RemoveOne(ctx context.Context, in *RequestInfo, opts 
 	return out, nil
 }
 
-func (c *attributeService) GetList(ctx context.Context, in *ReqAttributeList, opts ...client.CallOption) (*ReplyAttributeList, error) {
-	req := c.c.NewRequest(c.name, "AttributeService.GetList", in)
+func (c *attributeService) All(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeList, error) {
+	req := c.c.NewRequest(c.name, "AttributeService.All", in)
 	out := new(ReplyAttributeList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -117,7 +117,7 @@ type AttributeServiceHandler interface {
 	AddOne(context.Context, *ReqAttributeAdd, *ReplyAttributeOne) error
 	GetOne(context.Context, *RequestInfo, *ReplyAttributeOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	GetList(context.Context, *ReqAttributeList, *ReplyAttributeList) error
+	All(context.Context, *RequestInfo, *ReplyAttributeList) error
 	Update(context.Context, *ReqAttributeUpdate, *ReplyAttributeOne) error
 }
 
@@ -126,7 +126,7 @@ func RegisterAttributeServiceHandler(s server.Server, hdlr AttributeServiceHandl
 		AddOne(ctx context.Context, in *ReqAttributeAdd, out *ReplyAttributeOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyAttributeOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		GetList(ctx context.Context, in *ReqAttributeList, out *ReplyAttributeList) error
+		All(ctx context.Context, in *RequestInfo, out *ReplyAttributeList) error
 		Update(ctx context.Context, in *ReqAttributeUpdate, out *ReplyAttributeOne) error
 	}
 	type AttributeService struct {
@@ -152,8 +152,8 @@ func (h *attributeServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo
 	return h.AttributeServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *attributeServiceHandler) GetList(ctx context.Context, in *ReqAttributeList, out *ReplyAttributeList) error {
-	return h.AttributeServiceHandler.GetList(ctx, in, out)
+func (h *attributeServiceHandler) All(ctx context.Context, in *RequestInfo, out *ReplyAttributeList) error {
+	return h.AttributeServiceHandler.All(ctx, in, out)
 }
 
 func (h *attributeServiceHandler) Update(ctx context.Context, in *ReqAttributeUpdate, out *ReplyAttributeOne) error {

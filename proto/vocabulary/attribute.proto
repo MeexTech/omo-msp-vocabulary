@@ -8,7 +8,7 @@ service AttributeService {
     rpc AddOne(ReqAttributeAdd) returns (ReplyAttributeOne) {}
     rpc GetOne(RequestInfo) returns (ReplyAttributeOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-    rpc GetList(ReqAttributeList) returns (ReplyAttributeList) {}
+    rpc All(RequestInfo) returns (ReplyAttributeList) {}
     rpc Update(ReqAttributeUpdate) returns(ReplyAttributeOne) {}
 }
 
@@ -27,15 +27,11 @@ message ReplyAttributeOne {
 
 message ReqAttributeUpdate {
     string uid = 1;
-    AttributeType type = 2;
-    string name = 3;
-    string key = 4;
-    string begin = 5;
-    string end = 6;
-}
-
-message ReqAttributeList {
-    repeated string list = 1;
+    string name = 2;
+    string remark = 3;
+    string begin = 4;
+    string end = 5;
+    AttributeType type = 6;
 }
 
 message ReplyAttributeList {

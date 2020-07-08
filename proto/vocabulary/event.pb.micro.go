@@ -47,6 +47,10 @@ type EventService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventList, error)
 	Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventOne, error)
+	AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
+	SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
+	AppendRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error)
+	SubtractRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error)
 }
 
 type eventService struct {
@@ -111,6 +115,46 @@ func (c *eventService) Update(ctx context.Context, in *ReqEventUpdate, opts ...c
 	return out, nil
 }
 
+func (c *eventService) AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error) {
+	req := c.c.NewRequest(c.name, "EventService.AppendAsset", in)
+	out := new(ReplyEventAsset)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventService) SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error) {
+	req := c.c.NewRequest(c.name, "EventService.SubtractAsset", in)
+	out := new(ReplyEventAsset)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventService) AppendRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error) {
+	req := c.c.NewRequest(c.name, "EventService.AppendRelation", in)
+	out := new(ReplyEventRelation)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventService) SubtractRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error) {
+	req := c.c.NewRequest(c.name, "EventService.SubtractRelation", in)
+	out := new(ReplyEventRelation)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for EventService service
 
 type EventServiceHandler interface {
@@ -119,6 +163,10 @@ type EventServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestInfo, *ReplyEventList) error
 	Update(context.Context, *ReqEventUpdate, *ReplyEventOne) error
+	AppendAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
+	SubtractAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
+	AppendRelation(context.Context, *ReqEventRelation, *ReplyEventRelation) error
+	SubtractRelation(context.Context, *ReqEventRelation, *ReplyEventRelation) error
 }
 
 func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts ...server.HandlerOption) error {
@@ -128,6 +176,10 @@ func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestInfo, out *ReplyEventList) error
 		Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventOne) error
+		AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
+		SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
+		AppendRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error
+		SubtractRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error
 	}
 	type EventService struct {
 		eventService
@@ -158,4 +210,20 @@ func (h *eventServiceHandler) GetList(ctx context.Context, in *RequestInfo, out 
 
 func (h *eventServiceHandler) Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventOne) error {
 	return h.EventServiceHandler.Update(ctx, in, out)
+}
+
+func (h *eventServiceHandler) AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error {
+	return h.EventServiceHandler.AppendAsset(ctx, in, out)
+}
+
+func (h *eventServiceHandler) SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error {
+	return h.EventServiceHandler.SubtractAsset(ctx, in, out)
+}
+
+func (h *eventServiceHandler) AppendRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error {
+	return h.EventServiceHandler.AppendRelation(ctx, in, out)
+}
+
+func (h *eventServiceHandler) SubtractRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error {
+	return h.EventServiceHandler.SubtractRelation(ctx, in, out)
 }

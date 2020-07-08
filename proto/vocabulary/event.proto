@@ -10,6 +10,10 @@ service EventService {
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestInfo) returns (ReplyEventList) {}
   rpc Update(ReqEventUpdate) returns(ReplyEventOne) {}
+  rpc AppendAsset(ReqEventAsset) returns(ReplyEventAsset) {}
+  rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAsset) {}
+  rpc AppendRelation(ReqEventRelation) returns(ReplyEventRelation) {}
+  rpc SubtractRelation(ReqEventRelation) returns(ReplyEventRelation) {}
 }
 
 message EventInfo {
@@ -63,6 +67,26 @@ message ReqEventUpdate {
   string description = 3;
   DateInfo date = 4;
   PlaceInfo place = 5;
+}
+
+message ReqEventAsset {
+  string uid = 1;
+  string asset = 2;
+}
+
+message ReplyEventAsset {
+  string uid = 1;
+  repeated string assets = 2;
+}
+
+message ReqEventRelation {
+  string uid = 1;
+  RelationshipInfo relation = 2;
+}
+
+message ReplyEventRelation {
+  string uid = 1;
+  repeated RelationshipInfo relations = 2;
 }
 
 message ReplyEventOne {
