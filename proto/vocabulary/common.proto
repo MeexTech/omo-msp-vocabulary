@@ -53,6 +53,8 @@ message AttributeInfo {
     int64 time = 9;
     int64 updated = 10;
     int64 created = 11;
+    string creator = 12;
+    string operator = 13;
 }
 
 message AssetInfo {

@@ -37,10 +37,12 @@ message EntityInfo {
     int64 time = 8;
     int64 updated = 9;
     int64 created = 10;
-    repeated string synonyms = 11;
-    repeated string tags = 12;
-    repeated string assets = 13;
-    repeated PropertyInfo properties = 14;
+    string creator = 11;
+    string operator = 12;
+    repeated string synonyms = 13;
+    repeated string tags = 14;
+    repeated string assets = 15;
+    repeated PropertyInfo properties = 16;
 }
 
 message PropertyInfo {

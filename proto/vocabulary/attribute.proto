@@ -19,6 +19,7 @@ message ReqAttributeAdd {
     string begin = 4;
     string end = 5;
     string creator = 6;
+    string operator = 7;
 }
 
 message ReplyAttributeOne {

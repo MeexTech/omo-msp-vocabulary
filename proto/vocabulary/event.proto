@@ -27,8 +27,9 @@ message EventInfo {
   DateInfo date = 8;
   PlaceInfo place = 9;
   string creator = 10;
-  repeated string assets = 11;
-  repeated RelationshipInfo relations = 12;
+  string operator = 11;
+  repeated string assets = 12;
+  repeated RelationshipInfo relations = 13;
 }
 
 message DateInfo {
@@ -68,11 +69,13 @@ message ReqEventUpdate {
   string description = 3;
   DateInfo date = 4;
   PlaceInfo place = 5;
+  string operator = 6;
 }
 
 message ReqEventAsset {
   string uid = 1;
   string asset = 2;
+  string operator = 3;
 }
 
 message ReplyEventAsset {
@@ -83,6 +86,7 @@ message ReplyEventAsset {
 message ReqEventRelation {
   string uid = 1;
   RelationshipInfo relation = 2;
+  string operator = 3;
 }
 
 message ReplyEventRelation {

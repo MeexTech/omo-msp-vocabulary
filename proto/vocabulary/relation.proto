@@ -8,6 +8,7 @@ service RelationService {
     rpc AddOne(ReqRelationAdd) returns (ReplyRelationOne) {}
     rpc GetOne(RequestInfo) returns (ReplyRelationOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+    rpc UpdateInfo(ReqRelationUpdate) returns (ReplyRelationOne) {}
     rpc GetAll(RequestInfo) returns (ReplyRelationList) {}
 }
 
@@ -20,7 +21,9 @@ message RelationInfo {
     bool custom = 6;
     int64 created = 7;
     int64 updated = 8;
-    repeated RelationInfo children = 9;
+    string creator = 9;
+    string operator = 10;
+    repeated RelationInfo children = 11;
 }
 
 message ReqRelationAdd {
@@ -28,7 +31,15 @@ message ReqRelationAdd {
     string remark = 2;
     string parent = 3;
     bool custom = 4;
-    string creator = 5;
+    string operator = 5;
+}
+
+message ReqRelationUpdate {
+    string uid = 1;
+    string remark = 2;
+    string name = 3;
+    bool custom = 4;
+    string operator = 5;
 }
 
 message ReplyRelationOne {
