@@ -59,8 +59,9 @@ message ReqEventAdd {
   string description = 3;
   DateInfo date = 4;
   PlaceInfo place = 5;
-  repeated string assets = 6;
-  repeated RelationshipInfo relations = 7;
+  string operator = 6;
+  repeated string assets = 7;
+  repeated RelationshipInfo relations = 8;
 }
 
 message ReqEventUpdate {
