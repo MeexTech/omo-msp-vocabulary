@@ -8,13 +8,11 @@ service EntityService{
     rpc AddOne(ReqEntityAdd) returns (ReplyEntityOne) {}
     rpc GetOne(RequestInfo) returns (ReplyEntityOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-    rpc GetListByOwner(ReqEntityBy) returns (ReplyEntityList) {}
+    rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityAll) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
     rpc UpdateTags(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
     rpc UpdateSynonyms(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
-    rpc AppendAsset(RequestInfo) returns (ReplyEntityAsset) {}
-    rpc SubtractAsset(RequestInfo) returns (ReplyEntityAsset) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
 }
@@ -41,8 +39,7 @@ message EntityInfo {
     string operator = 12;
     repeated string synonyms = 13;
     repeated string tags = 14;
-    repeated string assets = 15;
-    repeated PropertyInfo properties = 16;
+    repeated PropertyInfo properties = 15;
 }
 
 message PropertyInfo {
@@ -79,7 +76,7 @@ message ReplyEntityOne {
     ResultStatus errorCode = 2;
 }
 
-message ReplyEntityList {
+message ReplyEntityAll {
     string flag = 1;
     repeated EntityInfo list = 2;
 }
@@ -129,10 +126,5 @@ message ReplyEntityUpdate {
     ResultStatus errorCode = 3;
 }
 
-message ReplyEntityAsset {
-    string uid = 1;
-    repeated string assets = 2;
-    ResultStatus errorCode = 3;
-}
 
 

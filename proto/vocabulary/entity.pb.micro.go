@@ -45,13 +45,11 @@ type EntityService interface {
 	AddOne(ctx context.Context, in *ReqEntityAdd, opts ...client.CallOption) (*ReplyEntityOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	GetListByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error)
+	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityAll, error)
 	UpdateBase(ctx context.Context, in *ReqEntityBase, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateStatus(ctx context.Context, in *ReqEntityStatus, opts ...client.CallOption) (*ReplyEntityStatus, error)
 	UpdateTags(ctx context.Context, in *ReqEntityUpdate, opts ...client.CallOption) (*ReplyEntityUpdate, error)
 	UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, opts ...client.CallOption) (*ReplyEntityUpdate, error)
-	AppendAsset(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityAsset, error)
-	SubtractAsset(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityAsset, error)
 	AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
 }
@@ -98,9 +96,9 @@ func (c *entityService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...
 	return out, nil
 }
 
-func (c *entityService) GetListByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error) {
-	req := c.c.NewRequest(c.name, "EntityService.GetListByOwner", in)
-	out := new(ReplyEntityList)
+func (c *entityService) GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityAll, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetAllByOwner", in)
+	out := new(ReplyEntityAll)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -148,26 +146,6 @@ func (c *entityService) UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate,
 	return out, nil
 }
 
-func (c *entityService) AppendAsset(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityAsset, error) {
-	req := c.c.NewRequest(c.name, "EntityService.AppendAsset", in)
-	out := new(ReplyEntityAsset)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *entityService) SubtractAsset(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityAsset, error) {
-	req := c.c.NewRequest(c.name, "EntityService.SubtractAsset", in)
-	out := new(ReplyEntityAsset)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *entityService) AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error) {
 	req := c.c.NewRequest(c.name, "EntityService.AppendProperty", in)
 	out := new(ReplyEntityProperties)
@@ -194,13 +172,11 @@ type EntityServiceHandler interface {
 	AddOne(context.Context, *ReqEntityAdd, *ReplyEntityOne) error
 	GetOne(context.Context, *RequestInfo, *ReplyEntityOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	GetListByOwner(context.Context, *ReqEntityBy, *ReplyEntityList) error
+	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityAll) error
 	UpdateBase(context.Context, *ReqEntityBase, *ReplyInfo) error
 	UpdateStatus(context.Context, *ReqEntityStatus, *ReplyEntityStatus) error
 	UpdateTags(context.Context, *ReqEntityUpdate, *ReplyEntityUpdate) error
 	UpdateSynonyms(context.Context, *ReqEntityUpdate, *ReplyEntityUpdate) error
-	AppendAsset(context.Context, *RequestInfo, *ReplyEntityAsset) error
-	SubtractAsset(context.Context, *RequestInfo, *ReplyEntityAsset) error
 	AppendProperty(context.Context, *ReqEntityProperty, *ReplyEntityProperties) error
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
 }
@@ -210,13 +186,11 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		AddOne(ctx context.Context, in *ReqEntityAdd, out *ReplyEntityOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEntityOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		GetListByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error
+		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityAll) error
 		UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error
 		UpdateStatus(ctx context.Context, in *ReqEntityStatus, out *ReplyEntityStatus) error
 		UpdateTags(ctx context.Context, in *ReqEntityUpdate, out *ReplyEntityUpdate) error
 		UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, out *ReplyEntityUpdate) error
-		AppendAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error
-		SubtractAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error
 		AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
 	}
@@ -243,8 +217,8 @@ func (h *entityServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, o
 	return h.EntityServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *entityServiceHandler) GetListByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error {
-	return h.EntityServiceHandler.GetListByOwner(ctx, in, out)
+func (h *entityServiceHandler) GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityAll) error {
+	return h.EntityServiceHandler.GetAllByOwner(ctx, in, out)
 }
 
 func (h *entityServiceHandler) UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error {
@@ -261,14 +235,6 @@ func (h *entityServiceHandler) UpdateTags(ctx context.Context, in *ReqEntityUpda
 
 func (h *entityServiceHandler) UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, out *ReplyEntityUpdate) error {
 	return h.EntityServiceHandler.UpdateSynonyms(ctx, in, out)
-}
-
-func (h *entityServiceHandler) AppendAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error {
-	return h.EntityServiceHandler.AppendAsset(ctx, in, out)
-}
-
-func (h *entityServiceHandler) SubtractAsset(ctx context.Context, in *RequestInfo, out *ReplyEntityAsset) error {
-	return h.EntityServiceHandler.SubtractAsset(ctx, in, out)
 }
 
 func (h *entityServiceHandler) AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error {

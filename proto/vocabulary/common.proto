@@ -56,16 +56,3 @@ message AttributeInfo {
     string creator = 12;
     string operator = 13;
 }
-
-message AssetInfo {
-    string uid = 1;
-    string name = 2;
-    string md5 = 3;
-    string format = 4;
-    string version = 5;
-    uint64 size = 6;
-    string language = 7;
-    string file = 8;
-    int64 time = 9;
-    int64 update = 10;
-}
