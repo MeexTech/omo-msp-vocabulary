@@ -40,8 +40,8 @@ message ConceptInfo {
     int64 created = 9;
     string creator = 10;
     string operator = 11;
-    repeated ConceptInfo children = 12;
-    repeated AttributeInfo attributes = 13;
+    repeated string attributes = 12;
+    repeated ConceptInfo children = 13;
 }
 
 message ReqConceptAdd {
