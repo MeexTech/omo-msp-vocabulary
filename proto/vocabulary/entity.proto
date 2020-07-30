@@ -37,9 +37,10 @@ message EntityInfo {
     int64 created = 10;
     string creator = 11;
     string operator = 12;
-    repeated string synonyms = 13;
-    repeated string tags = 14;
-    repeated PropertyInfo properties = 15;
+    EntityStatus status = 13;
+    repeated string synonyms = 14;
+    repeated string tags = 15;
+    repeated PropertyInfo properties = 16;
 }
 
 message PropertyInfo {
