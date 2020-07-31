@@ -23,7 +23,8 @@ message RelationInfo {
     int64 updated = 8;
     string creator = 9;
     string operator = 10;
-    repeated RelationInfo children = 11;
+    string parent = 11;
+    repeated RelationInfo children = 12;
 }
 
 message ReqRelationAdd {
