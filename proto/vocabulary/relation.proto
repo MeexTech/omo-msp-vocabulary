@@ -14,7 +14,7 @@ service RelationService {
 
 message RelationInfo {
     string uid = 1;
-    string type = 2;
+    uint32 type = 2;
     string name = 3;
     string remark = 4;
     int64 time = 5;
@@ -31,7 +31,8 @@ message ReqRelationAdd {
     string remark = 2;
     string parent = 3;
     bool custom = 4;
-    string operator = 5;
+    uint32 type = 5;
+    string operator = 6;
 }
 
 message ReqRelationUpdate {
@@ -39,7 +40,8 @@ message ReqRelationUpdate {
     string remark = 2;
     string name = 3;
     bool custom = 4;
-    string operator = 5;
+    uint32 type = 5;
+    string operator = 6;
 }
 
 message ReplyRelationOne {
