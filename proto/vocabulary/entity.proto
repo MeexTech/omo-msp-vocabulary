@@ -5,8 +5,8 @@ option go_package= "proto/vocabulary";
 import "proto/vocabulary/common.proto";
 
 service EntityService{
-    rpc AddOne(ReqEntityAdd) returns (ReplyEntityOne) {}
-    rpc GetOne(RequestInfo) returns (ReplyEntityOne) {}
+    rpc AddOne(ReqEntityAdd) returns (ReplyEntityInfo) {}
+    rpc GetOne(RequestInfo) returns (ReplyEntityInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityAll) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
@@ -72,14 +72,15 @@ message ReqEntityBy {
     int32 page = 4;
 }
 
-message ReplyEntityOne {
+message ReplyEntityInfo {
     EntityInfo info = 1;
-    ResultStatus errorCode = 2;
+    ReplyStatus status = 2;
 }
 
 message ReplyEntityAll {
     string flag = 1;
     repeated EntityInfo list = 2;
+    ReplyStatus status = 3;
 }
 
 message ReqEntityProperty {
@@ -90,7 +91,7 @@ message ReqEntityProperty {
 message ReplyEntityProperties {
     string uid = 1;
     repeated PropertyInfo properties = 2;
-    ResultStatus errorCode = 3;
+    ReplyStatus status = 3;
 }
 
 message ReqEntityBase {
@@ -111,8 +112,8 @@ message ReqEntityStatus {
 
 message ReplyEntityStatus {
     string uid = 1;
-    EntityStatus status = 2;
-    ResultStatus errorCode = 3;
+    EntityStatus state = 2;
+    ReplyStatus status = 3;
 }
 
 message ReqEntityUpdate {
@@ -124,7 +125,7 @@ message ReqEntityUpdate {
 message ReplyEntityUpdate {
     string uid = 1;
     repeated string list = 2;
-    ResultStatus errorCode = 3;
+    ReplyStatus status = 3;
 }
 
 

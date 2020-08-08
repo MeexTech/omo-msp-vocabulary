@@ -42,11 +42,11 @@ func NewEventServiceEndpoints() []*api.Endpoint {
 // Client API for EventService service
 
 type EventService interface {
-	AddOne(ctx context.Context, in *ReqEventAdd, opts ...client.CallOption) (*ReplyEventOne, error)
-	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventOne, error)
+	AddOne(ctx context.Context, in *ReqEventAdd, opts ...client.CallOption) (*ReplyEventInfo, error)
+	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventList, error)
-	Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventOne, error)
+	Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error)
 	AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
 	SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
 	AppendRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error)
@@ -65,9 +65,9 @@ func NewEventService(name string, c client.Client) EventService {
 	}
 }
 
-func (c *eventService) AddOne(ctx context.Context, in *ReqEventAdd, opts ...client.CallOption) (*ReplyEventOne, error) {
+func (c *eventService) AddOne(ctx context.Context, in *ReqEventAdd, opts ...client.CallOption) (*ReplyEventInfo, error) {
 	req := c.c.NewRequest(c.name, "EventService.AddOne", in)
-	out := new(ReplyEventOne)
+	out := new(ReplyEventInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -75,9 +75,9 @@ func (c *eventService) AddOne(ctx context.Context, in *ReqEventAdd, opts ...clie
 	return out, nil
 }
 
-func (c *eventService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventOne, error) {
+func (c *eventService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error) {
 	req := c.c.NewRequest(c.name, "EventService.GetOne", in)
-	out := new(ReplyEventOne)
+	out := new(ReplyEventInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -105,9 +105,9 @@ func (c *eventService) GetList(ctx context.Context, in *RequestInfo, opts ...cli
 	return out, nil
 }
 
-func (c *eventService) Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventOne, error) {
+func (c *eventService) Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error) {
 	req := c.c.NewRequest(c.name, "EventService.Update", in)
-	out := new(ReplyEventOne)
+	out := new(ReplyEventInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -158,11 +158,11 @@ func (c *eventService) SubtractRelation(ctx context.Context, in *ReqEventRelatio
 // Server API for EventService service
 
 type EventServiceHandler interface {
-	AddOne(context.Context, *ReqEventAdd, *ReplyEventOne) error
-	GetOne(context.Context, *RequestInfo, *ReplyEventOne) error
+	AddOne(context.Context, *ReqEventAdd, *ReplyEventInfo) error
+	GetOne(context.Context, *RequestInfo, *ReplyEventInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestInfo, *ReplyEventList) error
-	Update(context.Context, *ReqEventUpdate, *ReplyEventOne) error
+	Update(context.Context, *ReqEventUpdate, *ReplyEventInfo) error
 	AppendAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
 	SubtractAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
 	AppendRelation(context.Context, *ReqEventRelation, *ReplyEventRelation) error
@@ -171,11 +171,11 @@ type EventServiceHandler interface {
 
 func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts ...server.HandlerOption) error {
 	type eventService interface {
-		AddOne(ctx context.Context, in *ReqEventAdd, out *ReplyEventOne) error
-		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEventOne) error
+		AddOne(ctx context.Context, in *ReqEventAdd, out *ReplyEventInfo) error
+		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestInfo, out *ReplyEventList) error
-		Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventOne) error
+		Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error
 		AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
 		SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
 		AppendRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error
@@ -192,11 +192,11 @@ type eventServiceHandler struct {
 	EventServiceHandler
 }
 
-func (h *eventServiceHandler) AddOne(ctx context.Context, in *ReqEventAdd, out *ReplyEventOne) error {
+func (h *eventServiceHandler) AddOne(ctx context.Context, in *ReqEventAdd, out *ReplyEventInfo) error {
 	return h.EventServiceHandler.AddOne(ctx, in, out)
 }
 
-func (h *eventServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyEventOne) error {
+func (h *eventServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error {
 	return h.EventServiceHandler.GetOne(ctx, in, out)
 }
 
@@ -208,7 +208,7 @@ func (h *eventServiceHandler) GetList(ctx context.Context, in *RequestInfo, out 
 	return h.EventServiceHandler.GetList(ctx, in, out)
 }
 
-func (h *eventServiceHandler) Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventOne) error {
+func (h *eventServiceHandler) Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error {
 	return h.EventServiceHandler.Update(ctx, in, out)
 }
 

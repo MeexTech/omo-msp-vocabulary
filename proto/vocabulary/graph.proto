@@ -4,8 +4,8 @@ package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
 import "proto/vocabulary/common.proto";
 service GraphService {
-    rpc AddNode(ReqNodeAdd) returns (ReplyNodeOne) {}
-    rpc AddLink(ReqLinkAdd) returns (ReplyLinkOne) {}
+    rpc AddNode(ReqNodeAdd) returns (ReplyNodeInfo) {}
+    rpc AddLink(ReqLinkAdd) returns (ReplyLinkInfo) {}
     rpc RemoveNode(RequestInfo) returns (ReplyInfo) {}
     rpc RemoveLink(RequestInfo) returns (ReplyInfo) {}
     rpc FindPath(ReqGraphPath) returns (ReplyGraphInfo) {}
@@ -42,9 +42,9 @@ message ReqNodeAdd {
     string cover = 4;
 }
 
-message ReplyNodeOne {
+message ReplyNodeInfo {
     NodeInfo info = 1;
-    ResultStatus errorCode = 2;
+    ReplyStatus status = 2;
 }
 
 message ReqLinkAdd {
@@ -56,9 +56,9 @@ message ReqLinkAdd {
     string relation = 6;
 }
 
-message ReplyLinkOne {
+message ReplyLinkInfo {
     LinkInfo info = 1;
-    ResultStatus errorCode = 2;
+    ReplyStatus status = 2;
 }
 
 message ReqGraphPath {
@@ -68,5 +68,5 @@ message ReqGraphPath {
 
 message ReplyGraphInfo {
     GraphInfo graph = 1;
-    ResultStatus errorCode = 2;
+    ReplyStatus status = 2;
 }

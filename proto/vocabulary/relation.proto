@@ -5,10 +5,10 @@ option go_package= "proto/vocabulary";
 import "proto/vocabulary/common.proto";
 
 service RelationService {
-    rpc AddOne(ReqRelationAdd) returns (ReplyRelationOne) {}
-    rpc GetOne(RequestInfo) returns (ReplyRelationOne) {}
+    rpc AddOne(ReqRelationAdd) returns (ReplyRelationInfo) {}
+    rpc GetOne(RequestInfo) returns (ReplyRelationInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-    rpc UpdateInfo(ReqRelationUpdate) returns (ReplyRelationOne) {}
+    rpc UpdateInfo(ReqRelationUpdate) returns (ReplyRelationInfo) {}
     rpc GetAll(RequestInfo) returns (ReplyRelationList) {}
 }
 
@@ -45,11 +45,12 @@ message ReqRelationUpdate {
     string operator = 6;
 }
 
-message ReplyRelationOne {
+message ReplyRelationInfo {
     RelationInfo info = 1;
-    ResultStatus errorCode = 2;
+    ReplyStatus status = 2;
 }
 
 message ReplyRelationList {
     repeated RelationInfo list = 1;
+    ReplyStatus status = 2;
 }

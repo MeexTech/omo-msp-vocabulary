@@ -47,8 +47,7 @@ type ConceptService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptList, error)
 	Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error)
-	AppendAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error)
-	RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error)
+	UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, opts ...client.CallOption) (*ReplyConceptAttrs, error)
 }
 
 type conceptService struct {
@@ -113,19 +112,9 @@ func (c *conceptService) Update(ctx context.Context, in *ReqConceptUpdate, opts 
 	return out, nil
 }
 
-func (c *conceptService) AppendAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error) {
-	req := c.c.NewRequest(c.name, "ConceptService.AppendAttribute", in)
-	out := new(ReplyConceptAttribute)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conceptService) RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, opts ...client.CallOption) (*ReplyConceptAttribute, error) {
-	req := c.c.NewRequest(c.name, "ConceptService.RemoveAttribute", in)
-	out := new(ReplyConceptAttribute)
+func (c *conceptService) UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, opts ...client.CallOption) (*ReplyConceptAttrs, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.UpdateAttributes", in)
+	out := new(ReplyConceptAttrs)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -141,8 +130,7 @@ type ConceptServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyConceptList) error
 	Update(context.Context, *ReqConceptUpdate, *ReplyConceptInfo) error
-	AppendAttribute(context.Context, *ReqConceptAttribute, *ReplyConceptAttribute) error
-	RemoveAttribute(context.Context, *ReqConceptAttribute, *ReplyConceptAttribute) error
+	UpdateAttributes(context.Context, *ReqConceptAttrs, *ReplyConceptAttrs) error
 }
 
 func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, opts ...server.HandlerOption) error {
@@ -152,8 +140,7 @@ func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, 
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error
 		Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error
-		AppendAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error
-		RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error
+		UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, out *ReplyConceptAttrs) error
 	}
 	type ConceptService struct {
 		conceptService
@@ -186,10 +173,6 @@ func (h *conceptServiceHandler) Update(ctx context.Context, in *ReqConceptUpdate
 	return h.ConceptServiceHandler.Update(ctx, in, out)
 }
 
-func (h *conceptServiceHandler) AppendAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error {
-	return h.ConceptServiceHandler.AppendAttribute(ctx, in, out)
-}
-
-func (h *conceptServiceHandler) RemoveAttribute(ctx context.Context, in *ReqConceptAttribute, out *ReplyConceptAttribute) error {
-	return h.ConceptServiceHandler.RemoveAttribute(ctx, in, out)
+func (h *conceptServiceHandler) UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, out *ReplyConceptAttrs) error {
+	return h.ConceptServiceHandler.UpdateAttributes(ctx, in, out)
 }

@@ -42,10 +42,10 @@ func NewRelationServiceEndpoints() []*api.Endpoint {
 // Client API for RelationService service
 
 type RelationService interface {
-	AddOne(ctx context.Context, in *ReqRelationAdd, opts ...client.CallOption) (*ReplyRelationOne, error)
-	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRelationOne, error)
+	AddOne(ctx context.Context, in *ReqRelationAdd, opts ...client.CallOption) (*ReplyRelationInfo, error)
+	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRelationInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	UpdateInfo(ctx context.Context, in *ReqRelationUpdate, opts ...client.CallOption) (*ReplyRelationOne, error)
+	UpdateInfo(ctx context.Context, in *ReqRelationUpdate, opts ...client.CallOption) (*ReplyRelationInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRelationList, error)
 }
 
@@ -61,9 +61,9 @@ func NewRelationService(name string, c client.Client) RelationService {
 	}
 }
 
-func (c *relationService) AddOne(ctx context.Context, in *ReqRelationAdd, opts ...client.CallOption) (*ReplyRelationOne, error) {
+func (c *relationService) AddOne(ctx context.Context, in *ReqRelationAdd, opts ...client.CallOption) (*ReplyRelationInfo, error) {
 	req := c.c.NewRequest(c.name, "RelationService.AddOne", in)
-	out := new(ReplyRelationOne)
+	out := new(ReplyRelationInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,9 +71,9 @@ func (c *relationService) AddOne(ctx context.Context, in *ReqRelationAdd, opts .
 	return out, nil
 }
 
-func (c *relationService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRelationOne, error) {
+func (c *relationService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRelationInfo, error) {
 	req := c.c.NewRequest(c.name, "RelationService.GetOne", in)
-	out := new(ReplyRelationOne)
+	out := new(ReplyRelationInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -91,9 +91,9 @@ func (c *relationService) RemoveOne(ctx context.Context, in *RequestInfo, opts .
 	return out, nil
 }
 
-func (c *relationService) UpdateInfo(ctx context.Context, in *ReqRelationUpdate, opts ...client.CallOption) (*ReplyRelationOne, error) {
+func (c *relationService) UpdateInfo(ctx context.Context, in *ReqRelationUpdate, opts ...client.CallOption) (*ReplyRelationInfo, error) {
 	req := c.c.NewRequest(c.name, "RelationService.UpdateInfo", in)
-	out := new(ReplyRelationOne)
+	out := new(ReplyRelationInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -114,19 +114,19 @@ func (c *relationService) GetAll(ctx context.Context, in *RequestInfo, opts ...c
 // Server API for RelationService service
 
 type RelationServiceHandler interface {
-	AddOne(context.Context, *ReqRelationAdd, *ReplyRelationOne) error
-	GetOne(context.Context, *RequestInfo, *ReplyRelationOne) error
+	AddOne(context.Context, *ReqRelationAdd, *ReplyRelationInfo) error
+	GetOne(context.Context, *RequestInfo, *ReplyRelationInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	UpdateInfo(context.Context, *ReqRelationUpdate, *ReplyRelationOne) error
+	UpdateInfo(context.Context, *ReqRelationUpdate, *ReplyRelationInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyRelationList) error
 }
 
 func RegisterRelationServiceHandler(s server.Server, hdlr RelationServiceHandler, opts ...server.HandlerOption) error {
 	type relationService interface {
-		AddOne(ctx context.Context, in *ReqRelationAdd, out *ReplyRelationOne) error
-		GetOne(ctx context.Context, in *RequestInfo, out *ReplyRelationOne) error
+		AddOne(ctx context.Context, in *ReqRelationAdd, out *ReplyRelationInfo) error
+		GetOne(ctx context.Context, in *RequestInfo, out *ReplyRelationInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		UpdateInfo(ctx context.Context, in *ReqRelationUpdate, out *ReplyRelationOne) error
+		UpdateInfo(ctx context.Context, in *ReqRelationUpdate, out *ReplyRelationInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyRelationList) error
 	}
 	type RelationService struct {
@@ -140,11 +140,11 @@ type relationServiceHandler struct {
 	RelationServiceHandler
 }
 
-func (h *relationServiceHandler) AddOne(ctx context.Context, in *ReqRelationAdd, out *ReplyRelationOne) error {
+func (h *relationServiceHandler) AddOne(ctx context.Context, in *ReqRelationAdd, out *ReplyRelationInfo) error {
 	return h.RelationServiceHandler.AddOne(ctx, in, out)
 }
 
-func (h *relationServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyRelationOne) error {
+func (h *relationServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyRelationInfo) error {
 	return h.RelationServiceHandler.GetOne(ctx, in, out)
 }
 
@@ -152,7 +152,7 @@ func (h *relationServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo,
 	return h.RelationServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *relationServiceHandler) UpdateInfo(ctx context.Context, in *ReqRelationUpdate, out *ReplyRelationOne) error {
+func (h *relationServiceHandler) UpdateInfo(ctx context.Context, in *ReqRelationUpdate, out *ReplyRelationInfo) error {
 	return h.RelationServiceHandler.UpdateInfo(ctx, in, out)
 }
 

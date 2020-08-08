@@ -42,8 +42,8 @@ func NewGraphServiceEndpoints() []*api.Endpoint {
 // Client API for GraphService service
 
 type GraphService interface {
-	AddNode(ctx context.Context, in *ReqNodeAdd, opts ...client.CallOption) (*ReplyNodeOne, error)
-	AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkOne, error)
+	AddNode(ctx context.Context, in *ReqNodeAdd, opts ...client.CallOption) (*ReplyNodeInfo, error)
+	AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkInfo, error)
 	RemoveNode(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	RemoveLink(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	FindPath(ctx context.Context, in *ReqGraphPath, opts ...client.CallOption) (*ReplyGraphInfo, error)
@@ -62,9 +62,9 @@ func NewGraphService(name string, c client.Client) GraphService {
 	}
 }
 
-func (c *graphService) AddNode(ctx context.Context, in *ReqNodeAdd, opts ...client.CallOption) (*ReplyNodeOne, error) {
+func (c *graphService) AddNode(ctx context.Context, in *ReqNodeAdd, opts ...client.CallOption) (*ReplyNodeInfo, error) {
 	req := c.c.NewRequest(c.name, "GraphService.AddNode", in)
-	out := new(ReplyNodeOne)
+	out := new(ReplyNodeInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -72,9 +72,9 @@ func (c *graphService) AddNode(ctx context.Context, in *ReqNodeAdd, opts ...clie
 	return out, nil
 }
 
-func (c *graphService) AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkOne, error) {
+func (c *graphService) AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkInfo, error) {
 	req := c.c.NewRequest(c.name, "GraphService.AddLink", in)
-	out := new(ReplyLinkOne)
+	out := new(ReplyLinkInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -125,8 +125,8 @@ func (c *graphService) FindGraph(ctx context.Context, in *RequestInfo, opts ...c
 // Server API for GraphService service
 
 type GraphServiceHandler interface {
-	AddNode(context.Context, *ReqNodeAdd, *ReplyNodeOne) error
-	AddLink(context.Context, *ReqLinkAdd, *ReplyLinkOne) error
+	AddNode(context.Context, *ReqNodeAdd, *ReplyNodeInfo) error
+	AddLink(context.Context, *ReqLinkAdd, *ReplyLinkInfo) error
 	RemoveNode(context.Context, *RequestInfo, *ReplyInfo) error
 	RemoveLink(context.Context, *RequestInfo, *ReplyInfo) error
 	FindPath(context.Context, *ReqGraphPath, *ReplyGraphInfo) error
@@ -135,8 +135,8 @@ type GraphServiceHandler interface {
 
 func RegisterGraphServiceHandler(s server.Server, hdlr GraphServiceHandler, opts ...server.HandlerOption) error {
 	type graphService interface {
-		AddNode(ctx context.Context, in *ReqNodeAdd, out *ReplyNodeOne) error
-		AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkOne) error
+		AddNode(ctx context.Context, in *ReqNodeAdd, out *ReplyNodeInfo) error
+		AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkInfo) error
 		RemoveNode(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		RemoveLink(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		FindPath(ctx context.Context, in *ReqGraphPath, out *ReplyGraphInfo) error
@@ -153,11 +153,11 @@ type graphServiceHandler struct {
 	GraphServiceHandler
 }
 
-func (h *graphServiceHandler) AddNode(ctx context.Context, in *ReqNodeAdd, out *ReplyNodeOne) error {
+func (h *graphServiceHandler) AddNode(ctx context.Context, in *ReqNodeAdd, out *ReplyNodeInfo) error {
 	return h.GraphServiceHandler.AddNode(ctx, in, out)
 }
 
-func (h *graphServiceHandler) AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkOne) error {
+func (h *graphServiceHandler) AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkInfo) error {
 	return h.GraphServiceHandler.AddLink(ctx, in, out)
 }
 

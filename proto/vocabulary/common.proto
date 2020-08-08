@@ -38,7 +38,12 @@ message ReplyInfo {
     string uid = 1;
     string key = 2;
     uint64 id = 3;
-    ResultStatus errorCode = 4;
+    ReplyStatus status = 4;
+}
+
+message ReplyStatus {
+    uint32 code = 1;
+    string msg = 2;
 }
 
 message AttributeInfo {

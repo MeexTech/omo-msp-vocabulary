@@ -5,11 +5,11 @@ option go_package= "proto/vocabulary";
 import "proto/vocabulary/common.proto";
 
 service EventService {
-  rpc AddOne(ReqEventAdd) returns (ReplyEventOne) {}
-  rpc GetOne(RequestInfo) returns (ReplyEventOne) {}
+  rpc AddOne(ReqEventAdd) returns (ReplyEventInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyEventInfo) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestInfo) returns (ReplyEventList) {}
-  rpc Update(ReqEventUpdate) returns(ReplyEventOne) {}
+  rpc Update(ReqEventUpdate) returns(ReplyEventInfo) {}
   rpc AppendAsset(ReqEventAsset) returns(ReplyEventAsset) {}
   rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAsset) {}
   rpc AppendRelation(ReqEventRelation) returns(ReplyEventRelation) {}
@@ -82,6 +82,7 @@ message ReqEventAsset {
 message ReplyEventAsset {
   string uid = 1;
   repeated string assets = 2;
+  ReplyStatus status = 3;
 }
 
 message ReqEventRelation {
@@ -93,14 +94,16 @@ message ReqEventRelation {
 message ReplyEventRelation {
   string uid = 1;
   repeated RelationshipInfo relations = 2;
+  ReplyStatus status = 3;
 }
 
-message ReplyEventOne {
+message ReplyEventInfo {
   EventInfo info = 1;
-  ResultStatus errorCode = 2;
+  ReplyStatus status = 2;
 }
 
 message ReplyEventList {
   repeated EventInfo list = 1;
+  ReplyStatus status = 2;
 }
 

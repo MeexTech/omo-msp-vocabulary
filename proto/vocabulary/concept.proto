@@ -10,8 +10,7 @@ service ConceptService {
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAll(RequestInfo) returns (ReplyConceptList) {}
     rpc Update(ReqConceptUpdate) returns (ReplyConceptInfo){}
-    rpc AppendAttribute(ReqConceptAttribute) returns (ReplyConceptAttribute) {}
-    rpc RemoveAttribute(ReqConceptAttribute) returns (ReplyConceptAttribute) {}
+    rpc UpdateAttributes(ReqConceptAttrs) returns (ReplyConceptAttrs) {}
 }
 
 enum ConceptType {
@@ -66,23 +65,23 @@ message ReqConceptUpdate {
 
 message ReplyConceptInfo {
     ConceptInfo info = 1;
-    ResultStatus errorCode = 2;
-    string errorMsg = 3;
+    ReplyStatus status = 2;
 }
 
 message ReplyConceptList {
     string flag = 1;
     repeated ConceptInfo list = 2;
+    ReplyStatus status = 3;
 }
 
-message ReqConceptAttribute {
-    string uid = 1;
-    string concept = 2;
+message ReqConceptAttrs {
+    string concept = 1;
+    repeated string attributes = 2;
     string operator = 3;
 }
 
-message ReplyConceptAttribute {
-    string uid = 1;
-    string concept = 2;
-    ResultStatus errorCode = 3;
+message ReplyConceptAttrs {
+    string concept = 1;
+    repeated string attributes = 2;
+    ReplyStatus status = 3;
 }
