@@ -52,6 +52,7 @@ type EntityService interface {
 	UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, opts ...client.CallOption) (*ReplyEntityUpdate, error)
 	AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
+	UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
 }
 
 type entityService struct {
@@ -166,6 +167,16 @@ func (c *entityService) SubtractProperty(ctx context.Context, in *RequestInfo, o
 	return out, nil
 }
 
+func (c *entityService) UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error) {
+	req := c.c.NewRequest(c.name, "EntityService.UpdateProperties", in)
+	out := new(ReplyEntityProperties)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for EntityService service
 
 type EntityServiceHandler interface {
@@ -179,6 +190,7 @@ type EntityServiceHandler interface {
 	UpdateSynonyms(context.Context, *ReqEntityUpdate, *ReplyEntityUpdate) error
 	AppendProperty(context.Context, *ReqEntityProperty, *ReplyEntityProperties) error
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
+	UpdateProperties(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
 }
 
 func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, opts ...server.HandlerOption) error {
@@ -193,6 +205,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		UpdateSynonyms(ctx context.Context, in *ReqEntityUpdate, out *ReplyEntityUpdate) error
 		AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
+		UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
 	}
 	type EntityService struct {
 		entityService
@@ -243,4 +256,8 @@ func (h *entityServiceHandler) AppendProperty(ctx context.Context, in *ReqEntity
 
 func (h *entityServiceHandler) SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error {
 	return h.EntityServiceHandler.SubtractProperty(ctx, in, out)
+}
+
+func (h *entityServiceHandler) UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error {
+	return h.EntityServiceHandler.UpdateProperties(ctx, in, out)
 }

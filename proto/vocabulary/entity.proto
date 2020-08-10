@@ -15,6 +15,7 @@ service EntityService{
     rpc UpdateSynonyms(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
+    rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
 }
 
 enum EntityStatus {
@@ -44,7 +45,7 @@ message EntityInfo {
 }
 
 message PropertyInfo {
-    string key = 1;
+    string uid = 1;
     repeated WordInfo words = 2;
 }
 
@@ -86,6 +87,11 @@ message ReplyEntityAll {
 message ReqEntityProperty {
     string uid = 1;
     PropertyInfo property = 2;
+}
+
+message ReqEntityProperties {
+    string uid = 1;
+    repeated PropertyInfo properties = 2;
 }
 
 message ReplyEntityProperties {
