@@ -13,22 +13,8 @@ service ConceptService {
     rpc UpdateAttributes(ReqConceptAttrs) returns (ReplyConceptAttrs) {}
 }
 
-enum ConceptType {
-    Unknown = 0;
-    Personal = 1;
-    Utensil = 2; // 器物
-    Event = 3; //事件
-    Organize = 4; // 组织
-    Idea = 5; //思想理论
-    Book = 6; //经籍著作
-    Culture = 7; //文化
-    Faction = 8; //派别
-    Nature = 9; //自然
-    Honor = 10; //荣誉奖项
-}
-
 message ConceptInfo {
-    ConceptType type = 1;
+    uint32 type = 1;
     string name = 2;
     string uid = 3;
     string cover = 4;
@@ -45,7 +31,7 @@ message ConceptInfo {
 }
 
 message ReqConceptAdd {
-    ConceptType type = 1;
+    uint32 type = 1;
     string name = 2;
     string cover = 4;
     string remark = 5;
@@ -56,7 +42,7 @@ message ReqConceptAdd {
 
 message ReqConceptUpdate {
     string uid = 1;
-    ConceptType type = 2;
+    uint32 type = 2;
     string name = 3;
     string cover = 4;
     string remark = 5;

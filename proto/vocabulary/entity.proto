@@ -19,13 +19,6 @@ service EntityService{
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
 }
 
-enum EntityStatus {
-    Idle = 0;
-    Pending = 1;
-    Usable = 2;
-    Failed = 3;
-}
-
 message EntityInfo {
     string uid = 1;
     string name = 2;
@@ -39,7 +32,7 @@ message EntityInfo {
     int64 created = 10;
     string creator = 11;
     string operator = 12;
-    EntityStatus status = 13;
+    uint32 status = 13;
     repeated string synonyms = 14;
     repeated string tags = 15;
     repeated PropertyInfo properties = 16;
@@ -114,12 +107,12 @@ message ReqEntityBase {
 message ReqEntityStatus {
     string uid = 1;
     string operator = 2;
-    EntityStatus status = 3;
+    uint32 status = 3;
 }
 
 message ReplyEntityStatus {
     string uid = 1;
-    EntityStatus state = 2;
+    uint32 state = 2;
     ReplyStatus status = 3;
 }
 

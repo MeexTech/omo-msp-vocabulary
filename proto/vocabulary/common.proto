@@ -12,15 +12,6 @@ enum ResultStatus {
     Empty = 5;
 }
 
-enum AttributeType {
-    String = 0;
-    Date    = 1;
-    Number  = 2;
-    Entity  = 3;
-    Sex     = 4;
-    Address = 5;
-}
-
 enum DirectionType {
     Double = 0;
     FromTo = 1;
@@ -49,7 +40,7 @@ message ReplyStatus {
 message AttributeInfo {
     string uid = 1;
     uint64 id = 2;
-    AttributeType type = 3;
+    uint32 type = 3;
     string name = 4;
     string key = 5;
     string begin = 6;

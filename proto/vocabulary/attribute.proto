@@ -13,7 +13,7 @@ service AttributeService {
 }
 
 message ReqAttributeAdd {
-    AttributeType type = 1;
+    uint32 type = 1;
     string name = 2;
     string key = 3;
     string begin = 4;
@@ -34,7 +34,7 @@ message ReqAttributeUpdate {
     string remark = 3;
     string begin = 4;
     string end = 5;
-    AttributeType type = 6;
+    uint32 type = 6;
     string operator = 7;
 }
 
