@@ -44,6 +44,7 @@ func NewEntityServiceEndpoints() []*api.Endpoint {
 type EntityService interface {
 	AddOne(ctx context.Context, in *ReqEntityAdd, opts ...client.CallOption) (*ReplyEntityInfo, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
+	GetByName(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityAll, error)
 	UpdateBase(ctx context.Context, in *ReqEntityBase, opts ...client.CallOption) (*ReplyInfo, error)
@@ -79,6 +80,16 @@ func (c *entityService) AddOne(ctx context.Context, in *ReqEntityAdd, opts ...cl
 
 func (c *entityService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetOne", in)
+	out := new(ReplyEntityInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) GetByName(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetByName", in)
 	out := new(ReplyEntityInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -182,6 +193,7 @@ func (c *entityService) UpdateProperties(ctx context.Context, in *ReqEntityPrope
 type EntityServiceHandler interface {
 	AddOne(context.Context, *ReqEntityAdd, *ReplyEntityInfo) error
 	GetOne(context.Context, *RequestInfo, *ReplyEntityInfo) error
+	GetByName(context.Context, *RequestInfo, *ReplyEntityInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityAll) error
 	UpdateBase(context.Context, *ReqEntityBase, *ReplyInfo) error
@@ -197,6 +209,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 	type entityService interface {
 		AddOne(ctx context.Context, in *ReqEntityAdd, out *ReplyEntityInfo) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
+		GetByName(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityAll) error
 		UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error
@@ -224,6 +237,10 @@ func (h *entityServiceHandler) AddOne(ctx context.Context, in *ReqEntityAdd, out
 
 func (h *entityServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error {
 	return h.EntityServiceHandler.GetOne(ctx, in, out)
+}
+
+func (h *entityServiceHandler) GetByName(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error {
+	return h.EntityServiceHandler.GetByName(ctx, in, out)
 }
 
 func (h *entityServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {

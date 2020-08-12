@@ -7,6 +7,7 @@ import "proto/vocabulary/common.proto";
 service EntityService{
     rpc AddOne(ReqEntityAdd) returns (ReplyEntityInfo) {}
     rpc GetOne(RequestInfo) returns (ReplyEntityInfo) {}
+    rpc GetByName(RequestInfo) returns (ReplyEntityInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityAll) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}

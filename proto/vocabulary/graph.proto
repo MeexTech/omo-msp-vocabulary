@@ -8,6 +8,9 @@ service GraphService {
     rpc AddLink(ReqLinkAdd) returns (ReplyLinkInfo) {}
     rpc RemoveNode(RequestInfo) returns (ReplyInfo) {}
     rpc RemoveLink(RequestInfo) returns (ReplyInfo) {}
+    rpc GetNode(RequestInfo) returns (ReplyNodeInfo) {}
+    rpc GetLink(RequestInfo) returns (ReplyLinkInfo) {}
+    rpc FindNodes(RequestInfo) returns (ReplyGraphInfo) {}
     rpc FindPath(ReqGraphPath) returns (ReplyGraphInfo) {}
     rpc FindGraph(RequestInfo) returns (ReplyGraphInfo) {}
 }

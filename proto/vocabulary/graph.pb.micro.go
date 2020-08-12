@@ -46,6 +46,9 @@ type GraphService interface {
 	AddLink(ctx context.Context, in *ReqLinkAdd, opts ...client.CallOption) (*ReplyLinkInfo, error)
 	RemoveNode(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	RemoveLink(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	GetNode(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyNodeInfo, error)
+	GetLink(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyLinkInfo, error)
+	FindNodes(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error)
 	FindPath(ctx context.Context, in *ReqGraphPath, opts ...client.CallOption) (*ReplyGraphInfo, error)
 	FindGraph(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error)
 }
@@ -102,6 +105,36 @@ func (c *graphService) RemoveLink(ctx context.Context, in *RequestInfo, opts ...
 	return out, nil
 }
 
+func (c *graphService) GetNode(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyNodeInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.GetNode", in)
+	out := new(ReplyNodeInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) GetLink(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyLinkInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.GetLink", in)
+	out := new(ReplyLinkInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graphService) FindNodes(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error) {
+	req := c.c.NewRequest(c.name, "GraphService.FindNodes", in)
+	out := new(ReplyGraphInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *graphService) FindPath(ctx context.Context, in *ReqGraphPath, opts ...client.CallOption) (*ReplyGraphInfo, error) {
 	req := c.c.NewRequest(c.name, "GraphService.FindPath", in)
 	out := new(ReplyGraphInfo)
@@ -129,6 +162,9 @@ type GraphServiceHandler interface {
 	AddLink(context.Context, *ReqLinkAdd, *ReplyLinkInfo) error
 	RemoveNode(context.Context, *RequestInfo, *ReplyInfo) error
 	RemoveLink(context.Context, *RequestInfo, *ReplyInfo) error
+	GetNode(context.Context, *RequestInfo, *ReplyNodeInfo) error
+	GetLink(context.Context, *RequestInfo, *ReplyLinkInfo) error
+	FindNodes(context.Context, *RequestInfo, *ReplyGraphInfo) error
 	FindPath(context.Context, *ReqGraphPath, *ReplyGraphInfo) error
 	FindGraph(context.Context, *RequestInfo, *ReplyGraphInfo) error
 }
@@ -139,6 +175,9 @@ func RegisterGraphServiceHandler(s server.Server, hdlr GraphServiceHandler, opts
 		AddLink(ctx context.Context, in *ReqLinkAdd, out *ReplyLinkInfo) error
 		RemoveNode(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		RemoveLink(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		GetNode(ctx context.Context, in *RequestInfo, out *ReplyNodeInfo) error
+		GetLink(ctx context.Context, in *RequestInfo, out *ReplyLinkInfo) error
+		FindNodes(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error
 		FindPath(ctx context.Context, in *ReqGraphPath, out *ReplyGraphInfo) error
 		FindGraph(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error
 	}
@@ -167,6 +206,18 @@ func (h *graphServiceHandler) RemoveNode(ctx context.Context, in *RequestInfo, o
 
 func (h *graphServiceHandler) RemoveLink(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
 	return h.GraphServiceHandler.RemoveLink(ctx, in, out)
+}
+
+func (h *graphServiceHandler) GetNode(ctx context.Context, in *RequestInfo, out *ReplyNodeInfo) error {
+	return h.GraphServiceHandler.GetNode(ctx, in, out)
+}
+
+func (h *graphServiceHandler) GetLink(ctx context.Context, in *RequestInfo, out *ReplyLinkInfo) error {
+	return h.GraphServiceHandler.GetLink(ctx, in, out)
+}
+
+func (h *graphServiceHandler) FindNodes(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error {
+	return h.GraphServiceHandler.FindNodes(ctx, in, out)
 }
 
 func (h *graphServiceHandler) FindPath(ctx context.Context, in *ReqGraphPath, out *ReplyGraphInfo) error {
