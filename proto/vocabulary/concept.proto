@@ -26,8 +26,9 @@ message ConceptInfo {
     string creator = 10;
     string operator = 11;
     string parent = 12;
-    repeated string attributes = 13;
-    repeated ConceptInfo children = 14;
+    uint32 scene = 13;
+    repeated string attributes = 14;
+    repeated ConceptInfo children = 15;
 }
 
 message ReqConceptAdd {
@@ -38,6 +39,7 @@ message ReqConceptAdd {
     string table = 6;
     string parent = 7;
     string operator = 8;
+    uint32 scene = 9;
 }
 
 message ReqConceptUpdate {
@@ -47,6 +49,7 @@ message ReqConceptUpdate {
     string cover = 4;
     string remark = 5;
     string operator = 6;
+    uint32 scene = 7;
 }
 
 message ReplyConceptInfo {
