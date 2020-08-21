@@ -46,7 +46,8 @@ type EventService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventList, error)
-	Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error)
+	UpdateBase(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error)
+	UpdateTags(ctx context.Context, in *ReqEventTags, opts ...client.CallOption) (*ReplyEventInfo, error)
 	AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
 	SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
 	AppendRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error)
@@ -105,8 +106,18 @@ func (c *eventService) GetList(ctx context.Context, in *RequestInfo, opts ...cli
 	return out, nil
 }
 
-func (c *eventService) Update(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error) {
-	req := c.c.NewRequest(c.name, "EventService.Update", in)
+func (c *eventService) UpdateBase(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error) {
+	req := c.c.NewRequest(c.name, "EventService.UpdateBase", in)
+	out := new(ReplyEventInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventService) UpdateTags(ctx context.Context, in *ReqEventTags, opts ...client.CallOption) (*ReplyEventInfo, error) {
+	req := c.c.NewRequest(c.name, "EventService.UpdateTags", in)
 	out := new(ReplyEventInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -162,7 +173,8 @@ type EventServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyEventInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestInfo, *ReplyEventList) error
-	Update(context.Context, *ReqEventUpdate, *ReplyEventInfo) error
+	UpdateBase(context.Context, *ReqEventUpdate, *ReplyEventInfo) error
+	UpdateTags(context.Context, *ReqEventTags, *ReplyEventInfo) error
 	AppendAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
 	SubtractAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
 	AppendRelation(context.Context, *ReqEventRelation, *ReplyEventRelation) error
@@ -175,7 +187,8 @@ func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestInfo, out *ReplyEventList) error
-		Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error
+		UpdateBase(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error
+		UpdateTags(ctx context.Context, in *ReqEventTags, out *ReplyEventInfo) error
 		AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
 		SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
 		AppendRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error
@@ -208,8 +221,12 @@ func (h *eventServiceHandler) GetList(ctx context.Context, in *RequestInfo, out 
 	return h.EventServiceHandler.GetList(ctx, in, out)
 }
 
-func (h *eventServiceHandler) Update(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error {
-	return h.EventServiceHandler.Update(ctx, in, out)
+func (h *eventServiceHandler) UpdateBase(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error {
+	return h.EventServiceHandler.UpdateBase(ctx, in, out)
+}
+
+func (h *eventServiceHandler) UpdateTags(ctx context.Context, in *ReqEventTags, out *ReplyEventInfo) error {
+	return h.EventServiceHandler.UpdateTags(ctx, in, out)
 }
 
 func (h *eventServiceHandler) AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error {
