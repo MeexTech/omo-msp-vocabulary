@@ -11,6 +11,7 @@ service EventService {
   rpc GetList(RequestInfo) returns (ReplyEventList) {}
   rpc UpdateBase(ReqEventUpdate) returns(ReplyEventInfo) {}
   rpc UpdateTags(ReqEventTags) returns(ReplyEventInfo) {}
+  rpc UpdateCover(RequestInfo) returns(ReplyEventInfo) {}
   rpc AppendAsset(ReqEventAsset) returns(ReplyEventAsset) {}
   rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAsset) {}
   rpc AppendRelation(ReqEventRelation) returns(ReplyEventRelation) {}
@@ -29,9 +30,10 @@ message EventInfo {
   PlaceInfo place = 9;
   string creator = 10;
   string operator = 11;
-  repeated string tags = 12;
-  repeated string assets = 13;
-  repeated RelationshipInfo relations = 14;
+  string cover = 12;
+  repeated string tags = 13;
+  repeated string assets = 14;
+  repeated RelationshipInfo relations = 15;
 }
 
 message DateInfo {
@@ -62,9 +64,10 @@ message ReqEventAdd {
   DateInfo date = 4;
   PlaceInfo place = 5;
   string operator = 6;
-  repeated string tags = 7;
-  repeated string assets = 8;
-  repeated RelationshipInfo relations = 9;
+  string cover = 7;
+  repeated string tags = 8;
+  repeated string assets = 9;
+  repeated RelationshipInfo relations = 10;
 }
 
 message ReqEventUpdate {
@@ -74,11 +77,13 @@ message ReqEventUpdate {
   DateInfo date = 4;
   PlaceInfo place = 5;
   string operator = 6;
+  string cover = 7;
 }
 
 message ReqEventTags {
   string uid = 1;
-  repeated string tags = 2;
+  string operator = 2;
+  repeated string tags = 3;
 }
 
 message ReqEventAsset {

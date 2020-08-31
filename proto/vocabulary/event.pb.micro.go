@@ -48,6 +48,7 @@ type EventService interface {
 	GetList(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventList, error)
 	UpdateBase(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error)
 	UpdateTags(ctx context.Context, in *ReqEventTags, opts ...client.CallOption) (*ReplyEventInfo, error)
+	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error)
 	AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
 	SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error)
 	AppendRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelation, error)
@@ -126,6 +127,16 @@ func (c *eventService) UpdateTags(ctx context.Context, in *ReqEventTags, opts ..
 	return out, nil
 }
 
+func (c *eventService) UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error) {
+	req := c.c.NewRequest(c.name, "EventService.UpdateCover", in)
+	out := new(ReplyEventInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *eventService) AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAsset, error) {
 	req := c.c.NewRequest(c.name, "EventService.AppendAsset", in)
 	out := new(ReplyEventAsset)
@@ -175,6 +186,7 @@ type EventServiceHandler interface {
 	GetList(context.Context, *RequestInfo, *ReplyEventList) error
 	UpdateBase(context.Context, *ReqEventUpdate, *ReplyEventInfo) error
 	UpdateTags(context.Context, *ReqEventTags, *ReplyEventInfo) error
+	UpdateCover(context.Context, *RequestInfo, *ReplyEventInfo) error
 	AppendAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
 	SubtractAsset(context.Context, *ReqEventAsset, *ReplyEventAsset) error
 	AppendRelation(context.Context, *ReqEventRelation, *ReplyEventRelation) error
@@ -189,6 +201,7 @@ func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts
 		GetList(ctx context.Context, in *RequestInfo, out *ReplyEventList) error
 		UpdateBase(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error
 		UpdateTags(ctx context.Context, in *ReqEventTags, out *ReplyEventInfo) error
+		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error
 		AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
 		SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error
 		AppendRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelation) error
@@ -227,6 +240,10 @@ func (h *eventServiceHandler) UpdateBase(ctx context.Context, in *ReqEventUpdate
 
 func (h *eventServiceHandler) UpdateTags(ctx context.Context, in *ReqEventTags, out *ReplyEventInfo) error {
 	return h.EventServiceHandler.UpdateTags(ctx, in, out)
+}
+
+func (h *eventServiceHandler) UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error {
+	return h.EventServiceHandler.UpdateCover(ctx, in, out)
 }
 
 func (h *eventServiceHandler) AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAsset) error {
