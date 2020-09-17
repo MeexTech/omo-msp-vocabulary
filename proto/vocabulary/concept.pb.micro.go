@@ -47,7 +47,7 @@ type ConceptService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptList, error)
 	Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error)
-	UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, opts ...client.CallOption) (*ReplyConceptAttrs, error)
+	UpdateAttributes(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyConceptAttrs, error)
 }
 
 type conceptService struct {
@@ -112,7 +112,7 @@ func (c *conceptService) Update(ctx context.Context, in *ReqConceptUpdate, opts 
 	return out, nil
 }
 
-func (c *conceptService) UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, opts ...client.CallOption) (*ReplyConceptAttrs, error) {
+func (c *conceptService) UpdateAttributes(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyConceptAttrs, error) {
 	req := c.c.NewRequest(c.name, "ConceptService.UpdateAttributes", in)
 	out := new(ReplyConceptAttrs)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -130,7 +130,7 @@ type ConceptServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyConceptList) error
 	Update(context.Context, *ReqConceptUpdate, *ReplyConceptInfo) error
-	UpdateAttributes(context.Context, *ReqConceptAttrs, *ReplyConceptAttrs) error
+	UpdateAttributes(context.Context, *RequestList, *ReplyConceptAttrs) error
 }
 
 func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, opts ...server.HandlerOption) error {
@@ -140,7 +140,7 @@ func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, 
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error
 		Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error
-		UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, out *ReplyConceptAttrs) error
+		UpdateAttributes(ctx context.Context, in *RequestList, out *ReplyConceptAttrs) error
 	}
 	type ConceptService struct {
 		conceptService
@@ -173,6 +173,6 @@ func (h *conceptServiceHandler) Update(ctx context.Context, in *ReqConceptUpdate
 	return h.ConceptServiceHandler.Update(ctx, in, out)
 }
 
-func (h *conceptServiceHandler) UpdateAttributes(ctx context.Context, in *ReqConceptAttrs, out *ReplyConceptAttrs) error {
+func (h *conceptServiceHandler) UpdateAttributes(ctx context.Context, in *RequestList, out *ReplyConceptAttrs) error {
 	return h.ConceptServiceHandler.UpdateAttributes(ctx, in, out)
 }
