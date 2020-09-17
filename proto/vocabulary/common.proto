@@ -25,6 +25,12 @@ message RequestInfo {
     string operator = 4;
 }
 
+message RequestList {
+    string uid = 1;
+    string operator = 2;
+    repeated string list = 3;
+}
+
 message ReplyInfo {
     string uid = 1;
     string key = 2;

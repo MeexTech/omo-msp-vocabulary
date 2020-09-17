@@ -10,7 +10,7 @@ service ConceptService {
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAll(RequestInfo) returns (ReplyConceptList) {}
     rpc Update(ReqConceptUpdate) returns (ReplyConceptInfo){}
-    rpc UpdateAttributes(ReqConceptAttrs) returns (ReplyConceptAttrs) {}
+    rpc UpdateAttributes(RequestList) returns (ReplyConceptAttrs) {}
 }
 
 message ConceptInfo {
@@ -61,12 +61,6 @@ message ReplyConceptList {
     string flag = 1;
     repeated ConceptInfo list = 2;
     ReplyStatus status = 3;
-}
-
-message ReqConceptAttrs {
-    string concept = 1;
-    repeated string attributes = 2;
-    string operator = 3;
 }
 
 message ReplyConceptAttrs {

@@ -12,8 +12,8 @@ service EntityService{
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityAll) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
-    rpc UpdateTags(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
-    rpc UpdateSynonyms(ReqEntityUpdate) returns (ReplyEntityUpdate) {}
+    rpc UpdateTags(RequestList) returns (ReplyEntityUpdate) {}
+    rpc UpdateSynonyms(RequestList) returns (ReplyEntityUpdate) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
@@ -114,12 +114,6 @@ message ReplyEntityStatus {
     string uid = 1;
     uint32 state = 2;
     ReplyStatus status = 3;
-}
-
-message ReqEntityUpdate {
-    string uid = 1;
-    string operator = 3;
-    repeated string list = 2;
 }
 
 message ReplyEntityUpdate {

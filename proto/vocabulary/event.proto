@@ -10,12 +10,13 @@ service EventService {
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestInfo) returns (ReplyEventList) {}
   rpc UpdateBase(ReqEventUpdate) returns(ReplyEventInfo) {}
-  rpc UpdateTags(ReqEventTags) returns(ReplyEventInfo) {}
+  rpc UpdateTags(RequestList) returns(ReplyEventInfo) {}
   rpc UpdateCover(RequestInfo) returns(ReplyEventInfo) {}
-  rpc AppendAsset(ReqEventAsset) returns(ReplyEventAsset) {}
-  rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAsset) {}
-  rpc AppendRelation(ReqEventRelation) returns(ReplyEventRelation) {}
-  rpc SubtractRelation(ReqEventRelation) returns(ReplyEventRelation) {}
+  rpc UpdateAssets(RequestList) returns(ReplyEventAssets) {}
+  rpc AppendAsset(ReqEventAsset) returns(ReplyEventAssets) {}
+  rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAssets) {}
+  rpc AppendRelation(ReqEventRelation) returns(ReplyEventRelations) {}
+  rpc SubtractRelation(ReqEventRelation) returns(ReplyEventRelations) {}
 }
 
 message EventInfo {
@@ -78,12 +79,7 @@ message ReqEventUpdate {
   PlaceInfo place = 5;
   string operator = 6;
   string cover = 7;
-}
-
-message ReqEventTags {
-  string uid = 1;
-  string operator = 2;
-  repeated string tags = 3;
+  repeated string assets = 8;
 }
 
 message ReqEventAsset {
@@ -92,7 +88,7 @@ message ReqEventAsset {
   string operator = 3;
 }
 
-message ReplyEventAsset {
+message ReplyEventAssets {
   string uid = 1;
   repeated string assets = 2;
   ReplyStatus status = 3;
@@ -104,7 +100,7 @@ message ReqEventRelation {
   string operator = 3;
 }
 
-message ReplyEventRelation {
+message ReplyEventRelations {
   string uid = 1;
   repeated RelationshipInfo relations = 2;
   ReplyStatus status = 3;
