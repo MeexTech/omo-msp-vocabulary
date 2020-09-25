@@ -18,7 +18,7 @@ service EntityService{
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
-    rpc SearchPublic(ReqEntityProperties) returns (ReplyEntityAll) {}
+    rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityAll) {}
 }
 
 message EntityInfo {

@@ -55,7 +55,7 @@ type EntityService interface {
 	AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
-	SearchPublic(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityAll, error)
+	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityAll, error)
 }
 
 type entityService struct {
@@ -200,7 +200,7 @@ func (c *entityService) UpdateProperties(ctx context.Context, in *ReqEntityPrope
 	return out, nil
 }
 
-func (c *entityService) SearchPublic(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityAll, error) {
+func (c *entityService) SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityAll, error) {
 	req := c.c.NewRequest(c.name, "EntityService.SearchPublic", in)
 	out := new(ReplyEntityAll)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -226,7 +226,7 @@ type EntityServiceHandler interface {
 	AppendProperty(context.Context, *ReqEntityProperty, *ReplyEntityProperties) error
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
 	UpdateProperties(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
-	SearchPublic(context.Context, *ReqEntityProperties, *ReplyEntityAll) error
+	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityAll) error
 }
 
 func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, opts ...server.HandlerOption) error {
@@ -244,7 +244,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
 		UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
-		SearchPublic(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityAll) error
+		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityAll) error
 	}
 	type EntityService struct {
 		entityService
@@ -309,6 +309,6 @@ func (h *entityServiceHandler) UpdateProperties(ctx context.Context, in *ReqEnti
 	return h.EntityServiceHandler.UpdateProperties(ctx, in, out)
 }
 
-func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityAll) error {
+func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityAll) error {
 	return h.EntityServiceHandler.SearchPublic(ctx, in, out)
 }
