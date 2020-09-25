@@ -12,11 +12,13 @@ service EntityService{
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityAll) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
+    rpc UpdateCover(RequestInfo) returns (ReplyInfo) {}
     rpc UpdateTags(RequestList) returns (ReplyEntityUpdate) {}
     rpc UpdateSynonyms(RequestList) returns (ReplyEntityUpdate) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
+    rpc SearchPublic(ReqEntityProperties) returns (ReplyEntityAll) {}
 }
 
 message EntityInfo {
@@ -65,6 +67,7 @@ message ReqEntityBy {
     string owner = 2;
     int32 number = 3;
     int32 page = 4;
+    string concept = 5;
 }
 
 message ReplyEntityInfo {
@@ -86,6 +89,14 @@ message ReqEntityProperty {
 message ReqEntityProperties {
     string uid = 1;
     repeated PropertyInfo properties = 2;
+}
+
+message ReqEntitySearch {
+    int32 number = 1;
+    int32 page = 2;
+    repeated string concept = 3;
+    repeated string attribute = 4;
+    repeated string tags = 5;
 }
 
 message ReplyEntityProperties {
