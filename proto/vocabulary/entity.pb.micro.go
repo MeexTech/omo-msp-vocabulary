@@ -11,7 +11,6 @@ import (
 
 import (
 	context "context"
-	api "github.com/micro/go-micro/v2/api"
 	client "github.com/micro/go-micro/v2/client"
 	server "github.com/micro/go-micro/v2/server"
 )
@@ -28,16 +27,9 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ api.Endpoint
 var _ context.Context
 var _ client.Option
 var _ server.Option
-
-// Api Endpoints for EntityService service
-
-func NewEntityServiceEndpoints() []*api.Endpoint {
-	return []*api.Endpoint{}
-}
 
 // Client API for EntityService service
 
@@ -46,7 +38,7 @@ type EntityService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
 	GetByName(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityAll, error)
+	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error)
 	UpdateBase(ctx context.Context, in *ReqEntityBase, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateStatus(ctx context.Context, in *ReqEntityStatus, opts ...client.CallOption) (*ReplyEntityStatus, error)
 	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
@@ -55,7 +47,8 @@ type EntityService interface {
 	AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
-	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityAll, error)
+	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityList, error)
+	GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error)
 }
 
 type entityService struct {
@@ -110,9 +103,9 @@ func (c *entityService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...
 	return out, nil
 }
 
-func (c *entityService) GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityAll, error) {
+func (c *entityService) GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetAllByOwner", in)
-	out := new(ReplyEntityAll)
+	out := new(ReplyEntityList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -200,9 +193,19 @@ func (c *entityService) UpdateProperties(ctx context.Context, in *ReqEntityPrope
 	return out, nil
 }
 
-func (c *entityService) SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityAll, error) {
+func (c *entityService) SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityList, error) {
 	req := c.c.NewRequest(c.name, "EntityService.SearchPublic", in)
-	out := new(ReplyEntityAll)
+	out := new(ReplyEntityList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetByProperty", in)
+	out := new(ReplyEntityList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -217,7 +220,7 @@ type EntityServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyEntityInfo) error
 	GetByName(context.Context, *RequestInfo, *ReplyEntityInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityAll) error
+	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityList) error
 	UpdateBase(context.Context, *ReqEntityBase, *ReplyInfo) error
 	UpdateStatus(context.Context, *ReqEntityStatus, *ReplyEntityStatus) error
 	UpdateCover(context.Context, *RequestInfo, *ReplyInfo) error
@@ -226,7 +229,8 @@ type EntityServiceHandler interface {
 	AppendProperty(context.Context, *ReqEntityProperty, *ReplyEntityProperties) error
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
 	UpdateProperties(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
-	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityAll) error
+	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityList) error
+	GetByProperty(context.Context, *ReqEntityByProp, *ReplyEntityList) error
 }
 
 func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, opts ...server.HandlerOption) error {
@@ -235,7 +239,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
 		GetByName(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityAll) error
+		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error
 		UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error
 		UpdateStatus(ctx context.Context, in *ReqEntityStatus, out *ReplyEntityStatus) error
 		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
@@ -244,7 +248,8 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
 		UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
-		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityAll) error
+		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error
+		GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error
 	}
 	type EntityService struct {
 		entityService
@@ -273,7 +278,7 @@ func (h *entityServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, o
 	return h.EntityServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *entityServiceHandler) GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityAll) error {
+func (h *entityServiceHandler) GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error {
 	return h.EntityServiceHandler.GetAllByOwner(ctx, in, out)
 }
 
@@ -309,6 +314,10 @@ func (h *entityServiceHandler) UpdateProperties(ctx context.Context, in *ReqEnti
 	return h.EntityServiceHandler.UpdateProperties(ctx, in, out)
 }
 
-func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityAll) error {
+func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error {
 	return h.EntityServiceHandler.SearchPublic(ctx, in, out)
+}
+
+func (h *entityServiceHandler) GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error {
+	return h.EntityServiceHandler.GetByProperty(ctx, in, out)
 }

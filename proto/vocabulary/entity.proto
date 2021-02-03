@@ -9,7 +9,7 @@ service EntityService{
     rpc GetOne(RequestInfo) returns (ReplyEntityInfo) {}
     rpc GetByName(RequestInfo) returns (ReplyEntityInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-    rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityAll) {}
+    rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityList) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
     rpc UpdateCover(RequestInfo) returns (ReplyInfo) {}
@@ -18,7 +18,8 @@ service EntityService{
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
-    rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityAll) {}
+    rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityList) {}
+    rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
 }
 
 message EntityInfo {
@@ -70,15 +71,22 @@ message ReqEntityBy {
     string concept = 5;
 }
 
+message ReqEntityByProp{
+    string key = 1;
+    string value = 2;
+}
+
 message ReplyEntityInfo {
     EntityInfo info = 1;
     ReplyStatus status = 2;
 }
 
-message ReplyEntityAll {
-    string flag = 1;
-    repeated EntityInfo list = 2;
-    ReplyStatus status = 3;
+message ReplyEntityList {
+    ReplyStatus status = 1;
+    uint32 total = 2;
+    uint32 page = 3;
+    string flag = 4;
+    repeated EntityInfo list = 5;
 }
 
 message ReqEntityProperty {
