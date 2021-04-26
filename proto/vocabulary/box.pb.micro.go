@@ -39,6 +39,8 @@ type BoxService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxList, error)
 	Update(ctx context.Context, in *ReqBoxUpdate, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	Appends(ctx context.Context, in *ReqBoxAppend, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	Subtracts(ctx context.Context, in *ReqBoxAppend, opts ...client.CallOption) (*ReplyBoxInfo, error)
 }
 
 type boxService struct {
@@ -103,6 +105,26 @@ func (c *boxService) Update(ctx context.Context, in *ReqBoxUpdate, opts ...clien
 	return out, nil
 }
 
+func (c *boxService) Appends(ctx context.Context, in *ReqBoxAppend, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.Appends", in)
+	out := new(ReplyBoxInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *boxService) Subtracts(ctx context.Context, in *ReqBoxAppend, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.Subtracts", in)
+	out := new(ReplyBoxInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for BoxService service
 
 type BoxServiceHandler interface {
@@ -111,6 +133,8 @@ type BoxServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyBoxList) error
 	Update(context.Context, *ReqBoxUpdate, *ReplyBoxInfo) error
+	Appends(context.Context, *ReqBoxAppend, *ReplyBoxInfo) error
+	Subtracts(context.Context, *ReqBoxAppend, *ReplyBoxInfo) error
 }
 
 func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...server.HandlerOption) error {
@@ -120,6 +144,8 @@ func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyBoxList) error
 		Update(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error
+		Appends(ctx context.Context, in *ReqBoxAppend, out *ReplyBoxInfo) error
+		Subtracts(ctx context.Context, in *ReqBoxAppend, out *ReplyBoxInfo) error
 	}
 	type BoxService struct {
 		boxService
@@ -150,4 +176,12 @@ func (h *boxServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *Re
 
 func (h *boxServiceHandler) Update(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error {
 	return h.BoxServiceHandler.Update(ctx, in, out)
+}
+
+func (h *boxServiceHandler) Appends(ctx context.Context, in *ReqBoxAppend, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.Appends(ctx, in, out)
+}
+
+func (h *boxServiceHandler) Subtracts(ctx context.Context, in *ReqBoxAppend, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.Subtracts(ctx, in, out)
 }
