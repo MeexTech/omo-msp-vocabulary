@@ -34,7 +34,8 @@ message ReqBoxAdd {
   string remark = 3;
   string concept = 4;
   string operator = 5;
-  repeated string keywords = 6;
+  uint32 type = 6;
+  repeated string keywords = 7;
 }
 
 message ReqBoxUpdate {
