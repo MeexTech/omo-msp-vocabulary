@@ -10,8 +10,8 @@ service BoxService {
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetAll(RequestInfo) returns (ReplyBoxList) {}
   rpc Update(ReqBoxUpdate) returns (ReplyBoxInfo){}
-  rpc Appends(ReqBoxAppend) returns (ReplyBoxInfo){}
-  rpc Subtracts(ReqBoxAppend) returns (ReplyBoxInfo){}
+  rpc Appends(ReqBoxKeywords) returns (ReplyBoxInfo){}
+  rpc Subtracts(ReqBoxKeywords) returns (ReplyBoxInfo){}
 }
 
 message BoxInfo {
@@ -24,7 +24,8 @@ message BoxInfo {
   string creator = 7;
   string operator = 8;
   string concept = 9;
-  repeated string keywords = 10;
+  uint32 type = 10;
+  repeated string keywords = 11;
 }
 
 message ReqBoxAdd {
@@ -32,7 +33,8 @@ message ReqBoxAdd {
   string cover = 2;
   string remark = 3;
   string concept = 4;
-  repeated string keywords = 5;
+  string operator = 5;
+  repeated string keywords = 6;
 }
 
 message ReqBoxUpdate {
@@ -45,9 +47,10 @@ message ReqBoxUpdate {
   repeated string keywords = 8;
 }
 
-message ReqBoxAppend {
+message ReqBoxKeywords {
   string uid = 1;
-  repeated string keywords = 2;
+  string operator = 2;
+  repeated string keywords = 3;
 }
 
 message ReplyBoxInfo {

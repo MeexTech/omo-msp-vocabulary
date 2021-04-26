@@ -35,10 +35,13 @@ message EntityInfo {
     int64 created = 10;
     string creator = 11;
     string operator = 12;
-    uint32 status = 13;
-    repeated string synonyms = 14;
-    repeated string tags = 15;
-    repeated PropertyInfo properties = 16;
+    string summary = 13;
+    string mark = 14;
+    string quote = 15;
+    uint32 status = 16;
+    repeated string synonyms = 17;
+    repeated string tags = 18;
+    repeated PropertyInfo properties = 19;
 }
 
 message PropertyInfo {
@@ -59,8 +62,11 @@ message ReqEntityAdd {
     string concept = 5;
     string description = 6;
     string add = 7;
-    repeated string synonyms = 8;
-    repeated string tags = 9;
+    string summary = 8;
+    string mark = 9;
+    string quote = 10;
+    repeated string synonyms = 11;
+    repeated string tags = 12;
 }
 
 message ReqEntityBy {
@@ -121,6 +127,9 @@ message ReqEntityBase {
     string concept = 5;
     string cover = 6;
     string operator = 7;
+    string summary = 8;
+    string mark = 9;
+    string quote = 10;
 }
 
 message ReqEntityStatus {

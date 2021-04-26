@@ -32,9 +32,10 @@ message EventInfo {
   string creator = 10;
   string operator = 11;
   string cover = 12;
-  repeated string tags = 13;
-  repeated string assets = 14;
-  repeated RelationshipInfo relations = 15;
+  string quote = 13;
+  repeated string tags = 14;
+  repeated string assets = 15;
+  repeated RelationshipInfo relations = 16;
 }
 
 message DateInfo {
@@ -66,9 +67,10 @@ message ReqEventAdd {
   PlaceInfo place = 5;
   string operator = 6;
   string cover = 7;
-  repeated string tags = 8;
-  repeated string assets = 9;
-  repeated RelationshipInfo relations = 10;
+  string quote = 8;
+  repeated string tags = 9;
+  repeated string assets = 10;
+  repeated RelationshipInfo relations = 11;
 }
 
 message ReqEventUpdate {
@@ -79,7 +81,8 @@ message ReqEventUpdate {
   PlaceInfo place = 5;
   string operator = 6;
   string cover = 7;
-  repeated string assets = 8;
+  string quote = 8;
+  repeated string assets = 9;
 }
 
 message ReqEventAsset {
