@@ -7,3 +7,4 @@ proto:
 	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/event.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/graph.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/relation.proto
+	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/box.proto

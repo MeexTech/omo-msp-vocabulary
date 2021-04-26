@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service BoxService {
+  rpc AddOne(ReqBoxAdd) returns (ReplyBoxInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyBoxInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc GetAll(RequestInfo) returns (ReplyBoxList) {}
+  rpc Update(ReqBoxUpdate) returns (ReplyBoxInfo){}
+}
+
+message BoxInfo {
+  string name = 1;
+  string uid = 2;
+  string cover = 3;
+  string remark = 4;
+  int64 updated = 5;
+  int64 created = 6;
+  string creator = 7;
+  string operator = 8;
+  string concept = 9;
+  repeated string keywords = 10;
+}
+
+message ReqBoxAdd {
+  string name = 1;
+  string cover = 2;
+  string remark = 3;
+  string concept = 4;
+  repeated string keywords = 5;
+}
+
+message ReqBoxUpdate {
+  string uid = 1;
+  string name = 3;
+  string cover = 4;
+  string remark = 5;
+  string operator = 6;
+  string concept = 7;
+}
+
+message ReplyBoxInfo {
+  BoxInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+message ReplyBoxList {
+  string flag = 1;
+  repeated BoxInfo list = 2;
+  ReplyStatus status = 3;
+}
+
