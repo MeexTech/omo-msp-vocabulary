@@ -86,10 +86,11 @@ message ReqEntityAdd {
     string summary = 8;
     string mark = 9;
     string quote = 10;
-    repeated string synonyms = 11;
-    repeated string tags = 12;
-    repeated EventBrief events = 13;
-    repeated RelationBrief relations = 14;
+    uint32 status = 11;
+    repeated string synonyms = 12;
+    repeated string tags = 13;
+    repeated EventBrief events = 14;
+    repeated RelationBrief relations = 15;
 }
 
 message ReqEntityStatic {
