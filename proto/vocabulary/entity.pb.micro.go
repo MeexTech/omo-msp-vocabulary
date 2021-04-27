@@ -49,6 +49,7 @@ type EntityService interface {
 	UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error)
+	UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type entityService struct {
@@ -213,6 +214,16 @@ func (c *entityService) GetByProperty(ctx context.Context, in *ReqEntityByProp, 
 	return out, nil
 }
 
+func (c *entityService) UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "EntityService.UpdateStatic", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for EntityService service
 
 type EntityServiceHandler interface {
@@ -231,6 +242,7 @@ type EntityServiceHandler interface {
 	UpdateProperties(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
 	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityList) error
 	GetByProperty(context.Context, *ReqEntityByProp, *ReplyEntityList) error
+	UpdateStatic(context.Context, *ReqEntityStatic, *ReplyInfo) error
 }
 
 func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, opts ...server.HandlerOption) error {
@@ -250,6 +262,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
 		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error
 		GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error
+		UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error
 	}
 	type EntityService struct {
 		entityService
@@ -320,4 +333,8 @@ func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntitySe
 
 func (h *entityServiceHandler) GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error {
 	return h.EntityServiceHandler.GetByProperty(ctx, in, out)
+}
+
+func (h *entityServiceHandler) UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error {
+	return h.EntityServiceHandler.UpdateStatic(ctx, in, out)
 }

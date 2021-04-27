@@ -38,19 +38,6 @@ message EventInfo {
   repeated RelationshipInfo relations = 16;
 }
 
-message DateInfo {
-  string uid = 1;
-  string name = 2;
-  string begin = 3;
-  string end = 4;
-}
-
-message PlaceInfo {
-  string uid = 1;
-  string name = 2;
-  string location = 3;
-}
-
 message RelationshipInfo {
   DirectionType direction = 1;
   string name = 2;

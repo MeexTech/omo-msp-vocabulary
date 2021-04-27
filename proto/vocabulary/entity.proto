@@ -20,6 +20,7 @@ service EntityService{
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
     rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityList) {}
     rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
+    rpc UpdateStatic(ReqEntityStatic) returns (ReplyInfo) {}
 }
 
 message EntityInfo {
@@ -42,6 +43,26 @@ message EntityInfo {
     repeated string synonyms = 17;
     repeated string tags = 18;
     repeated PropertyInfo properties = 19;
+    repeated EventBrief events = 20;
+    repeated RelationBrief relations = 21;
+}
+
+message EventBrief {
+    string name = 1;
+    string era = 2;
+    string desc = 3;
+    string quote = 4;
+    DateInfo date = 5;
+    PlaceInfo place = 6;
+    repeated string tags = 7;
+    repeated string assets = 8;
+}
+
+message RelationBrief{
+    string name = 1;
+    string type = 2;
+    string entity = 3;
+    uint32 direction = 4;
 }
 
 message PropertyInfo {
@@ -67,6 +88,25 @@ message ReqEntityAdd {
     string quote = 10;
     repeated string synonyms = 11;
     repeated string tags = 12;
+    repeated EventBrief events = 13;
+    repeated RelationBrief relations = 14;
+}
+
+message ReqEntityStatic {
+    string uid = 1;
+    string name = 2;
+    string desc = 3;
+    string add = 4;
+    string concept = 5;
+    string cover = 6;
+    string operator = 7;
+    string summary = 8;
+    string mark = 9;
+    string quote = 10;
+    repeated string synonyms = 11;
+    repeated string tags = 12;
+    repeated EventBrief events = 13;
+    repeated RelationBrief relations = 14;
 }
 
 message ReqEntityBy {

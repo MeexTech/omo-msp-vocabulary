@@ -18,6 +18,19 @@ enum DirectionType {
     ToFrom = 2;
 }
 
+message DateInfo {
+    string uid = 1;
+    string name = 2;
+    string begin = 3;
+    string end = 4;
+}
+
+message PlaceInfo {
+    string uid = 1;
+    string name = 2;
+    string location = 3;
+}
+
 message RequestInfo {
     string uid = 1;
     string key = 2;
