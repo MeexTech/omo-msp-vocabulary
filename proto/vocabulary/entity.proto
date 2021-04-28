@@ -89,8 +89,9 @@ message ReqEntityAdd {
     uint32 status = 11;
     repeated string synonyms = 12;
     repeated string tags = 13;
-    repeated EventBrief events = 14;
-    repeated RelationBrief relations = 15;
+    repeated PropertyInfo properties = 14;
+    repeated EventBrief events = 15;
+    repeated RelationBrief relations = 16;
 }
 
 message ReqEntityStatic {
@@ -106,8 +107,9 @@ message ReqEntityStatic {
     string quote = 10;
     repeated string synonyms = 11;
     repeated string tags = 12;
-    repeated EventBrief events = 13;
-    repeated RelationBrief relations = 14;
+    repeated PropertyInfo properties = 14;
+    repeated EventBrief events = 15;
+    repeated RelationBrief relations = 16;
 }
 
 message ReqEntityBy {
