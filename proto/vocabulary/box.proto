@@ -25,7 +25,8 @@ message BoxInfo {
   string operator = 8;
   string concept = 9;
   uint32 type = 10;
-  repeated string keywords = 11;
+  string workflow = 11;
+  repeated string keywords = 12;
 }
 
 message ReqBoxAdd {
@@ -35,7 +36,8 @@ message ReqBoxAdd {
   string concept = 4;
   string operator = 5;
   uint32 type = 6;
-  repeated string keywords = 7;
+  string workflow = 7;
+  repeated string keywords = 8;
 }
 
 message ReqBoxUpdate {
@@ -45,7 +47,8 @@ message ReqBoxUpdate {
   string remark = 5;
   string operator = 6;
   string concept = 7;
-  repeated string keywords = 8;
+  string workflow = 8;
+  repeated string keywords = 9;
 }
 
 message ReqBoxKeywords {

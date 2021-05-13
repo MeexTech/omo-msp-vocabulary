@@ -40,6 +40,7 @@ type EntityService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetListByBox(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyEntityList, error)
+	GetByList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityList, error)
 	UpdateBase(ctx context.Context, in *ReqEntityBase, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateStatus(ctx context.Context, in *ReqEntityStatus, opts ...client.CallOption) (*ReplyEntityStatus, error)
 	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
@@ -117,6 +118,16 @@ func (c *entityService) GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts
 
 func (c *entityService) GetListByBox(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyEntityList, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetListByBox", in)
+	out := new(ReplyEntityList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) GetByList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityList, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetByList", in)
 	out := new(ReplyEntityList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -244,6 +255,7 @@ type EntityServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityList) error
 	GetListByBox(context.Context, *RequestPage, *ReplyEntityList) error
+	GetByList(context.Context, *RequestList, *ReplyEntityList) error
 	UpdateBase(context.Context, *ReqEntityBase, *ReplyInfo) error
 	UpdateStatus(context.Context, *ReqEntityStatus, *ReplyEntityStatus) error
 	UpdateCover(context.Context, *RequestInfo, *ReplyInfo) error
@@ -265,6 +277,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error
 		GetListByBox(ctx context.Context, in *RequestPage, out *ReplyEntityList) error
+		GetByList(ctx context.Context, in *RequestList, out *ReplyEntityList) error
 		UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error
 		UpdateStatus(ctx context.Context, in *ReqEntityStatus, out *ReplyEntityStatus) error
 		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
@@ -310,6 +323,10 @@ func (h *entityServiceHandler) GetAllByOwner(ctx context.Context, in *ReqEntityB
 
 func (h *entityServiceHandler) GetListByBox(ctx context.Context, in *RequestPage, out *ReplyEntityList) error {
 	return h.EntityServiceHandler.GetListByBox(ctx, in, out)
+}
+
+func (h *entityServiceHandler) GetByList(ctx context.Context, in *RequestList, out *ReplyEntityList) error {
+	return h.EntityServiceHandler.GetByList(ctx, in, out)
 }
 
 func (h *entityServiceHandler) UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error {
