@@ -44,6 +44,12 @@ message RequestList {
     repeated string list = 3;
 }
 
+message RequestPage {
+    string parent = 1;
+    int32 number = 3;
+    int32 page = 4;
+}
+
 message ReplyInfo {
     string uid = 1;
     string key = 2;

@@ -10,6 +10,7 @@ service EntityService{
     rpc GetByName(RequestInfo) returns (ReplyEntityInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityList) {}
+    rpc GetListByBox(RequestPage) returns (ReplyEntityList) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
     rpc UpdateCover(RequestInfo) returns (ReplyInfo) {}
