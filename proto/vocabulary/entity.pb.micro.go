@@ -51,6 +51,7 @@ type EntityService interface {
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityList, error)
+	SearchMatch(ctx context.Context, in *ReqEntityMatch, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error)
 	UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error)
 }
@@ -237,6 +238,16 @@ func (c *entityService) SearchPublic(ctx context.Context, in *ReqEntitySearch, o
 	return out, nil
 }
 
+func (c *entityService) SearchMatch(ctx context.Context, in *ReqEntityMatch, opts ...client.CallOption) (*ReplyEntityList, error) {
+	req := c.c.NewRequest(c.name, "EntityService.SearchMatch", in)
+	out := new(ReplyEntityList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *entityService) GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetByProperty", in)
 	out := new(ReplyEntityList)
@@ -277,6 +288,7 @@ type EntityServiceHandler interface {
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
 	UpdateProperties(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
 	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityList) error
+	SearchMatch(context.Context, *ReqEntityMatch, *ReplyEntityList) error
 	GetByProperty(context.Context, *ReqEntityByProp, *ReplyEntityList) error
 	UpdateStatic(context.Context, *ReqEntityStatic, *ReplyInfo) error
 }
@@ -300,6 +312,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
 		UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
 		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error
+		SearchMatch(ctx context.Context, in *ReqEntityMatch, out *ReplyEntityList) error
 		GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error
 		UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error
 	}
@@ -380,6 +393,10 @@ func (h *entityServiceHandler) UpdateProperties(ctx context.Context, in *ReqEnti
 
 func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error {
 	return h.EntityServiceHandler.SearchPublic(ctx, in, out)
+}
+
+func (h *entityServiceHandler) SearchMatch(ctx context.Context, in *ReqEntityMatch, out *ReplyEntityList) error {
+	return h.EntityServiceHandler.SearchMatch(ctx, in, out)
 }
 
 func (h *entityServiceHandler) GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error {

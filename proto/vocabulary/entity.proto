@@ -22,6 +22,7 @@ service EntityService{
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
     rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
     rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityList) {}
+    rpc SearchMatch(ReqEntityMatch) returns (ReplyEntityList) {}
     rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
     rpc UpdateStatic(ReqEntityStatic) returns (ReplyInfo) {}
 }
@@ -157,6 +158,10 @@ message ReqEntitySearch {
     repeated string concept = 3;
     repeated string attribute = 4;
     repeated string tags = 5;
+}
+
+message ReqEntityMatch {
+    string keywords = 1;
 }
 
 message ReplyEntityProperties {
