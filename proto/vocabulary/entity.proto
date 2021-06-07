@@ -162,6 +162,8 @@ message ReqEntitySearch {
 
 message ReqEntityMatch {
     string keywords = 1;
+    int32 number = 2;
+    int32 page = 3;
 }
 
 message ReplyEntityProperties {
