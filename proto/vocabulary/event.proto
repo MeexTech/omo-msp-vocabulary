@@ -33,9 +33,10 @@ message EventInfo {
   string operator = 11;
   string cover = 12;
   string quote = 13;
-  repeated string tags = 14;
-  repeated string assets = 15;
-  repeated RelationshipInfo relations = 16;
+  uint32 type = 14;
+  repeated string tags = 15;
+  repeated string assets = 16;
+  repeated RelationshipInfo relations = 17;
 }
 
 message RelationshipInfo {
@@ -55,9 +56,10 @@ message ReqEventAdd {
   string operator = 6;
   string cover = 7;
   string quote = 8;
-  repeated string tags = 9;
-  repeated string assets = 10;
-  repeated RelationshipInfo relations = 11;
+  uint32 type = 9;
+  repeated string tags = 10;
+  repeated string assets = 11;
+  repeated RelationshipInfo relations = 12;
 }
 
 message ReqEventUpdate {
