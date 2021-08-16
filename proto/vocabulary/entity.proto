@@ -25,6 +25,7 @@ service EntityService{
     rpc SearchMatch(ReqEntityMatch) returns (ReplyEntityList) {}
     rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
     rpc UpdateStatic(ReqEntityStatic) returns (ReplyInfo) {}
+    rpc GetByMark(RequestInfo) returns(ReplyEntityInfo){}
 }
 
 message EntityInfo {
