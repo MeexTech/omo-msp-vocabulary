@@ -24,8 +24,10 @@ service EntityService{
     rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityList) {}
     rpc SearchMatch(ReqEntityMatch) returns (ReplyEntityList) {}
     rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
-    rpc UpdateStatic(ReqEntityStatic) returns (ReplyInfo) {}
     rpc GetByMark(RequestInfo) returns(ReplyEntityInfo){}
+    rpc UpdateStatic(ReqEntityStatic) returns (ReplyInfo) {}
+    rpc UpdateRelations(ReqEntityRelations) returns(ReplyInfo){}
+    rpc UpdateEvents(ReqEntityEvents) returns(ReplyInfo){}
 }
 
 message EntityInfo {
@@ -113,8 +115,18 @@ message ReqEntityStatic {
     repeated string synonyms = 11;
     repeated string tags = 12;
     repeated PropertyInfo properties = 14;
+}
+
+message ReqEntityRelations {
+    string uid = 1;
+    string operator = 2;
+    repeated RelationBrief relations = 3;
+}
+
+message ReqEntityEvents {
+    string uid = 1;
+    string operator = 2;
     repeated EventBrief events = 15;
-    repeated RelationBrief relations = 16;
 }
 
 message ReqEntityBy {

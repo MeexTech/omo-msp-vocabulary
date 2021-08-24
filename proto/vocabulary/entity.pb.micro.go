@@ -53,8 +53,10 @@ type EntityService interface {
 	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityList, error)
 	SearchMatch(ctx context.Context, in *ReqEntityMatch, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error)
-	UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error)
 	GetByMark(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
+	UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateRelations(ctx context.Context, in *ReqEntityRelations, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateEvents(ctx context.Context, in *ReqEntityEvents, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type entityService struct {
@@ -259,6 +261,16 @@ func (c *entityService) GetByProperty(ctx context.Context, in *ReqEntityByProp, 
 	return out, nil
 }
 
+func (c *entityService) GetByMark(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetByMark", in)
+	out := new(ReplyEntityInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *entityService) UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "EntityService.UpdateStatic", in)
 	out := new(ReplyInfo)
@@ -269,9 +281,19 @@ func (c *entityService) UpdateStatic(ctx context.Context, in *ReqEntityStatic, o
 	return out, nil
 }
 
-func (c *entityService) GetByMark(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error) {
-	req := c.c.NewRequest(c.name, "EntityService.GetByMark", in)
-	out := new(ReplyEntityInfo)
+func (c *entityService) UpdateRelations(ctx context.Context, in *ReqEntityRelations, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "EntityService.UpdateRelations", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) UpdateEvents(ctx context.Context, in *ReqEntityEvents, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "EntityService.UpdateEvents", in)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -301,8 +323,10 @@ type EntityServiceHandler interface {
 	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityList) error
 	SearchMatch(context.Context, *ReqEntityMatch, *ReplyEntityList) error
 	GetByProperty(context.Context, *ReqEntityByProp, *ReplyEntityList) error
-	UpdateStatic(context.Context, *ReqEntityStatic, *ReplyInfo) error
 	GetByMark(context.Context, *RequestInfo, *ReplyEntityInfo) error
+	UpdateStatic(context.Context, *ReqEntityStatic, *ReplyInfo) error
+	UpdateRelations(context.Context, *ReqEntityRelations, *ReplyInfo) error
+	UpdateEvents(context.Context, *ReqEntityEvents, *ReplyInfo) error
 }
 
 func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, opts ...server.HandlerOption) error {
@@ -326,8 +350,10 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error
 		SearchMatch(ctx context.Context, in *ReqEntityMatch, out *ReplyEntityList) error
 		GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error
-		UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error
 		GetByMark(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
+		UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error
+		UpdateRelations(ctx context.Context, in *ReqEntityRelations, out *ReplyInfo) error
+		UpdateEvents(ctx context.Context, in *ReqEntityEvents, out *ReplyInfo) error
 	}
 	type EntityService struct {
 		entityService
@@ -416,10 +442,18 @@ func (h *entityServiceHandler) GetByProperty(ctx context.Context, in *ReqEntityB
 	return h.EntityServiceHandler.GetByProperty(ctx, in, out)
 }
 
+func (h *entityServiceHandler) GetByMark(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error {
+	return h.EntityServiceHandler.GetByMark(ctx, in, out)
+}
+
 func (h *entityServiceHandler) UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error {
 	return h.EntityServiceHandler.UpdateStatic(ctx, in, out)
 }
 
-func (h *entityServiceHandler) GetByMark(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error {
-	return h.EntityServiceHandler.GetByMark(ctx, in, out)
+func (h *entityServiceHandler) UpdateRelations(ctx context.Context, in *ReqEntityRelations, out *ReplyInfo) error {
+	return h.EntityServiceHandler.UpdateRelations(ctx, in, out)
+}
+
+func (h *entityServiceHandler) UpdateEvents(ctx context.Context, in *ReqEntityEvents, out *ReplyInfo) error {
+	return h.EntityServiceHandler.UpdateEvents(ctx, in, out)
 }
