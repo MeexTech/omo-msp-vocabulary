@@ -32,27 +32,10 @@ service EntityService{
 }
 
 message EntityInfo {
-    string uid = 1;
-    string name = 2;
-    string owner = 3;
-    string cover = 4;
-    string concept = 5;
-    string add = 6;
-    int64 time = 7;
-    int64 updated = 8;
-    int64 created = 9;
-    string creator = 10;
-    string operator = 11;
-    string mark = 12;
-    string quote = 13;
-    uint32 status = 14;
-    string summary = 15;
-    string description = 16;
-    repeated string synonyms = 17;
-    repeated string tags = 18;
-    repeated PropertyInfo properties = 19;
-    repeated EventBrief events = 20;
-    repeated RelationBrief relations = 21;
+    EntityBrief brief = 1;
+    repeated PropertyInfo properties = 2;
+    repeated EventBrief events = 3;
+    repeated RelationBrief relations = 4;
 }
 
 message EntityBrief {
@@ -74,7 +57,7 @@ message EntityBrief {
     string description = 16;
     repeated string synonyms = 17;
     repeated string tags = 18;
-    repeated PropertyInfo properties = 19;
+    //repeated PropertyInfo properties = 19;
 }
 
 message EventBrief {
