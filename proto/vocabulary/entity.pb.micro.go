@@ -36,6 +36,7 @@ var _ server.Option
 type EntityService interface {
 	AddOne(ctx context.Context, in *ReqEntityAdd, opts ...client.CallOption) (*ReplyEntityInfo, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
+	GetBrief(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityBrief, error)
 	GetByName(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error)
@@ -84,6 +85,16 @@ func (c *entityService) AddOne(ctx context.Context, in *ReqEntityAdd, opts ...cl
 func (c *entityService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityInfo, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetOne", in)
 	out := new(ReplyEntityInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) GetBrief(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityBrief, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetBrief", in)
+	out := new(ReplyEntityBrief)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -306,6 +317,7 @@ func (c *entityService) UpdateEvents(ctx context.Context, in *ReqEntityEvents, o
 type EntityServiceHandler interface {
 	AddOne(context.Context, *ReqEntityAdd, *ReplyEntityInfo) error
 	GetOne(context.Context, *RequestInfo, *ReplyEntityInfo) error
+	GetBrief(context.Context, *RequestInfo, *ReplyEntityBrief) error
 	GetByName(context.Context, *RequestInfo, *ReplyEntityInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityList) error
@@ -333,6 +345,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 	type entityService interface {
 		AddOne(ctx context.Context, in *ReqEntityAdd, out *ReplyEntityInfo) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
+		GetBrief(ctx context.Context, in *RequestInfo, out *ReplyEntityBrief) error
 		GetByName(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error
@@ -372,6 +385,10 @@ func (h *entityServiceHandler) AddOne(ctx context.Context, in *ReqEntityAdd, out
 
 func (h *entityServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error {
 	return h.EntityServiceHandler.GetOne(ctx, in, out)
+}
+
+func (h *entityServiceHandler) GetBrief(ctx context.Context, in *RequestInfo, out *ReplyEntityBrief) error {
+	return h.EntityServiceHandler.GetBrief(ctx, in, out)
 }
 
 func (h *entityServiceHandler) GetByName(ctx context.Context, in *RequestInfo, out *ReplyEntityInfo) error {

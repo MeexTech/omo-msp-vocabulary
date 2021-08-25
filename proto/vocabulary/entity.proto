@@ -7,6 +7,7 @@ import "proto/vocabulary/common.proto";
 service EntityService{
     rpc AddOne(ReqEntityAdd) returns (ReplyEntityInfo) {}
     rpc GetOne(RequestInfo) returns (ReplyEntityInfo) {}
+    rpc GetBrief(RequestInfo) returns (ReplyEntityBrief) {}
     rpc GetByName(RequestInfo) returns (ReplyEntityInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityList) {}
@@ -36,22 +37,44 @@ message EntityInfo {
     string owner = 3;
     string cover = 4;
     string concept = 5;
-    string description = 6;
-    string add = 7;
-    int64 time = 8;
-    int64 updated = 9;
-    int64 created = 10;
-    string creator = 11;
-    string operator = 12;
-    string summary = 13;
-    string mark = 14;
-    string quote = 15;
-    uint32 status = 16;
+    string add = 6;
+    int64 time = 7;
+    int64 updated = 8;
+    int64 created = 9;
+    string creator = 10;
+    string operator = 11;
+    string mark = 12;
+    string quote = 13;
+    uint32 status = 14;
+    string summary = 15;
+    string description = 16;
     repeated string synonyms = 17;
     repeated string tags = 18;
     repeated PropertyInfo properties = 19;
     repeated EventBrief events = 20;
     repeated RelationBrief relations = 21;
+}
+
+message EntityBrief {
+    string uid = 1;
+    string name = 2;
+    string owner = 3;
+    string cover = 4;
+    string concept = 5;
+    string add = 6;
+    int64 time = 7;
+    int64 updated = 8;
+    int64 created = 9;
+    string creator = 10;
+    string operator = 11;
+    string mark = 12;
+    string quote = 13;
+    uint32 status = 14;
+    string summary = 15;
+    string description = 16;
+    repeated string synonyms = 17;
+    repeated string tags = 18;
+    repeated PropertyInfo properties = 19;
 }
 
 message EventBrief {
@@ -146,6 +169,11 @@ message ReqEntityByProp{
 
 message ReplyEntityInfo {
     EntityInfo info = 1;
+    ReplyStatus status = 2;
+}
+
+message ReplyEntityBrief {
+    EntityBrief info = 1;
     ReplyStatus status = 2;
 }
 
