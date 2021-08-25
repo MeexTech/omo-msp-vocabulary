@@ -55,6 +55,7 @@ message ReplyInfo {
     string key = 2;
     uint64 id = 3;
     ReplyStatus status = 4;
+    uint64 updated = 5;
 }
 
 message ReplyStatus {

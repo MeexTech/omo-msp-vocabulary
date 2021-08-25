@@ -114,7 +114,9 @@ message ReqEntityStatic {
     string quote = 10;
     repeated string synonyms = 11;
     repeated string tags = 12;
-    repeated PropertyInfo properties = 14;
+    repeated PropertyInfo properties = 13;
+    repeated RelationBrief relations = 14;
+    repeated EventBrief events = 15;
 }
 
 message ReqEntityRelations {
@@ -162,7 +164,8 @@ message ReqEntityProperty {
 
 message ReqEntityProperties {
     string uid = 1;
-    repeated PropertyInfo properties = 2;
+    string operator = 2;
+    repeated PropertyInfo properties = 3;
 }
 
 message ReqEntitySearch {
@@ -183,6 +186,7 @@ message ReplyEntityProperties {
     string uid = 1;
     repeated PropertyInfo properties = 2;
     ReplyStatus status = 3;
+    uint64 updated = 4;
 }
 
 message ReqEntityBase {
@@ -208,12 +212,14 @@ message ReplyEntityStatus {
     string uid = 1;
     uint32 state = 2;
     ReplyStatus status = 3;
+    uint64 updated = 4;
 }
 
 message ReplyEntityUpdate {
     string uid = 1;
     repeated string list = 2;
     ReplyStatus status = 3;
+    uint64 updated = 4;
 }
 
 
