@@ -14,6 +14,7 @@ service EntityService{
     rpc GetListByBox(RequestPage) returns (ReplyEntityList) {}
     rpc GetByList(RequestList) returns (ReplyEntityList) {}
     rpc GetListByName(RequestList) returns (ReplyEntityList) {}
+    rpc GetPublishList(RequestList) returns (ReplyEntityPublic) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
     rpc UpdateCover(RequestInfo) returns (ReplyInfo) {}
@@ -166,6 +167,12 @@ message ReplyEntityList {
     uint32 page = 3;
     string flag = 4;
     repeated EntityInfo list = 5;
+}
+
+message ReplyEntityPublic {
+    ReplyStatus status = 1;
+    repeated EntityInfo systems = 2;
+    repeated EntityInfo users = 3;
 }
 
 message ReqEntityProperty {
