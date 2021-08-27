@@ -42,10 +42,12 @@ message RequestList {
     string uid = 1;
     string operator = 2;
     repeated string list = 3;
+    uint32 status = 4;
 }
 
 message RequestPage {
     string parent = 1;
+    uint32 status = 2;
     int32 number = 3;
     int32 page = 4;
 }
