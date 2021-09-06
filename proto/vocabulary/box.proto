@@ -9,9 +9,12 @@ service BoxService {
   rpc GetOne(RequestInfo) returns (ReplyBoxInfo) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetAll(RequestInfo) returns (ReplyBoxList) {}
-  rpc Update(ReqBoxUpdate) returns (ReplyBoxInfo){}
-  rpc Appends(ReqBoxKeywords) returns (ReplyBoxInfo){}
-  rpc Subtracts(ReqBoxKeywords) returns (ReplyBoxInfo){}
+  rpc GetListByUser(RequestInfo) returns (ReplyBoxList) {}
+  rpc UpdateBase(ReqBoxUpdate) returns (ReplyBoxInfo){}
+  rpc AppendKeywords(ReqBoxKeywords) returns (ReplyBoxInfo){}
+  rpc SubtractKeywords(ReqBoxKeywords) returns (ReplyBoxInfo){}
+  rpc AppendUsers(ReqBoxKeywords) returns (ReplyBoxInfo){}
+  rpc SubtractUsers(ReqBoxKeywords) returns (ReplyBoxInfo){}
 }
 
 message BoxInfo {

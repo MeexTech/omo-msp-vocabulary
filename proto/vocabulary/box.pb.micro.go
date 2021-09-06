@@ -38,9 +38,12 @@ type BoxService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxList, error)
-	Update(ctx context.Context, in *ReqBoxUpdate, opts ...client.CallOption) (*ReplyBoxInfo, error)
-	Appends(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
-	Subtracts(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	GetListByUser(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxList, error)
+	UpdateBase(ctx context.Context, in *ReqBoxUpdate, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	AppendKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	AppendUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	SubtractUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 }
 
 type boxService struct {
@@ -95,8 +98,18 @@ func (c *boxService) GetAll(ctx context.Context, in *RequestInfo, opts ...client
 	return out, nil
 }
 
-func (c *boxService) Update(ctx context.Context, in *ReqBoxUpdate, opts ...client.CallOption) (*ReplyBoxInfo, error) {
-	req := c.c.NewRequest(c.name, "BoxService.Update", in)
+func (c *boxService) GetListByUser(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxList, error) {
+	req := c.c.NewRequest(c.name, "BoxService.GetListByUser", in)
+	out := new(ReplyBoxList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *boxService) UpdateBase(ctx context.Context, in *ReqBoxUpdate, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.UpdateBase", in)
 	out := new(ReplyBoxInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -105,8 +118,8 @@ func (c *boxService) Update(ctx context.Context, in *ReqBoxUpdate, opts ...clien
 	return out, nil
 }
 
-func (c *boxService) Appends(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
-	req := c.c.NewRequest(c.name, "BoxService.Appends", in)
+func (c *boxService) AppendKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.AppendKeywords", in)
 	out := new(ReplyBoxInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -115,8 +128,28 @@ func (c *boxService) Appends(ctx context.Context, in *ReqBoxKeywords, opts ...cl
 	return out, nil
 }
 
-func (c *boxService) Subtracts(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
-	req := c.c.NewRequest(c.name, "BoxService.Subtracts", in)
+func (c *boxService) SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.SubtractKeywords", in)
+	out := new(ReplyBoxInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *boxService) AppendUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.AppendUsers", in)
+	out := new(ReplyBoxInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *boxService) SubtractUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.SubtractUsers", in)
 	out := new(ReplyBoxInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -132,9 +165,12 @@ type BoxServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyBoxInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyBoxList) error
-	Update(context.Context, *ReqBoxUpdate, *ReplyBoxInfo) error
-	Appends(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
-	Subtracts(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
+	GetListByUser(context.Context, *RequestInfo, *ReplyBoxList) error
+	UpdateBase(context.Context, *ReqBoxUpdate, *ReplyBoxInfo) error
+	AppendKeywords(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
+	SubtractKeywords(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
+	AppendUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
+	SubtractUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 }
 
 func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...server.HandlerOption) error {
@@ -143,9 +179,12 @@ func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyBoxInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyBoxList) error
-		Update(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error
-		Appends(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
-		Subtracts(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
+		GetListByUser(ctx context.Context, in *RequestInfo, out *ReplyBoxList) error
+		UpdateBase(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error
+		AppendKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
+		SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
+		AppendUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
+		SubtractUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 	}
 	type BoxService struct {
 		boxService
@@ -174,14 +213,26 @@ func (h *boxServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *Re
 	return h.BoxServiceHandler.GetAll(ctx, in, out)
 }
 
-func (h *boxServiceHandler) Update(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error {
-	return h.BoxServiceHandler.Update(ctx, in, out)
+func (h *boxServiceHandler) GetListByUser(ctx context.Context, in *RequestInfo, out *ReplyBoxList) error {
+	return h.BoxServiceHandler.GetListByUser(ctx, in, out)
 }
 
-func (h *boxServiceHandler) Appends(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
-	return h.BoxServiceHandler.Appends(ctx, in, out)
+func (h *boxServiceHandler) UpdateBase(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.UpdateBase(ctx, in, out)
 }
 
-func (h *boxServiceHandler) Subtracts(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
-	return h.BoxServiceHandler.Subtracts(ctx, in, out)
+func (h *boxServiceHandler) AppendKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.AppendKeywords(ctx, in, out)
+}
+
+func (h *boxServiceHandler) SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.SubtractKeywords(ctx, in, out)
+}
+
+func (h *boxServiceHandler) AppendUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.AppendUsers(ctx, in, out)
+}
+
+func (h *boxServiceHandler) SubtractUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.SubtractUsers(ctx, in, out)
 }
