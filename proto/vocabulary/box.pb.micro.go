@@ -44,6 +44,7 @@ type BoxService interface {
 	SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	AppendUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	SubtractUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	UpdateUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 }
 
 type boxService struct {
@@ -158,6 +159,16 @@ func (c *boxService) SubtractUsers(ctx context.Context, in *ReqBoxKeywords, opts
 	return out, nil
 }
 
+func (c *boxService) UpdateUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.UpdateUsers", in)
+	out := new(ReplyBoxInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for BoxService service
 
 type BoxServiceHandler interface {
@@ -171,6 +182,7 @@ type BoxServiceHandler interface {
 	SubtractKeywords(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 	AppendUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 	SubtractUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
+	UpdateUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 }
 
 func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...server.HandlerOption) error {
@@ -185,6 +197,7 @@ func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...
 		SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 		AppendUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 		SubtractUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
+		UpdateUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 	}
 	type BoxService struct {
 		boxService
@@ -235,4 +248,8 @@ func (h *boxServiceHandler) AppendUsers(ctx context.Context, in *ReqBoxKeywords,
 
 func (h *boxServiceHandler) SubtractUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
 	return h.BoxServiceHandler.SubtractUsers(ctx, in, out)
+}
+
+func (h *boxServiceHandler) UpdateUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
+	return h.BoxServiceHandler.UpdateUsers(ctx, in, out)
 }
