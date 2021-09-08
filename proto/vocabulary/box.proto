@@ -32,6 +32,7 @@ message BoxInfo {
   uint32 count = 11;
   string workflow = 12;
   repeated string keywords = 13;
+  repeated string users = 14;
 }
 
 message ReqBoxAdd {
