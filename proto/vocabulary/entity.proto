@@ -189,7 +189,7 @@ message ReqEntityProperties {
 
 message ReqEntitySearch {
     int32 number = 1;
-    int32 page = 2;
+    string name = 2;
     repeated string concept = 3;
     repeated string attribute = 4;
     repeated string tags = 5;
