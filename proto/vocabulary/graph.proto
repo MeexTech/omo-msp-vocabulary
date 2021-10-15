@@ -57,6 +57,7 @@ message ReqLinkAdd {
     string from = 4;
     string to = 5;
     string relation = 6;
+    uint32 weight = 7;
 }
 
 message ReplyLinkInfo {
