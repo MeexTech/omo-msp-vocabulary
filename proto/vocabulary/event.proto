@@ -10,8 +10,9 @@ service EventService {
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestInfo) returns (ReplyEventList) {}
   rpc UpdateBase(ReqEventUpdate) returns(ReplyEventInfo) {}
-  rpc UpdateTags(RequestList) returns(ReplyEventInfo) {}
-  rpc UpdateCover(RequestInfo) returns(ReplyEventInfo) {}
+  rpc UpdateTags(RequestList) returns(ReplyInfo) {}
+  rpc UpdateCover(RequestInfo) returns(ReplyInfo) {}
+  rpc UpdateAccess(ReqEventAccess) returns(ReplyInfo) {}
   rpc UpdateAssets(RequestList) returns(ReplyEventAssets) {}
   rpc AppendAsset(ReqEventAsset) returns(ReplyEventAssets) {}
   rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAssets) {}
@@ -34,9 +35,10 @@ message EventInfo {
   string cover = 12;
   string quote = 13;
   uint32 type = 14;
-  repeated string tags = 15;
-  repeated string assets = 16;
-  repeated RelationshipInfo relations = 17;
+  uint32 access = 15;
+  repeated string tags = 16;
+  repeated string assets = 17;
+  repeated RelationshipInfo relations = 18;
 }
 
 message RelationshipInfo {
@@ -57,9 +59,10 @@ message ReqEventAdd {
   string cover = 7;
   string quote = 8;
   uint32 type = 9;
-  repeated string tags = 10;
-  repeated string assets = 11;
-  repeated RelationshipInfo relations = 12;
+  uint32 access = 10;
+  repeated string tags = 11;
+  repeated string assets = 12;
+  repeated RelationshipInfo relations = 13;
 }
 
 message ReqEventUpdate {
@@ -71,7 +74,14 @@ message ReqEventUpdate {
   string operator = 6;
   string cover = 7;
   string quote = 8;
-  repeated string assets = 9;
+  uint32 access = 9;
+  repeated string assets = 10;
+}
+
+message ReqEventAccess {
+  string uid = 1;
+  string operator = 2;
+  uint32 access = 3;
 }
 
 message ReqEventAsset {

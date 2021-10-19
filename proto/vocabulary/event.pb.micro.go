@@ -39,8 +39,9 @@ type EventService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventList, error)
 	UpdateBase(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error)
-	UpdateTags(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEventInfo, error)
-	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error)
+	UpdateTags(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateAccess(ctx context.Context, in *ReqEventAccess, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAssets(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEventAssets, error)
 	AppendAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAssets, error)
 	SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAssets, error)
@@ -110,9 +111,9 @@ func (c *eventService) UpdateBase(ctx context.Context, in *ReqEventUpdate, opts 
 	return out, nil
 }
 
-func (c *eventService) UpdateTags(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEventInfo, error) {
+func (c *eventService) UpdateTags(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "EventService.UpdateTags", in)
-	out := new(ReplyEventInfo)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -120,9 +121,19 @@ func (c *eventService) UpdateTags(ctx context.Context, in *RequestList, opts ...
 	return out, nil
 }
 
-func (c *eventService) UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventInfo, error) {
+func (c *eventService) UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "EventService.UpdateCover", in)
-	out := new(ReplyEventInfo)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventService) UpdateAccess(ctx context.Context, in *ReqEventAccess, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "EventService.UpdateAccess", in)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -188,8 +199,9 @@ type EventServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestInfo, *ReplyEventList) error
 	UpdateBase(context.Context, *ReqEventUpdate, *ReplyEventInfo) error
-	UpdateTags(context.Context, *RequestList, *ReplyEventInfo) error
-	UpdateCover(context.Context, *RequestInfo, *ReplyEventInfo) error
+	UpdateTags(context.Context, *RequestList, *ReplyInfo) error
+	UpdateCover(context.Context, *RequestInfo, *ReplyInfo) error
+	UpdateAccess(context.Context, *ReqEventAccess, *ReplyInfo) error
 	UpdateAssets(context.Context, *RequestList, *ReplyEventAssets) error
 	AppendAsset(context.Context, *ReqEventAsset, *ReplyEventAssets) error
 	SubtractAsset(context.Context, *ReqEventAsset, *ReplyEventAssets) error
@@ -204,8 +216,9 @@ func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestInfo, out *ReplyEventList) error
 		UpdateBase(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error
-		UpdateTags(ctx context.Context, in *RequestList, out *ReplyEventInfo) error
-		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error
+		UpdateTags(ctx context.Context, in *RequestList, out *ReplyInfo) error
+		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		UpdateAccess(ctx context.Context, in *ReqEventAccess, out *ReplyInfo) error
 		UpdateAssets(ctx context.Context, in *RequestList, out *ReplyEventAssets) error
 		AppendAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAssets) error
 		SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAssets) error
@@ -243,12 +256,16 @@ func (h *eventServiceHandler) UpdateBase(ctx context.Context, in *ReqEventUpdate
 	return h.EventServiceHandler.UpdateBase(ctx, in, out)
 }
 
-func (h *eventServiceHandler) UpdateTags(ctx context.Context, in *RequestList, out *ReplyEventInfo) error {
+func (h *eventServiceHandler) UpdateTags(ctx context.Context, in *RequestList, out *ReplyInfo) error {
 	return h.EventServiceHandler.UpdateTags(ctx, in, out)
 }
 
-func (h *eventServiceHandler) UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyEventInfo) error {
+func (h *eventServiceHandler) UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
 	return h.EventServiceHandler.UpdateCover(ctx, in, out)
+}
+
+func (h *eventServiceHandler) UpdateAccess(ctx context.Context, in *ReqEventAccess, out *ReplyInfo) error {
+	return h.EventServiceHandler.UpdateAccess(ctx, in, out)
 }
 
 func (h *eventServiceHandler) UpdateAssets(ctx context.Context, in *RequestList, out *ReplyEventAssets) error {
