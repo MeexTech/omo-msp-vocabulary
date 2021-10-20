@@ -13,6 +13,7 @@ service EventService {
   rpc UpdateTags(RequestList) returns(ReplyInfo) {}
   rpc UpdateCover(RequestInfo) returns(ReplyInfo) {}
   rpc UpdateAccess(ReqEventAccess) returns(ReplyInfo) {}
+  rpc UpdateQuote(RequestInfo) returns(ReplyInfo) {}
   rpc UpdateAssets(RequestList) returns(ReplyEventAssets) {}
   rpc AppendAsset(ReqEventAsset) returns(ReplyEventAssets) {}
   rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAssets) {}
