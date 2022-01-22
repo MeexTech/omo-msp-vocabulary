@@ -9,6 +9,7 @@ service EventService {
   rpc GetOne(RequestInfo) returns (ReplyEventInfo) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestInfo) returns (ReplyEventList) {}
+  rpc GetByFilter(RequestFilter) returns (ReplyEventList) {}
   rpc UpdateBase(ReqEventUpdate) returns(ReplyEventInfo) {}
   rpc UpdateTags(RequestList) returns(ReplyInfo) {}
   rpc UpdateCover(RequestInfo) returns(ReplyInfo) {}

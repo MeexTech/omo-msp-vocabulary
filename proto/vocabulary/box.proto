@@ -10,6 +10,7 @@ service BoxService {
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetAll(RequestInfo) returns (ReplyBoxList) {}
   rpc GetListByUser(RequestInfo) returns (ReplyBoxList) {}
+  rpc GetByFilter(RequestFilter) returns (ReplyBoxList) {}
   rpc UpdateBase(ReqBoxUpdate) returns (ReplyBoxInfo){}
   rpc AppendKeywords(ReqBoxKeywords) returns (ReplyBoxInfo){}
   rpc SubtractKeywords(ReqBoxKeywords) returns (ReplyBoxInfo){}

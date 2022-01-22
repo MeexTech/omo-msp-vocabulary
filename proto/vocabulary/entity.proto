@@ -13,6 +13,7 @@ service EntityService{
     rpc GetAllByOwner(ReqEntityBy) returns (ReplyEntityList) {}
     rpc GetListByBox(RequestPage) returns (ReplyEntityList) {}
     rpc GetByList(RequestList) returns (ReplyEntityList) {}
+    rpc GetByFilter(RequestFilter) returns (ReplyEntityList) {}
     rpc GetListByName(RequestList) returns (ReplyEntityList) {}
     rpc GetPublishList(RequestList) returns (ReplyEntityPublic) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}

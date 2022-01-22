@@ -52,6 +52,14 @@ message RequestPage {
     int32 page = 4;
 }
 
+message RequestFilter {
+    string parent = 1;
+    int32 page = 2;
+    int32 number = 3;
+    string key = 4;
+    string value = 5;
+}
+
 message ReplyInfo {
     string uid = 1;
     string key = 2;

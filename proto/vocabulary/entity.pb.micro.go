@@ -42,6 +42,7 @@ type EntityService interface {
 	GetAllByOwner(ctx context.Context, in *ReqEntityBy, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetListByBox(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetByList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityList, error)
+	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetListByName(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetPublishList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityPublic, error)
 	UpdateBase(ctx context.Context, in *ReqEntityBase, opts ...client.CallOption) (*ReplyInfo, error)
@@ -145,6 +146,16 @@ func (c *entityService) GetListByBox(ctx context.Context, in *RequestPage, opts 
 
 func (c *entityService) GetByList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityList, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetByList", in)
+	out := new(ReplyEntityList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyEntityList, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetByFilter", in)
 	out := new(ReplyEntityList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -334,6 +345,7 @@ type EntityServiceHandler interface {
 	GetAllByOwner(context.Context, *ReqEntityBy, *ReplyEntityList) error
 	GetListByBox(context.Context, *RequestPage, *ReplyEntityList) error
 	GetByList(context.Context, *RequestList, *ReplyEntityList) error
+	GetByFilter(context.Context, *RequestFilter, *ReplyEntityList) error
 	GetListByName(context.Context, *RequestList, *ReplyEntityList) error
 	GetPublishList(context.Context, *RequestList, *ReplyEntityPublic) error
 	UpdateBase(context.Context, *ReqEntityBase, *ReplyInfo) error
@@ -363,6 +375,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		GetAllByOwner(ctx context.Context, in *ReqEntityBy, out *ReplyEntityList) error
 		GetListByBox(ctx context.Context, in *RequestPage, out *ReplyEntityList) error
 		GetByList(ctx context.Context, in *RequestList, out *ReplyEntityList) error
+		GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyEntityList) error
 		GetListByName(ctx context.Context, in *RequestList, out *ReplyEntityList) error
 		GetPublishList(ctx context.Context, in *RequestList, out *ReplyEntityPublic) error
 		UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error
@@ -422,6 +435,10 @@ func (h *entityServiceHandler) GetListByBox(ctx context.Context, in *RequestPage
 
 func (h *entityServiceHandler) GetByList(ctx context.Context, in *RequestList, out *ReplyEntityList) error {
 	return h.EntityServiceHandler.GetByList(ctx, in, out)
+}
+
+func (h *entityServiceHandler) GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyEntityList) error {
+	return h.EntityServiceHandler.GetByFilter(ctx, in, out)
 }
 
 func (h *entityServiceHandler) GetListByName(ctx context.Context, in *RequestList, out *ReplyEntityList) error {
