@@ -52,7 +52,7 @@ type EntityService interface {
 	UpdateSynonyms(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityUpdate, error)
 	AppendProperty(ctx context.Context, in *ReqEntityProperty, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SubtractProperty(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEntityProperties, error)
-	UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
+	Ali(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error)
 	SearchPublic(ctx context.Context, in *ReqEntitySearch, opts ...client.CallOption) (*ReplyEntityList, error)
 	SearchMatch(ctx context.Context, in *ReqEntityMatch, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetByProperty(ctx context.Context, in *ReqEntityByProp, opts ...client.CallOption) (*ReplyEntityList, error)
@@ -254,8 +254,8 @@ func (c *entityService) SubtractProperty(ctx context.Context, in *RequestInfo, o
 	return out, nil
 }
 
-func (c *entityService) UpdateProperties(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error) {
-	req := c.c.NewRequest(c.name, "EntityService.UpdateProperties", in)
+func (c *entityService) Ali(ctx context.Context, in *ReqEntityProperties, opts ...client.CallOption) (*ReplyEntityProperties, error) {
+	req := c.c.NewRequest(c.name, "EntityService.ali", in)
 	out := new(ReplyEntityProperties)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -355,7 +355,7 @@ type EntityServiceHandler interface {
 	UpdateSynonyms(context.Context, *RequestList, *ReplyEntityUpdate) error
 	AppendProperty(context.Context, *ReqEntityProperty, *ReplyEntityProperties) error
 	SubtractProperty(context.Context, *RequestInfo, *ReplyEntityProperties) error
-	UpdateProperties(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
+	Ali(context.Context, *ReqEntityProperties, *ReplyEntityProperties) error
 	SearchPublic(context.Context, *ReqEntitySearch, *ReplyEntityList) error
 	SearchMatch(context.Context, *ReqEntityMatch, *ReplyEntityList) error
 	GetByProperty(context.Context, *ReqEntityByProp, *ReplyEntityList) error
@@ -385,7 +385,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		UpdateSynonyms(ctx context.Context, in *RequestList, out *ReplyEntityUpdate) error
 		AppendProperty(ctx context.Context, in *ReqEntityProperty, out *ReplyEntityProperties) error
 		SubtractProperty(ctx context.Context, in *RequestInfo, out *ReplyEntityProperties) error
-		UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
+		Ali(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error
 		SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error
 		SearchMatch(ctx context.Context, in *ReqEntityMatch, out *ReplyEntityList) error
 		GetByProperty(ctx context.Context, in *ReqEntityByProp, out *ReplyEntityList) error
@@ -477,8 +477,8 @@ func (h *entityServiceHandler) SubtractProperty(ctx context.Context, in *Request
 	return h.EntityServiceHandler.SubtractProperty(ctx, in, out)
 }
 
-func (h *entityServiceHandler) UpdateProperties(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error {
-	return h.EntityServiceHandler.UpdateProperties(ctx, in, out)
+func (h *entityServiceHandler) Ali(ctx context.Context, in *ReqEntityProperties, out *ReplyEntityProperties) error {
+	return h.EntityServiceHandler.Ali(ctx, in, out)
 }
 
 func (h *entityServiceHandler) SearchPublic(ctx context.Context, in *ReqEntitySearch, out *ReplyEntityList) error {

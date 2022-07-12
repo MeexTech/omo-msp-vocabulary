@@ -23,7 +23,7 @@ service EntityService{
     rpc UpdateSynonyms(RequestList) returns (ReplyEntityUpdate) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
-    rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
+    rpc ali(ReqEntityProperties) returns (ReplyEntityProperties) {}
     rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityList) {}
     rpc SearchMatch(ReqEntityMatch) returns (ReplyEntityList) {}
     rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
@@ -60,7 +60,7 @@ message EntityBrief {
     bool published = 19;
     repeated string synonyms = 17;
     repeated string tags = 18;
-    repeated string records = 20;
+    repeated EntityRecord records = 20;
     //repeated PropertyInfo properties = 19;
 }
 
