@@ -23,7 +23,7 @@ service EntityService{
     rpc UpdateSynonyms(RequestList) returns (ReplyEntityUpdate) {}
     rpc AppendProperty(ReqEntityProperty) returns (ReplyEntityProperties) {}
     rpc SubtractProperty(RequestInfo) returns (ReplyEntityProperties) {}
-    rpc ali(ReqEntityProperties) returns (ReplyEntityProperties) {}
+    rpc UpdateProperties(ReqEntityProperties) returns (ReplyEntityProperties) {}
     rpc SearchPublic(ReqEntitySearch) returns (ReplyEntityList) {}
     rpc SearchMatch(ReqEntityMatch) returns (ReplyEntityList) {}
     rpc GetByProperty(ReqEntityByProp) returns (ReplyEntityList) {}
