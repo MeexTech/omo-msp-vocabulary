@@ -32,8 +32,10 @@ message BoxInfo {
   uint32 type = 10;
   uint32 count = 11;
   string workflow = 12;
-  repeated string keywords = 13;
-  repeated string users = 14;
+  string owner = 13;
+  string auditor = 14;
+  repeated string keywords = 15;
+  repeated string users = 16;
 }
 
 message ReqBoxAdd {
@@ -44,7 +46,8 @@ message ReqBoxAdd {
   string operator = 5;
   uint32 type = 6;
   string workflow = 7;
-  repeated string keywords = 8;
+  string owner = 8;
+  repeated string keywords = 9;
 }
 
 message ReqBoxUpdate {
