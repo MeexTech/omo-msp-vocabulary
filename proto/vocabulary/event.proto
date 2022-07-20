@@ -20,6 +20,7 @@ service EventService {
   rpc SubtractAsset(ReqEventAsset) returns(ReplyEventAssets) {}
   rpc AppendRelation(ReqEventRelation) returns(ReplyEventRelations) {}
   rpc SubtractRelation(ReqEventRelation) returns(ReplyEventRelations) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 message EventInfo {

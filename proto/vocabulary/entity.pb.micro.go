@@ -60,6 +60,7 @@ type EntityService interface {
 	UpdateStatic(ctx context.Context, in *ReqEntityStatic, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateRelations(ctx context.Context, in *ReqEntityRelations, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateEvents(ctx context.Context, in *ReqEntityEvents, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type entityService struct {
@@ -334,6 +335,16 @@ func (c *entityService) UpdateEvents(ctx context.Context, in *ReqEntityEvents, o
 	return out, nil
 }
 
+func (c *entityService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "EntityService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for EntityService service
 
 type EntityServiceHandler interface {
@@ -363,6 +374,7 @@ type EntityServiceHandler interface {
 	UpdateStatic(context.Context, *ReqEntityStatic, *ReplyInfo) error
 	UpdateRelations(context.Context, *ReqEntityRelations, *ReplyInfo) error
 	UpdateEvents(context.Context, *ReqEntityEvents, *ReplyInfo) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, opts ...server.HandlerOption) error {
@@ -393,6 +405,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		UpdateStatic(ctx context.Context, in *ReqEntityStatic, out *ReplyInfo) error
 		UpdateRelations(ctx context.Context, in *ReqEntityRelations, out *ReplyInfo) error
 		UpdateEvents(ctx context.Context, in *ReqEntityEvents, out *ReplyInfo) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type EntityService struct {
 		entityService
@@ -507,4 +520,8 @@ func (h *entityServiceHandler) UpdateRelations(ctx context.Context, in *ReqEntit
 
 func (h *entityServiceHandler) UpdateEvents(ctx context.Context, in *ReqEntityEvents, out *ReplyInfo) error {
 	return h.EntityServiceHandler.UpdateEvents(ctx, in, out)
+}
+
+func (h *entityServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.EntityServiceHandler.UpdateByFilter(ctx, in, out)
 }

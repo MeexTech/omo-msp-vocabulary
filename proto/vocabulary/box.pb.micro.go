@@ -46,6 +46,7 @@ type BoxService interface {
 	AppendUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	SubtractUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	UpdateUsers(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type boxService struct {
@@ -180,6 +181,16 @@ func (c *boxService) UpdateUsers(ctx context.Context, in *ReqBoxKeywords, opts .
 	return out, nil
 }
 
+func (c *boxService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "BoxService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for BoxService service
 
 type BoxServiceHandler interface {
@@ -195,6 +206,7 @@ type BoxServiceHandler interface {
 	AppendUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 	SubtractUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 	UpdateUsers(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...server.HandlerOption) error {
@@ -211,6 +223,7 @@ func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...
 		AppendUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 		SubtractUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 		UpdateUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type BoxService struct {
 		boxService
@@ -269,4 +282,8 @@ func (h *boxServiceHandler) SubtractUsers(ctx context.Context, in *ReqBoxKeyword
 
 func (h *boxServiceHandler) UpdateUsers(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error {
 	return h.BoxServiceHandler.UpdateUsers(ctx, in, out)
+}
+
+func (h *boxServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.BoxServiceHandler.UpdateByFilter(ctx, in, out)
 }

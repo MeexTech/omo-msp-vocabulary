@@ -49,6 +49,7 @@ type EventService interface {
 	SubtractAsset(ctx context.Context, in *ReqEventAsset, opts ...client.CallOption) (*ReplyEventAssets, error)
 	AppendRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelations, error)
 	SubtractRelation(ctx context.Context, in *ReqEventRelation, opts ...client.CallOption) (*ReplyEventRelations, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type eventService struct {
@@ -213,6 +214,16 @@ func (c *eventService) SubtractRelation(ctx context.Context, in *ReqEventRelatio
 	return out, nil
 }
 
+func (c *eventService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "EventService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for EventService service
 
 type EventServiceHandler interface {
@@ -231,6 +242,7 @@ type EventServiceHandler interface {
 	SubtractAsset(context.Context, *ReqEventAsset, *ReplyEventAssets) error
 	AppendRelation(context.Context, *ReqEventRelation, *ReplyEventRelations) error
 	SubtractRelation(context.Context, *ReqEventRelation, *ReplyEventRelations) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts ...server.HandlerOption) error {
@@ -250,6 +262,7 @@ func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts
 		SubtractAsset(ctx context.Context, in *ReqEventAsset, out *ReplyEventAssets) error
 		AppendRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelations) error
 		SubtractRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelations) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type EventService struct {
 		eventService
@@ -320,4 +333,8 @@ func (h *eventServiceHandler) AppendRelation(ctx context.Context, in *ReqEventRe
 
 func (h *eventServiceHandler) SubtractRelation(ctx context.Context, in *ReqEventRelation, out *ReplyEventRelations) error {
 	return h.EventServiceHandler.SubtractRelation(ctx, in, out)
+}
+
+func (h *eventServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.EventServiceHandler.UpdateByFilter(ctx, in, out)
 }

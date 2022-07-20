@@ -60,6 +60,15 @@ message RequestFilter {
     string value = 5;
 }
 
+message ReqUpdateFilter {
+    string owner = 1;
+    string uid = 2;
+    string key = 3;
+    string value = 4;
+    string operator = 5;
+    repeated string values = 6;
+}
+
 message ReplyInfo {
     string uid = 1;
     string key = 2;

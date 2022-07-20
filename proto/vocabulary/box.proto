@@ -17,6 +17,7 @@ service BoxService {
   rpc AppendUsers(ReqBoxKeywords) returns (ReplyBoxInfo){}
   rpc SubtractUsers(ReqBoxKeywords) returns (ReplyBoxInfo){}
   rpc UpdateUsers(ReqBoxKeywords) returns (ReplyBoxInfo){}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 message BoxInfo {

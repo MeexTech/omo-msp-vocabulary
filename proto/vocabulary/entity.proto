@@ -31,6 +31,7 @@ service EntityService{
     rpc UpdateStatic(ReqEntityStatic) returns (ReplyInfo) {}
     rpc UpdateRelations(ReqEntityRelations) returns(ReplyInfo){}
     rpc UpdateEvents(ReqEntityEvents) returns(ReplyInfo){}
+    rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 message EntityInfo {
@@ -58,6 +59,7 @@ message EntityBrief {
     string summary = 15;
     string description = 16;
     bool published = 19;
+    int64 pushed = 21;
     repeated string synonyms = 17;
     repeated string tags = 18;
     repeated EntityRecord records = 20;
