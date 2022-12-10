@@ -70,6 +70,8 @@ message EntityRecord {
     uint32 option = 1;
     string user = 2;
     string remark = 3;
+    uint32 from = 4;
+    uint32 to = 5;
 }
 
 message EventBrief {
