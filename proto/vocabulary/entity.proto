@@ -62,6 +62,7 @@ message EntityBrief {
     int64 pushed = 21;
     repeated string synonyms = 17;
     repeated string tags = 18;
+    repeated string relates = 22;
     repeated EntityRecord records = 20;
     //repeated PropertyInfo properties = 19;
 }
@@ -122,6 +123,7 @@ message ReqEntityAdd {
     repeated PropertyInfo properties = 14;
     repeated EventBrief events = 15;
     repeated RelationBrief relations = 16;
+    repeated string relates = 17;
 }
 
 message ReqEntityStatic {
