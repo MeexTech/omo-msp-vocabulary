@@ -7,8 +7,9 @@ import "proto/vocabulary/common.proto";
 service AttributeService {
     rpc AddOne(ReqAttributeAdd) returns (ReplyAttributeInfo) {}
     rpc GetOne(RequestInfo) returns (ReplyAttributeInfo) {}
+    rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-    rpc All(RequestInfo) returns (ReplyAttributeList) {}
+    rpc GetAll(RequestInfo) returns (ReplyAttributeList) {}
     rpc Update(ReqAttributeUpdate) returns(ReplyAttributeInfo) {}
 }
 

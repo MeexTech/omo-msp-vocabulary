@@ -43,6 +43,7 @@ type GraphService interface {
 	FindNodes(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error)
 	FindPath(ctx context.Context, in *ReqGraphPath, opts ...client.CallOption) (*ReplyGraphInfo, error)
 	FindGraph(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGraphInfo, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 }
 
 type graphService struct {
@@ -147,6 +148,16 @@ func (c *graphService) FindGraph(ctx context.Context, in *RequestInfo, opts ...c
 	return out, nil
 }
 
+func (c *graphService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "GraphService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for GraphService service
 
 type GraphServiceHandler interface {
@@ -159,6 +170,7 @@ type GraphServiceHandler interface {
 	FindNodes(context.Context, *RequestInfo, *ReplyGraphInfo) error
 	FindPath(context.Context, *ReqGraphPath, *ReplyGraphInfo) error
 	FindGraph(context.Context, *RequestInfo, *ReplyGraphInfo) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 }
 
 func RegisterGraphServiceHandler(s server.Server, hdlr GraphServiceHandler, opts ...server.HandlerOption) error {
@@ -172,6 +184,7 @@ func RegisterGraphServiceHandler(s server.Server, hdlr GraphServiceHandler, opts
 		FindNodes(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error
 		FindPath(ctx context.Context, in *ReqGraphPath, out *ReplyGraphInfo) error
 		FindGraph(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 	}
 	type GraphService struct {
 		graphService
@@ -218,4 +231,8 @@ func (h *graphServiceHandler) FindPath(ctx context.Context, in *ReqGraphPath, ou
 
 func (h *graphServiceHandler) FindGraph(ctx context.Context, in *RequestInfo, out *ReplyGraphInfo) error {
 	return h.GraphServiceHandler.FindGraph(ctx, in, out)
+}
+
+func (h *graphServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.GraphServiceHandler.GetStatistic(ctx, in, out)
 }

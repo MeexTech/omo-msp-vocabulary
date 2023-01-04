@@ -45,6 +45,7 @@ type EntityService interface {
 	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetListByName(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityList, error)
 	GetPublishList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityPublic, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateBase(ctx context.Context, in *ReqEntityBase, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateStatus(ctx context.Context, in *ReqEntityStatus, opts ...client.CallOption) (*ReplyEntityStatus, error)
 	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
@@ -178,6 +179,16 @@ func (c *entityService) GetListByName(ctx context.Context, in *RequestList, opts
 func (c *entityService) GetPublishList(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyEntityPublic, error) {
 	req := c.c.NewRequest(c.name, "EntityService.GetPublishList", in)
 	out := new(ReplyEntityPublic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *entityService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "EntityService.GetStatistic", in)
+	out := new(ReplyStatistic)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -359,6 +370,7 @@ type EntityServiceHandler interface {
 	GetByFilter(context.Context, *RequestFilter, *ReplyEntityList) error
 	GetListByName(context.Context, *RequestList, *ReplyEntityList) error
 	GetPublishList(context.Context, *RequestList, *ReplyEntityPublic) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateBase(context.Context, *ReqEntityBase, *ReplyInfo) error
 	UpdateStatus(context.Context, *ReqEntityStatus, *ReplyEntityStatus) error
 	UpdateCover(context.Context, *RequestInfo, *ReplyInfo) error
@@ -390,6 +402,7 @@ func RegisterEntityServiceHandler(s server.Server, hdlr EntityServiceHandler, op
 		GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyEntityList) error
 		GetListByName(ctx context.Context, in *RequestList, out *ReplyEntityList) error
 		GetPublishList(ctx context.Context, in *RequestList, out *ReplyEntityPublic) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error
 		UpdateStatus(ctx context.Context, in *ReqEntityStatus, out *ReplyEntityStatus) error
 		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
@@ -460,6 +473,10 @@ func (h *entityServiceHandler) GetListByName(ctx context.Context, in *RequestLis
 
 func (h *entityServiceHandler) GetPublishList(ctx context.Context, in *RequestList, out *ReplyEntityPublic) error {
 	return h.EntityServiceHandler.GetPublishList(ctx, in, out)
+}
+
+func (h *entityServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.EntityServiceHandler.GetStatistic(ctx, in, out)
 }
 
 func (h *entityServiceHandler) UpdateBase(ctx context.Context, in *ReqEntityBase, out *ReplyInfo) error {

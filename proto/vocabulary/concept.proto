@@ -9,6 +9,7 @@ service ConceptService {
     rpc GetOne(RequestInfo) returns (ReplyConceptInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetAll(RequestInfo) returns (ReplyConceptList) {}
+    rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
     rpc Update(ReqConceptUpdate) returns (ReplyConceptInfo){}
     rpc UpdateAttributes(RequestList) returns (ReplyConceptAttrs) {}
 }

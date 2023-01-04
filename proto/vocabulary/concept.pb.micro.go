@@ -38,6 +38,7 @@ type ConceptService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyConceptList, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error)
 	UpdateAttributes(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyConceptAttrs, error)
 }
@@ -94,6 +95,16 @@ func (c *conceptService) GetAll(ctx context.Context, in *RequestInfo, opts ...cl
 	return out, nil
 }
 
+func (c *conceptService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *conceptService) Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error) {
 	req := c.c.NewRequest(c.name, "ConceptService.Update", in)
 	out := new(ReplyConceptInfo)
@@ -121,6 +132,7 @@ type ConceptServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyConceptInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyConceptList) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	Update(context.Context, *ReqConceptUpdate, *ReplyConceptInfo) error
 	UpdateAttributes(context.Context, *RequestList, *ReplyConceptAttrs) error
 }
@@ -131,6 +143,7 @@ func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, 
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyConceptInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error
 		UpdateAttributes(ctx context.Context, in *RequestList, out *ReplyConceptAttrs) error
 	}
@@ -159,6 +172,10 @@ func (h *conceptServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, 
 
 func (h *conceptServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *ReplyConceptList) error {
 	return h.ConceptServiceHandler.GetAll(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.ConceptServiceHandler.GetStatistic(ctx, in, out)
 }
 
 func (h *conceptServiceHandler) Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error {

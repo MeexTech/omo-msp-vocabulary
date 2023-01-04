@@ -36,8 +36,9 @@ var _ server.Option
 type AttributeService interface {
 	AddOne(ctx context.Context, in *ReqAttributeAdd, opts ...client.CallOption) (*ReplyAttributeInfo, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeInfo, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	All(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeList, error)
+	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeList, error)
 	Update(ctx context.Context, in *ReqAttributeUpdate, opts ...client.CallOption) (*ReplyAttributeInfo, error)
 }
 
@@ -73,6 +74,16 @@ func (c *attributeService) GetOne(ctx context.Context, in *RequestInfo, opts ...
 	return out, nil
 }
 
+func (c *attributeService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "AttributeService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *attributeService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "AttributeService.RemoveOne", in)
 	out := new(ReplyInfo)
@@ -83,8 +94,8 @@ func (c *attributeService) RemoveOne(ctx context.Context, in *RequestInfo, opts 
 	return out, nil
 }
 
-func (c *attributeService) All(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeList, error) {
-	req := c.c.NewRequest(c.name, "AttributeService.All", in)
+func (c *attributeService) GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyAttributeList, error) {
+	req := c.c.NewRequest(c.name, "AttributeService.GetAll", in)
 	out := new(ReplyAttributeList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -108,8 +119,9 @@ func (c *attributeService) Update(ctx context.Context, in *ReqAttributeUpdate, o
 type AttributeServiceHandler interface {
 	AddOne(context.Context, *ReqAttributeAdd, *ReplyAttributeInfo) error
 	GetOne(context.Context, *RequestInfo, *ReplyAttributeInfo) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	All(context.Context, *RequestInfo, *ReplyAttributeList) error
+	GetAll(context.Context, *RequestInfo, *ReplyAttributeList) error
 	Update(context.Context, *ReqAttributeUpdate, *ReplyAttributeInfo) error
 }
 
@@ -117,8 +129,9 @@ func RegisterAttributeServiceHandler(s server.Server, hdlr AttributeServiceHandl
 	type attributeService interface {
 		AddOne(ctx context.Context, in *ReqAttributeAdd, out *ReplyAttributeInfo) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyAttributeInfo) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		All(ctx context.Context, in *RequestInfo, out *ReplyAttributeList) error
+		GetAll(ctx context.Context, in *RequestInfo, out *ReplyAttributeList) error
 		Update(ctx context.Context, in *ReqAttributeUpdate, out *ReplyAttributeInfo) error
 	}
 	type AttributeService struct {
@@ -140,12 +153,16 @@ func (h *attributeServiceHandler) GetOne(ctx context.Context, in *RequestInfo, o
 	return h.AttributeServiceHandler.GetOne(ctx, in, out)
 }
 
+func (h *attributeServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.AttributeServiceHandler.GetStatistic(ctx, in, out)
+}
+
 func (h *attributeServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
 	return h.AttributeServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *attributeServiceHandler) All(ctx context.Context, in *RequestInfo, out *ReplyAttributeList) error {
-	return h.AttributeServiceHandler.All(ctx, in, out)
+func (h *attributeServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *ReplyAttributeList) error {
+	return h.AttributeServiceHandler.GetAll(ctx, in, out)
 }
 
 func (h *attributeServiceHandler) Update(ctx context.Context, in *ReqAttributeUpdate, out *ReplyAttributeInfo) error {

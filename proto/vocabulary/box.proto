@@ -11,6 +11,7 @@ service BoxService {
   rpc GetAll(RequestInfo) returns (ReplyBoxList) {}
   rpc GetListByUser(RequestInfo) returns (ReplyBoxList) {}
   rpc GetByFilter(RequestFilter) returns (ReplyBoxList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
   rpc UpdateBase(ReqBoxUpdate) returns (ReplyBoxInfo){}
   rpc AppendKeywords(ReqBoxKeywords) returns (ReplyBoxInfo){}
   rpc SubtractKeywords(ReqBoxKeywords) returns (ReplyBoxInfo){}

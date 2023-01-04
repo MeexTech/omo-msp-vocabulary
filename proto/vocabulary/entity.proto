@@ -16,6 +16,7 @@ service EntityService{
     rpc GetByFilter(RequestFilter) returns (ReplyEntityList) {}
     rpc GetListByName(RequestList) returns (ReplyEntityList) {}
     rpc GetPublishList(RequestList) returns (ReplyEntityPublic) {}
+    rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
     rpc UpdateBase(ReqEntityBase) returns (ReplyInfo) {}
     rpc UpdateStatus(ReqEntityStatus) returns (ReplyEntityStatus) {}
     rpc UpdateCover(RequestInfo) returns (ReplyInfo) {}
@@ -71,8 +72,8 @@ message EntityRecord {
     uint32 option = 1;
     string user = 2;
     string remark = 3;
-    uint32 from = 4;
-    uint32 to = 5;
+    string from = 4;
+    string to = 5;
 }
 
 message EventBrief {

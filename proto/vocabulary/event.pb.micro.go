@@ -39,6 +39,7 @@ type EventService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyEventList, error)
 	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyEventList, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateBase(ctx context.Context, in *ReqEventUpdate, opts ...client.CallOption) (*ReplyEventInfo, error)
 	UpdateTags(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateCover(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
@@ -107,6 +108,16 @@ func (c *eventService) GetList(ctx context.Context, in *RequestInfo, opts ...cli
 func (c *eventService) GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyEventList, error) {
 	req := c.c.NewRequest(c.name, "EventService.GetByFilter", in)
 	out := new(ReplyEventList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "EventService.GetStatistic", in)
+	out := new(ReplyStatistic)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -232,6 +243,7 @@ type EventServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestInfo, *ReplyEventList) error
 	GetByFilter(context.Context, *RequestFilter, *ReplyEventList) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateBase(context.Context, *ReqEventUpdate, *ReplyEventInfo) error
 	UpdateTags(context.Context, *RequestList, *ReplyInfo) error
 	UpdateCover(context.Context, *RequestInfo, *ReplyInfo) error
@@ -252,6 +264,7 @@ func RegisterEventServiceHandler(s server.Server, hdlr EventServiceHandler, opts
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestInfo, out *ReplyEventList) error
 		GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyEventList) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateBase(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error
 		UpdateTags(ctx context.Context, in *RequestList, out *ReplyInfo) error
 		UpdateCover(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
@@ -293,6 +306,10 @@ func (h *eventServiceHandler) GetList(ctx context.Context, in *RequestInfo, out 
 
 func (h *eventServiceHandler) GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyEventList) error {
 	return h.EventServiceHandler.GetByFilter(ctx, in, out)
+}
+
+func (h *eventServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.EventServiceHandler.GetStatistic(ctx, in, out)
 }
 
 func (h *eventServiceHandler) UpdateBase(ctx context.Context, in *ReqEventUpdate, out *ReplyEventInfo) error {

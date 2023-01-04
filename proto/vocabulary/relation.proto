@@ -10,6 +10,7 @@ service RelationService {
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc UpdateInfo(ReqRelationUpdate) returns (ReplyRelationInfo) {}
     rpc GetAll(RequestInfo) returns (ReplyRelationList) {}
+    rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
 }
 
 message RelationInfo {

@@ -39,6 +39,7 @@ type RelationService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateInfo(ctx context.Context, in *ReqRelationUpdate, opts ...client.CallOption) (*ReplyRelationInfo, error)
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRelationList, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 }
 
 type relationService struct {
@@ -103,6 +104,16 @@ func (c *relationService) GetAll(ctx context.Context, in *RequestInfo, opts ...c
 	return out, nil
 }
 
+func (c *relationService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "RelationService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for RelationService service
 
 type RelationServiceHandler interface {
@@ -111,6 +122,7 @@ type RelationServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	UpdateInfo(context.Context, *ReqRelationUpdate, *ReplyRelationInfo) error
 	GetAll(context.Context, *RequestInfo, *ReplyRelationList) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 }
 
 func RegisterRelationServiceHandler(s server.Server, hdlr RelationServiceHandler, opts ...server.HandlerOption) error {
@@ -120,6 +132,7 @@ func RegisterRelationServiceHandler(s server.Server, hdlr RelationServiceHandler
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		UpdateInfo(ctx context.Context, in *ReqRelationUpdate, out *ReplyRelationInfo) error
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyRelationList) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 	}
 	type RelationService struct {
 		relationService
@@ -150,4 +163,8 @@ func (h *relationServiceHandler) UpdateInfo(ctx context.Context, in *ReqRelation
 
 func (h *relationServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *ReplyRelationList) error {
 	return h.RelationServiceHandler.GetAll(ctx, in, out)
+}
+
+func (h *relationServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.RelationServiceHandler.GetStatistic(ctx, in, out)
 }

@@ -58,6 +58,8 @@ message RequestFilter {
     int32 number = 3;
     string key = 4;
     string value = 5;
+    bool brief = 6;
+    repeated string values = 7;
 }
 
 message ReqUpdateFilter {
@@ -96,4 +98,11 @@ message AttributeInfo {
     int64 created = 11;
     string creator = 12;
     string operator = 13;
+}
+
+message ReplyStatistic {
+    ReplyStatus status = 1;
+    string key = 2;
+    string owner = 3;
+    uint32 count = 4;
 }

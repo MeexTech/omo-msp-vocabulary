@@ -40,6 +40,7 @@ type BoxService interface {
 	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxList, error)
 	GetListByUser(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyBoxList, error)
 	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyBoxList, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateBase(ctx context.Context, in *ReqBoxUpdate, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	AppendKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
 	SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, opts ...client.CallOption) (*ReplyBoxInfo, error)
@@ -114,6 +115,16 @@ func (c *boxService) GetListByUser(ctx context.Context, in *RequestInfo, opts ..
 func (c *boxService) GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyBoxList, error) {
 	req := c.c.NewRequest(c.name, "BoxService.GetByFilter", in)
 	out := new(ReplyBoxList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *boxService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "BoxService.GetStatistic", in)
+	out := new(ReplyStatistic)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -200,6 +211,7 @@ type BoxServiceHandler interface {
 	GetAll(context.Context, *RequestInfo, *ReplyBoxList) error
 	GetListByUser(context.Context, *RequestInfo, *ReplyBoxList) error
 	GetByFilter(context.Context, *RequestFilter, *ReplyBoxList) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateBase(context.Context, *ReqBoxUpdate, *ReplyBoxInfo) error
 	AppendKeywords(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
 	SubtractKeywords(context.Context, *ReqBoxKeywords, *ReplyBoxInfo) error
@@ -217,6 +229,7 @@ func RegisterBoxServiceHandler(s server.Server, hdlr BoxServiceHandler, opts ...
 		GetAll(ctx context.Context, in *RequestInfo, out *ReplyBoxList) error
 		GetListByUser(ctx context.Context, in *RequestInfo, out *ReplyBoxList) error
 		GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyBoxList) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateBase(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error
 		AppendKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
 		SubtractKeywords(ctx context.Context, in *ReqBoxKeywords, out *ReplyBoxInfo) error
@@ -258,6 +271,10 @@ func (h *boxServiceHandler) GetListByUser(ctx context.Context, in *RequestInfo, 
 
 func (h *boxServiceHandler) GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyBoxList) error {
 	return h.BoxServiceHandler.GetByFilter(ctx, in, out)
+}
+
+func (h *boxServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.BoxServiceHandler.GetStatistic(ctx, in, out)
 }
 
 func (h *boxServiceHandler) UpdateBase(ctx context.Context, in *ReqBoxUpdate, out *ReplyBoxInfo) error {

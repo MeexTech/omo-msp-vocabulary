@@ -13,6 +13,7 @@ service GraphService {
     rpc FindNodes(RequestInfo) returns (ReplyGraphInfo) {}
     rpc FindPath(ReqGraphPath) returns (ReplyGraphInfo) {}
     rpc FindGraph(RequestInfo) returns (ReplyGraphInfo) {}
+    rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
 }
 
 message NodeInfo {
