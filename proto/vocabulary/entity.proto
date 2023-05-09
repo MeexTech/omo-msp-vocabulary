@@ -59,12 +59,14 @@ message EntityBrief {
     uint32 status = 14;
     string summary = 15;
     string description = 16;
-    bool published = 19;
-    int64 pushed = 21;
-    repeated string synonyms = 17;
-    repeated string tags = 18;
-    repeated string relates = 22;
-    repeated EntityRecord records = 20;
+    bool published = 17;
+    int64 pushed = 18;
+    uint32 access = 19;
+    repeated string synonyms = 41;
+    repeated string tags = 42;
+    repeated string relates = 43;
+    repeated string links = 44;
+    repeated EntityRecord records = 61;
     //repeated PropertyInfo properties = 19;
 }
 
@@ -85,8 +87,8 @@ message EventBrief {
     PlaceInfo place = 6;
     string uid = 7;
     int64 created = 8;
-    repeated string tags = 9;
-    repeated string assets = 10;
+    repeated string tags = 21;
+    repeated string assets = 22;
 }
 
 message RelationBrief{
@@ -119,12 +121,12 @@ message ReqEntityAdd {
     string mark = 9;
     string quote = 10;
     uint32 status = 11;
-    repeated string synonyms = 12;
-    repeated string tags = 13;
-    repeated PropertyInfo properties = 14;
-    repeated EventBrief events = 15;
-    repeated RelationBrief relations = 16;
-    repeated string relates = 17;
+    repeated string synonyms = 21;
+    repeated string tags = 22;
+    repeated string relates = 23;
+    repeated PropertyInfo properties = 41;
+    repeated EventBrief events = 42;
+    repeated RelationBrief relations = 43;
 }
 
 message ReqEntityStatic {
@@ -138,17 +140,17 @@ message ReqEntityStatic {
     string summary = 8;
     string mark = 9;
     string quote = 10;
-    repeated string synonyms = 11;
-    repeated string tags = 12;
-    repeated PropertyInfo properties = 13;
-    repeated RelationBrief relations = 14;
-    repeated EventBrief events = 15;
+    repeated string synonyms = 21;
+    repeated string tags = 22;
+    repeated PropertyInfo properties = 31;
+    repeated RelationBrief relations = 32;
+    repeated EventBrief events = 33;
 }
 
 message ReqEntityRelations {
     string uid = 1;
     string operator = 2;
-    repeated RelationBrief relations = 3;
+    repeated RelationBrief relations = 11;
 }
 
 message ReqEntityEvents {
@@ -185,13 +187,13 @@ message ReplyEntityList {
     uint32 total = 2;
     uint32 page = 3;
     string flag = 4;
-    repeated EntityInfo list = 5;
+    repeated EntityInfo list = 11;
 }
 
 message ReplyEntityPublic {
     ReplyStatus status = 1;
-    repeated EntityInfo systems = 2;
-    repeated EntityInfo users = 3;
+    repeated EntityInfo systems = 11;
+    repeated EntityInfo users = 12;
 }
 
 message ReqEntityProperty {
@@ -202,15 +204,15 @@ message ReqEntityProperty {
 message ReqEntityProperties {
     string uid = 1;
     string operator = 2;
-    repeated PropertyInfo properties = 3;
+    repeated PropertyInfo properties = 11;
 }
 
 message ReqEntitySearch {
     int32 number = 1;
     string name = 2;
-    repeated string concept = 3;
-    repeated string attribute = 4;
-    repeated string tags = 5;
+    repeated string concept = 11;
+    repeated string attribute = 12;
+    repeated string tags = 13;
 }
 
 message ReqEntityMatch {
@@ -222,9 +224,9 @@ message ReqEntityMatch {
 
 message ReplyEntityProperties {
     string uid = 1;
-    repeated PropertyInfo properties = 2;
+    uint64 updated = 2;
     ReplyStatus status = 3;
-    uint64 updated = 4;
+    repeated PropertyInfo properties = 11;
 }
 
 message ReqEntityBase {
@@ -256,9 +258,10 @@ message ReplyEntityStatus {
 
 message ReplyEntityUpdate {
     string uid = 1;
-    repeated string list = 2;
+    uint64 updated = 2;
     ReplyStatus status = 3;
-    uint64 updated = 4;
+
+    repeated string list = 11;
 }
 
 

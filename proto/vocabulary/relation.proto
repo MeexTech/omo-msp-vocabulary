@@ -25,7 +25,7 @@ message RelationInfo {
     string creator = 9;
     string operator = 10;
     string parent = 11;
-    repeated RelationInfo children = 12;
+    repeated RelationInfo children = 21;
 }
 
 message ReqRelationAdd {
@@ -52,6 +52,6 @@ message ReplyRelationInfo {
 }
 
 message ReplyRelationList {
-    repeated RelationInfo list = 1;
-    ReplyStatus status = 2;
+    ReplyStatus status = 1;
+    repeated RelationInfo list = 11;
 }

@@ -28,9 +28,9 @@ message ConceptInfo {
     string operator = 11;
     string parent = 12;
     uint32 scene = 13;
-    repeated string attributes = 14;
-    repeated string privates = 17;
-    repeated ConceptInfo children = 15;
+    repeated string attributes = 31;
+    repeated string privates = 32;
+    repeated ConceptInfo children = 33;
 }
 
 message ReqConceptAdd {
@@ -61,12 +61,12 @@ message ReplyConceptInfo {
 
 message ReplyConceptList {
     string flag = 1;
-    repeated ConceptInfo list = 2;
-    ReplyStatus status = 3;
+    ReplyStatus status = 2;
+    repeated ConceptInfo list = 11;
 }
 
 message ReplyConceptAttrs {
     string concept = 1;
-    repeated string attributes = 2;
-    ReplyStatus status = 3;
+    ReplyStatus status = 2;
+    repeated string attributes = 11;
 }

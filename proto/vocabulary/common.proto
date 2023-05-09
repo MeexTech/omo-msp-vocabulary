@@ -46,8 +46,8 @@ message RequestInfo {
 message RequestList {
     string uid = 1;
     string operator = 2;
-    repeated string list = 3;
-    uint32 status = 4;
+    uint32 status = 3;
+    repeated string list = 11;
 }
 
 message RequestPage {
@@ -64,7 +64,7 @@ message RequestFilter {
     string key = 4;
     string value = 5;
     bool brief = 6;
-    repeated string values = 7;
+    repeated string values = 11;
 }
 
 message ReqUpdateFilter {
@@ -73,7 +73,7 @@ message ReqUpdateFilter {
     string key = 3;
     string value = 4;
     string operator = 5;
-    repeated string values = 6;
+    repeated string values = 11;
 }
 
 message ReplyInfo {
@@ -110,5 +110,5 @@ message ReplyStatistic {
     string key = 2;
     string owner = 3;
     uint32 count = 4;
-    repeated StatisticInfo list = 5;
+    repeated StatisticInfo list = 11;
 }

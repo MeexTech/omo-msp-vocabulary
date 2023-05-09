@@ -40,9 +40,9 @@ message EventInfo {
   string quote = 13;
   uint32 type = 14;
   uint32 access = 15;
-  repeated string tags = 16;
-  repeated string assets = 17;
-  repeated RelationshipInfo relations = 18;
+  repeated string tags = 31;
+  repeated string assets = 32;
+  repeated RelationshipInfo relations = 41;
 }
 
 message RelationshipInfo {
@@ -64,9 +64,9 @@ message ReqEventAdd {
   string quote = 8;
   uint32 type = 9;
   uint32 access = 10;
-  repeated string tags = 11;
-  repeated string assets = 12;
-  repeated RelationshipInfo relations = 13;
+  repeated string tags = 21;
+  repeated string assets = 22;
+  repeated RelationshipInfo relations = 31;
 }
 
 message ReqEventUpdate {
@@ -79,7 +79,7 @@ message ReqEventUpdate {
   string cover = 7;
   string quote = 8;
   uint32 access = 9;
-  repeated string assets = 10;
+  repeated string assets = 21;
 }
 
 message ReqEventAccess {
@@ -96,20 +96,20 @@ message ReqEventAsset {
 
 message ReplyEventAssets {
   string uid = 1;
-  repeated string assets = 2;
-  ReplyStatus status = 3;
+  ReplyStatus status = 2;
+  repeated string assets = 11;
 }
 
 message ReqEventRelation {
   string uid = 1;
-  RelationshipInfo relation = 2;
-  string operator = 3;
+  string operator = 2;
+  RelationshipInfo relation = 3;
 }
 
 message ReplyEventRelations {
   string uid = 1;
-  repeated RelationshipInfo relations = 2;
-  ReplyStatus status = 3;
+  ReplyStatus status = 2;
+  repeated RelationshipInfo relations = 11;
 }
 
 message ReplyEventInfo {
@@ -118,7 +118,7 @@ message ReplyEventInfo {
 }
 
 message ReplyEventList {
-  repeated EventInfo list = 1;
-  ReplyStatus status = 2;
+  ReplyStatus status = 1;
+  repeated EventInfo list = 11;
 }
 

@@ -21,7 +21,7 @@ message NodeInfo {
     string name = 2;
     string cover = 3;
     string entity = 4;
-    repeated string labels = 5;
+    repeated string labels = 21;
 }
 
 message LinkInfo {
@@ -35,8 +35,8 @@ message LinkInfo {
 
 message GraphInfo {
     string center = 1;
-    repeated NodeInfo nodes = 2;
-    repeated LinkInfo links = 3;
+    repeated NodeInfo nodes = 21;
+    repeated LinkInfo links = 22;
 }
 
 message ReqNodeAdd {

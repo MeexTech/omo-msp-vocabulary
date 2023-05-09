@@ -37,6 +37,7 @@ message ReqAttributeUpdate {
     string end = 5;
     uint32 type = 6;
     string operator = 7;
+    string key = 9;
 }
 
 message ReplyAttributeList {
