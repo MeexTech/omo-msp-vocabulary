@@ -210,6 +210,7 @@ message ReqEntityProperties {
 message ReqEntitySearch {
     int32 number = 1;
     string name = 2;
+    string owner = 3;
     repeated string concept = 11;
     repeated string attribute = 12;
     repeated string tags = 13;
@@ -220,6 +221,7 @@ message ReqEntityMatch {
     int32 number = 2;
     int32 page = 3;
     string name = 4;
+    string owner = 5;
 }
 
 message ReplyEntityProperties {
