@@ -119,6 +119,8 @@ message ReplyEventInfo {
 
 message ReplyEventList {
   ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
   repeated EventInfo list = 11;
 }
 
