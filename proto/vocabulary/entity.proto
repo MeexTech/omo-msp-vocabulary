@@ -37,7 +37,6 @@ service EntityService{
 
 message EntityInfo {
     EntityBrief brief = 1;
-    uint32 count = 10;
     repeated PropertyInfo properties = 2;
     repeated EventBrief events = 3;
     repeated RelationBrief relations = 4;
@@ -63,6 +62,7 @@ message EntityBrief {
     bool published = 17;
     int64 pushed = 18;
     uint32 access = 19;
+    uint32 score = 20;
     repeated string synonyms = 41;
     repeated string tags = 42;
     repeated string relates = 43;
