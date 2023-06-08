@@ -36,6 +36,7 @@ message ReqVEdgeAdd {
   string target = 4;
   string label = 5;
   uint32 direction = 6;
+  string operator = 7;
 }
 
 message ReqVEdgeUpdate {
@@ -45,6 +46,7 @@ message ReqVEdgeUpdate {
   string target = 4;
   string label = 5;
   uint32 direction = 6;
+  string operator = 7;
 }
 
 message ReplyVEdgeInfo {
