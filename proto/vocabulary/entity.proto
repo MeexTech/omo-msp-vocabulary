@@ -63,6 +63,7 @@ message EntityBrief {
     int64 pushed = 18;
     uint32 access = 19;
     uint32 score = 20;
+    string thumb = 21;
     repeated string synonyms = 41;
     repeated string tags = 42;
     repeated string relates = 43;

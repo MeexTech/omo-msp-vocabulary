@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service VEdgeService {
+  rpc AddOne(ReqVEdgeAdd) returns (ReplyVEdgeInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyVEdgeInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc UpdateInfo(ReqVEdgeUpdate) returns (ReplyVEdgeInfo) {}
+  rpc GetAll(RequestInfo) returns (ReplyVEdgeList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+}
+
+message VEdgeInfo {
+  int64 id = 1;
+  string uid = 2;
+  string name = 3;
+  int64 created = 4;
+  int64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+  string entity = 8;
+  string relation = 9;
+  uint32 direction = 10;
+  string target =  11;
+  string label = 12;
+}
+
+message ReqVEdgeAdd {
+  string name = 1;
+  string entity = 2;
+  string relation = 3;
+  string target = 4;
+  string label = 5;
+  uint32 direction = 6;
+}
+
+message ReqVEdgeUpdate {
+  string uid = 1;
+  string name = 2;
+  string relation = 3;
+  string target = 4;
+  string label = 5;
+  uint32 direction = 6;
+}
+
+message ReplyVEdgeInfo {
+  ReplyStatus status = 1;
+  VEdgeInfo info = 2;
+}
+
+message ReplyVEdgeList {
+  ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
+  repeated VEdgeInfo list = 11;
+}
