@@ -99,6 +99,8 @@ message RelationBrief{
     string entity = 3;
     uint32 direction = 4;
     uint32 weight = 5;
+    string target = 6;
+    string label = 7;
 }
 
 message PropertyInfo {
