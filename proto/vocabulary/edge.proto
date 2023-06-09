@@ -34,7 +34,7 @@ message VEdgeInfo {
 
 message ReqVEdgeAdd {
   string name = 1;
-  string entity = 2;
+  string source = 2;
   string center = 3;
   string relation = 4;
   string target = 5;
@@ -53,6 +53,7 @@ message ReqVEdgeUpdate {
   string label = 5;
   uint32 direction = 6;
   string operator = 7;
+  string thumb = 8;
 }
 
 message ReplyVEdgeInfo {
