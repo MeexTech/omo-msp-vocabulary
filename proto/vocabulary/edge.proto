@@ -22,13 +22,14 @@ message VEdgeInfo {
   int64 updated = 5;
   string creator = 6;
   string operator = 7;
-  string entity = 8;
+  string source = 8;
   string relation = 9;
   uint32 direction = 10;
   string target =  11;
   string label = 12;
   string center = 13;
   uint32 weight = 14;
+  string thumb = 15;
 }
 
 message ReqVEdgeAdd {
@@ -41,6 +42,7 @@ message ReqVEdgeAdd {
   uint32 direction = 7;
   string operator = 8;
   uint32 weight = 9;
+  string thumb = 10;
 }
 
 message ReqVEdgeUpdate {

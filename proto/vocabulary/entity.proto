@@ -101,6 +101,8 @@ message RelationBrief{
     uint32 weight = 5;
     string target = 6;
     string label = 7;
+    string uid = 8;
+    string thumb = 9;
 }
 
 message PropertyInfo {
