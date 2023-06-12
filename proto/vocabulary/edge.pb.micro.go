@@ -38,7 +38,7 @@ type VEdgeService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyVEdgeInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateInfo(ctx context.Context, in *ReqVEdgeUpdate, opts ...client.CallOption) (*ReplyVEdgeInfo, error)
-	GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyVEdgeList, error)
+	GetAll(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyVEdgeList, error)
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
@@ -95,7 +95,7 @@ func (c *vEdgeService) UpdateInfo(ctx context.Context, in *ReqVEdgeUpdate, opts 
 	return out, nil
 }
 
-func (c *vEdgeService) GetAll(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyVEdgeList, error) {
+func (c *vEdgeService) GetAll(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyVEdgeList, error) {
 	req := c.c.NewRequest(c.name, "VEdgeService.GetAll", in)
 	out := new(ReplyVEdgeList)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -132,7 +132,7 @@ type VEdgeServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyVEdgeInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	UpdateInfo(context.Context, *ReqVEdgeUpdate, *ReplyVEdgeInfo) error
-	GetAll(context.Context, *RequestInfo, *ReplyVEdgeList) error
+	GetAll(context.Context, *RequestFilter, *ReplyVEdgeList) error
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
@@ -143,7 +143,7 @@ func RegisterVEdgeServiceHandler(s server.Server, hdlr VEdgeServiceHandler, opts
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyVEdgeInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		UpdateInfo(ctx context.Context, in *ReqVEdgeUpdate, out *ReplyVEdgeInfo) error
-		GetAll(ctx context.Context, in *RequestInfo, out *ReplyVEdgeList) error
+		GetAll(ctx context.Context, in *RequestFilter, out *ReplyVEdgeList) error
 		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
@@ -174,7 +174,7 @@ func (h *vEdgeServiceHandler) UpdateInfo(ctx context.Context, in *ReqVEdgeUpdate
 	return h.VEdgeServiceHandler.UpdateInfo(ctx, in, out)
 }
 
-func (h *vEdgeServiceHandler) GetAll(ctx context.Context, in *RequestInfo, out *ReplyVEdgeList) error {
+func (h *vEdgeServiceHandler) GetAll(ctx context.Context, in *RequestFilter, out *ReplyVEdgeList) error {
 	return h.VEdgeServiceHandler.GetAll(ctx, in, out)
 }
 

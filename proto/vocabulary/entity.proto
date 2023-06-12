@@ -103,6 +103,7 @@ message RelationBrief{
     string label = 7;
     string uid = 8;
     string thumb = 9;
+    string temp = 10;
 }
 
 message PropertyInfo {

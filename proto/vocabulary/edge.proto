@@ -9,7 +9,7 @@ service VEdgeService {
   rpc GetOne(RequestInfo) returns (ReplyVEdgeInfo) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc UpdateInfo(ReqVEdgeUpdate) returns (ReplyVEdgeInfo) {}
-  rpc GetAll(RequestInfo) returns (ReplyVEdgeList) {}
+  rpc GetAll(RequestFilter) returns (ReplyVEdgeList) {}
   rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
@@ -25,11 +25,16 @@ message VEdgeInfo {
   string source = 8;
   string relation = 9;
   uint32 direction = 10;
-  string target =  11;
-  string label = 12;
   string center = 13;
   uint32 weight = 14;
-  string thumb = 15;
+  VNode target = 21;
+}
+
+message VNode{
+  string uid = 1;
+  string name = 2;
+  string thumb = 3;
+  string entity = 4;
 }
 
 message ReqVEdgeAdd {
