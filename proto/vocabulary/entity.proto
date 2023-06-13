@@ -39,7 +39,7 @@ message EntityInfo {
     EntityBrief brief = 1;
     repeated PropertyInfo properties = 2;
     repeated EventBrief events = 3;
-    repeated RelationBrief relations = 4;
+    repeated VEdgeInfo relations = 4;
 }
 
 message EntityBrief {
@@ -93,19 +93,6 @@ message EventBrief {
     repeated string assets = 22;
 }
 
-message RelationBrief{
-    string name = 1;
-    string type = 2;
-    string entity = 3;
-    uint32 direction = 4;
-    uint32 weight = 5;
-    string target = 6;
-    string label = 7;
-    string uid = 8;
-    string thumb = 9;
-    string temp = 10;
-}
-
 message PropertyInfo {
     string uid = 1;
     repeated WordInfo words = 2;
@@ -133,7 +120,7 @@ message ReqEntityAdd {
     repeated string relates = 23;
     repeated PropertyInfo properties = 41;
     repeated EventBrief events = 42;
-    repeated RelationBrief relations = 43;
+    repeated VEdgeInfo relations = 43;
 }
 
 message ReqEntityStatic {
@@ -150,14 +137,14 @@ message ReqEntityStatic {
     repeated string synonyms = 21;
     repeated string tags = 22;
     repeated PropertyInfo properties = 31;
-    repeated RelationBrief relations = 32;
+    repeated VEdgeInfo relations = 32;
     repeated EventBrief events = 33;
 }
 
 message ReqEntityRelations {
     string uid = 1;
     string operator = 2;
-    repeated RelationBrief relations = 11;
+    repeated VEdgeInfo relations = 11;
 }
 
 message ReqEntityEvents {

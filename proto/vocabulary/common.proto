@@ -105,6 +105,29 @@ message AttributeInfo {
     string operator = 13;
 }
 
+message VEdgeInfo {
+    int64 id = 1;
+    string uid = 2;
+    string name = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    string creator = 6;
+    string operator = 7;
+    string source = 8;
+    string category = 9;
+    uint32 direction = 10;
+    string center = 13;
+    uint32 weight = 14;
+    VNode target = 21;
+}
+
+message VNode{
+    string uid = 1;
+    string name = 2;
+    string thumb = 3;
+    string entity = 4;
+}
+
 message ReplyStatistic {
     ReplyStatus status = 1;
     string key = 2;
