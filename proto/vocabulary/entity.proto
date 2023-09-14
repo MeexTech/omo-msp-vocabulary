@@ -64,12 +64,13 @@ message EntityBrief {
     uint32 access = 19;
     uint32 score = 20;
     string thumb = 21;
+    uint64 events = 22;
+    uint64 edges = 23;
     repeated string synonyms = 41;
     repeated string tags = 42;
     repeated string relates = 43;
     repeated string links = 44;
     repeated EntityRecord records = 61;
-    //repeated PropertyInfo properties = 19;
 }
 
 message EntityRecord {
