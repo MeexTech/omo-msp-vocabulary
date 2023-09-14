@@ -3,6 +3,7 @@ syntax = "proto3";
 package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
 import "proto/vocabulary/common.proto";
+import "proto/vocabulary/event.proto";
 
 service EntityService{
     rpc AddOne(ReqEntityAdd) returns (ReplyEntityInfo) {}
@@ -38,7 +39,7 @@ service EntityService{
 message EntityInfo {
     EntityBrief brief = 1;
     repeated PropertyInfo properties = 2;
-    repeated EventBrief events = 3;
+    repeated EventInfo events = 3;
     repeated VEdgeInfo relations = 4;
 }
 
@@ -81,7 +82,7 @@ message EntityRecord {
     string to = 5;
 }
 
-message EventBrief {
+message ReqEventBrief {
     string name = 1;
     string era = 2;
     string desc = 3;
@@ -120,7 +121,7 @@ message ReqEntityAdd {
     repeated string tags = 22;
     repeated string relates = 23;
     repeated PropertyInfo properties = 41;
-    repeated EventBrief events = 42;
+    repeated ReqEventBrief events = 42;
     repeated VEdgeInfo relations = 43;
 }
 
@@ -139,7 +140,7 @@ message ReqEntityStatic {
     repeated string tags = 22;
     repeated PropertyInfo properties = 31;
     repeated VEdgeInfo relations = 32;
-    repeated EventBrief events = 33;
+    repeated ReqEventBrief events = 33;
 }
 
 message ReqEntityRelations {
@@ -151,7 +152,7 @@ message ReqEntityRelations {
 message ReqEntityEvents {
     string uid = 1;
     string operator = 2;
-    repeated EventBrief events = 15;
+    repeated ReqEventBrief events = 15;
 }
 
 message ReqEntityBy {
@@ -257,7 +258,6 @@ message ReplyEntityUpdate {
     string uid = 1;
     uint64 updated = 2;
     ReplyStatus status = 3;
-
     repeated string list = 11;
 }
 
