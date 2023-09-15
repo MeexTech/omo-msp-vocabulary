@@ -40,6 +40,7 @@ message EventInfo {
   string quote = 13;
   uint32 type = 14;
   uint32 access = 15;
+  string owner = 16;
   repeated string tags = 31;
   repeated string assets = 32;
   repeated RelationshipInfo relations = 41;
@@ -64,6 +65,7 @@ message ReqEventAdd {
   string quote = 8;
   uint32 type = 9;
   uint32 access = 10;
+  string owner = 11;
   repeated string tags = 21;
   repeated string assets = 22;
   repeated RelationshipInfo relations = 31;
