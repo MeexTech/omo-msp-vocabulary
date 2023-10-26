@@ -118,6 +118,7 @@ message VEdgeInfo {
     uint32 direction = 10;
     string center = 13;
     uint32 weight = 14;
+    string remark = 15;
     VNode target = 21;
 }
 
