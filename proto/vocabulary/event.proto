@@ -43,6 +43,7 @@ message EventInfo {
   string owner = 16;
   repeated string tags = 31;
   repeated string assets = 32;
+  repeated string targets = 33;
   repeated RelationshipInfo relations = 41;
 }
 
@@ -68,6 +69,7 @@ message ReqEventAdd {
   string owner = 11;
   repeated string tags = 21;
   repeated string assets = 22;
+  repeated string targets = 23;
   repeated RelationshipInfo relations = 31;
 }
 
@@ -82,6 +84,7 @@ message ReqEventUpdate {
   string quote = 8;
   uint32 access = 9;
   repeated string assets = 21;
+  repeated string targets = 22;
 }
 
 message ReqEventAccess {
