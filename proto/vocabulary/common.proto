@@ -127,6 +127,7 @@ message VNode{
     string name = 2;
     string thumb = 3;
     string entity = 4;
+    string desc = 5;
 }
 
 message ReplyStatistic {

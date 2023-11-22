@@ -26,6 +26,7 @@ message ReqVEdgeAdd {
   uint32 weight = 9;
   string thumb = 10;
   string remark = 11;
+  string desc = 12;
 }
 
 message ReqVEdgeUpdate {
@@ -38,6 +39,7 @@ message ReqVEdgeUpdate {
   string operator = 7;
   string thumb = 8;
   string remark = 9;
+  string desc = 10;
 }
 
 message ReplyVEdgeInfo {
