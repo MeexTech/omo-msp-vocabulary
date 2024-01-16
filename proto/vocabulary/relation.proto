@@ -25,6 +25,7 @@ message RelationInfo {
     string creator = 9;
     string operator = 10;
     string parent = 11;
+    uint32 count = 12;
     repeated RelationInfo children = 21;
 }
 

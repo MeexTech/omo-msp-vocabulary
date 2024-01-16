@@ -103,6 +103,7 @@ message AttributeInfo {
     int64 created = 11;
     string creator = 12;
     string operator = 13;
+    uint32 count = 14;
 }
 
 message VEdgeInfo {

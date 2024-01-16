@@ -38,6 +38,15 @@ message BoxInfo {
   repeated string reviewers = 31;
   repeated string keywords = 32;
   repeated string users = 33;
+
+  repeated ContentInfo contents = 41;
+}
+
+message ContentInfo {
+  string keywords = 1;
+  string name = 2;
+  uint32 status = 3;
+  uint32 count = 4;
 }
 
 message ReqBoxAdd {

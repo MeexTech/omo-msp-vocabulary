@@ -28,6 +28,7 @@ message ConceptInfo {
     string operator = 11;
     string parent = 12;
     uint32 scene = 13;
+    uint32 count = 14;
     repeated string attributes = 31;
     repeated string privates = 32;
     repeated ConceptInfo children = 33;
