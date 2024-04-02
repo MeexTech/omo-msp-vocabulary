@@ -70,6 +70,7 @@ message ReqEventAdd {
   uint32 access = 10;
   string owner = 11;
   uint32 sub = 12;
+  string certify = 13;
   repeated string tags = 21;
   repeated string assets = 22;
   repeated string targets = 23;
