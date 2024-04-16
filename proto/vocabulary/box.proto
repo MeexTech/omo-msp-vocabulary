@@ -88,5 +88,7 @@ message ReplyBoxList {
   string flag = 1;
   repeated BoxInfo list = 2;
   ReplyStatus status = 3;
+  uint32 total = 4;
+  uint32 page = 5;
 }
 
