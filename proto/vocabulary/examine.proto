@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service ExamineService {
+  rpc AddOne(ReqExamineAdd) returns (ReplyExamineInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyExamineInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyExamineInfo) {}
+  rpc GetListByFilter(RequestFilter) returns (ReplyExamineList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+}
+
+message ExamineInfo {
+  string uid = 1;
+  uint64 id = 2;
+  int64 created = 3;
+  int64 updated = 4;
+  string creator = 5;
+  string operator = 6;
+  string target = 7;
+  uint32 status = 8;
+  uint32 type = 9;
+  string key = 10;
+  string value = 11;
+}
+
+message ReqExamineAdd {
+  string target = 1;
+  string key = 2;
+  string value = 3;
+  uint32 type = 5;
+  string operator = 6;
+}
+
+message ReplyExamineInfo {
+  ExamineInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+message ReplyExamineList {
+  ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
+  repeated ExamineInfo list = 11;
+}
