@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service TemplateService {
+    rpc AddOne(ReqTemplateAdd) returns (ReplyTemplateInfo) {}
+    rpc GetOne(RequestInfo) returns (ReplyTemplateInfo) {}
+    rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+    rpc GetAll(RequestInfo) returns (ReplyTemplateList) {}
+    rpc UpdateOne(ReqTemplateUpdate) returns (ReplyTemplateInfo) {}    
+}
+
+enum TemplateType {
+  Student = 0;
+  Teacher = 1;
+}
+
+message TemplateInfo {
+  string uid = 1;
+  string name = 2;
+  TemplateType type = 3;
+  int32 skipRows = 4;
+  map<string, int32> columns = 5;
+  string url = 6;
+  string comments = 7;
+  string creator = 8;
+  string operator = 9;
+}
+
+message ReqTemplateAdd {
+  string operator = 1;
+  string name = 2;
+  TemplateType type = 3;
+  int32 skipRows = 4;
+  map<string, int32> columns = 5;
+  string url = 6;
+  string comments = 7;
+}
+
+message ReqTemplateUpdate {
+  string operator = 1;
+  string uid = 2;
+  string name = 3;
+  TemplateType type = 4;
+  int32 skipRows = 5;
+  map<string, int32> columns = 6;
+  string url = 7;
+  string comments = 8;
+}
+
+message ReplyTemplateInfo {
+  TemplateInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+
+message ReplyTemplateList {
+  string flag = 1;
+  repeated TemplateInfo list = 2;
+  ReplyStatus status = 3;
+  uint32 total = 4;
+  uint32 pages = 5;
+}

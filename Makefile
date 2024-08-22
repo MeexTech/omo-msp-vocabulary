@@ -10,3 +10,5 @@ proto:
 	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/box.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/edge.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/examine.proto
+	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/import.proto
+	protoc --proto_path=. --micro_out=. --go_out=. proto/vocabulary/template.proto
