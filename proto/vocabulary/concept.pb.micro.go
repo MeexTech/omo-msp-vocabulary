@@ -41,6 +41,7 @@ type ConceptService interface {
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	Update(ctx context.Context, in *ReqConceptUpdate, opts ...client.CallOption) (*ReplyConceptInfo, error)
 	UpdateAttributes(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyConceptAttrs, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyConceptInfo, error)
 }
 
 type conceptService struct {
@@ -125,6 +126,16 @@ func (c *conceptService) UpdateAttributes(ctx context.Context, in *RequestList, 
 	return out, nil
 }
 
+func (c *conceptService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyConceptInfo, error) {
+	req := c.c.NewRequest(c.name, "ConceptService.UpdateByFilter", in)
+	out := new(ReplyConceptInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for ConceptService service
 
 type ConceptServiceHandler interface {
@@ -135,6 +146,7 @@ type ConceptServiceHandler interface {
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	Update(context.Context, *ReqConceptUpdate, *ReplyConceptInfo) error
 	UpdateAttributes(context.Context, *RequestList, *ReplyConceptAttrs) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyConceptInfo) error
 }
 
 func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, opts ...server.HandlerOption) error {
@@ -146,6 +158,7 @@ func RegisterConceptServiceHandler(s server.Server, hdlr ConceptServiceHandler, 
 		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		Update(ctx context.Context, in *ReqConceptUpdate, out *ReplyConceptInfo) error
 		UpdateAttributes(ctx context.Context, in *RequestList, out *ReplyConceptAttrs) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyConceptInfo) error
 	}
 	type ConceptService struct {
 		conceptService
@@ -184,4 +197,8 @@ func (h *conceptServiceHandler) Update(ctx context.Context, in *ReqConceptUpdate
 
 func (h *conceptServiceHandler) UpdateAttributes(ctx context.Context, in *RequestList, out *ReplyConceptAttrs) error {
 	return h.ConceptServiceHandler.UpdateAttributes(ctx, in, out)
+}
+
+func (h *conceptServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyConceptInfo) error {
+	return h.ConceptServiceHandler.UpdateByFilter(ctx, in, out)
 }

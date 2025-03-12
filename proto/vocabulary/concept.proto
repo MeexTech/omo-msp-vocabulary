@@ -12,6 +12,7 @@ service ConceptService {
     rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
     rpc Update(ReqConceptUpdate) returns (ReplyConceptInfo){}
     rpc UpdateAttributes(RequestList) returns (ReplyConceptAttrs) {}
+    rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyConceptInfo) {}
 }
 
 message ConceptInfo {
@@ -29,6 +30,7 @@ message ConceptInfo {
     string parent = 12;
     uint32 scene = 13;
     uint32 count = 14;
+    string template = 15;
     repeated string attributes = 31;
     repeated string privates = 32;
     repeated ConceptInfo children = 33;
