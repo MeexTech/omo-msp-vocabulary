@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package omo.msp.vocabulary;
+option go_package= "proto/vocabulary";
+import "proto/vocabulary/common.proto";
+
+service TemplateService {
+  rpc AddOne(ReqTemplateAdd) returns (ReplyTemplateInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyTemplateInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyTemplateInfo) {}
+  rpc GetListByFilter(RequestFilter) returns (ReplyTemplateList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+}
+
+message TemplateInfo {
+  string uid = 1;
+  uint64 id = 2;
+  int64 created = 3;
+  int64 updated = 4;
+  string creator = 5;
+  string operator = 6;
+  uint32 type = 7;
+  uint32 limit = 9;
+  string name = 10;
+  string cover = 11;
+  repeated string names = 21;
+  repeated string covers = 22;
+  repeated string scores = 23;
+}
+
+message ReqTemplateAdd {
+  string name = 1;
+  string cover = 2;
+  uint32 limit = 3;
+  uint32 type = 5;
+  string operator = 6;
+  repeated string names = 11;
+  repeated string covers = 12;
+  repeated string scores = 13;
+}
+
+message ReplyTemplateInfo {
+  TemplateInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+message ReplyTemplateList {
+  ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
+  repeated TemplateInfo list = 11;
+}
