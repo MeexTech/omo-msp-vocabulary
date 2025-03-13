@@ -22,7 +22,8 @@ message TemplateInfo {
   string creator = 5;
   string operator = 6;
   uint32 type = 7;
-  uint32 limit = 9;
+  uint32 limit = 8;
+  string parent = 9;
   string name = 10;
   string cover = 11;
   repeated string names = 21;
@@ -36,6 +37,7 @@ message ReqTemplateAdd {
   uint32 limit = 3;
   uint32 type = 4;
   string operator = 5;
+  string parent = 6;
   repeated string names = 11;
   repeated string covers = 12;
   repeated string scores = 13;
