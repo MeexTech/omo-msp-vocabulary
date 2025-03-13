@@ -67,6 +67,7 @@ message EntityBrief {
     string thumb = 21;
     uint64 events = 22;
     uint64 edges = 23;
+    VNode node = 30;
     repeated string synonyms = 41;
     repeated string tags = 42;
     repeated string relates = 43;

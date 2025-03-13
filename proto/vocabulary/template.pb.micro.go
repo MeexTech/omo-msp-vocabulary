@@ -38,6 +38,7 @@ type TemplateService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyTemplateInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyTemplateInfo, error)
+	UpdateBase(ctx context.Context, in *ReqTemplateUpdate, opts ...client.CallOption) (*ReplyInfo, error)
 	GetListByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyTemplateList, error)
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 }
@@ -94,6 +95,16 @@ func (c *templateService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilte
 	return out, nil
 }
 
+func (c *templateService) UpdateBase(ctx context.Context, in *ReqTemplateUpdate, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "TemplateService.UpdateBase", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *templateService) GetListByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyTemplateList, error) {
 	req := c.c.NewRequest(c.name, "TemplateService.GetListByFilter", in)
 	out := new(ReplyTemplateList)
@@ -121,6 +132,7 @@ type TemplateServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyTemplateInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyTemplateInfo) error
+	UpdateBase(context.Context, *ReqTemplateUpdate, *ReplyInfo) error
 	GetListByFilter(context.Context, *RequestFilter, *ReplyTemplateList) error
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 }
@@ -131,6 +143,7 @@ func RegisterTemplateServiceHandler(s server.Server, hdlr TemplateServiceHandler
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyTemplateInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyTemplateInfo) error
+		UpdateBase(ctx context.Context, in *ReqTemplateUpdate, out *ReplyInfo) error
 		GetListByFilter(ctx context.Context, in *RequestFilter, out *ReplyTemplateList) error
 		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 	}
@@ -159,6 +172,10 @@ func (h *templateServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo,
 
 func (h *templateServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyTemplateInfo) error {
 	return h.TemplateServiceHandler.UpdateByFilter(ctx, in, out)
+}
+
+func (h *templateServiceHandler) UpdateBase(ctx context.Context, in *ReqTemplateUpdate, out *ReplyInfo) error {
+	return h.TemplateServiceHandler.UpdateBase(ctx, in, out)
 }
 
 func (h *templateServiceHandler) GetListByFilter(ctx context.Context, in *RequestFilter, out *ReplyTemplateList) error {

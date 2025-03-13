@@ -9,6 +9,7 @@ service TemplateService {
   rpc GetOne(RequestInfo) returns (ReplyTemplateInfo) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyTemplateInfo) {}
+  rpc UpdateBase(ReqTemplateUpdate) returns (ReplyInfo) {}
   rpc GetListByFilter(RequestFilter) returns (ReplyTemplateList) {}
   rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
 }
@@ -33,6 +34,18 @@ message ReqTemplateAdd {
   string name = 1;
   string cover = 2;
   uint32 limit = 3;
+  uint32 type = 4;
+  string operator = 5;
+  repeated string names = 11;
+  repeated string covers = 12;
+  repeated string scores = 13;
+}
+
+message ReqTemplateUpdate {
+  string uid = 1;
+  string name = 2;
+  string cover = 3;
+  uint32 limit = 4;
   uint32 type = 5;
   string operator = 6;
   repeated string names = 11;
