@@ -34,6 +34,7 @@ message PlaceInfo {
 message StatisticInfo{
     string key = 1;
     uint32 count = 2;
+    string value = 3;
 }
 
 message RequestInfo {
@@ -137,5 +138,7 @@ message ReplyStatistic {
     string key = 2;
     string owner = 3;
     uint32 count = 4;
+    uint32 total = 5;
+    uint32 pages = 6;
     repeated StatisticInfo list = 11;
 }
