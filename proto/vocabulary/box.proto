@@ -58,7 +58,7 @@ message ReqBoxAdd {
   uint32 type = 6;
   string workflow = 7;
   string owner = 8;
-  repeated string keywords = 21;
+  repeated ContentInfo keywords = 21;
 }
 
 message ReqBoxUpdate {
@@ -69,14 +69,14 @@ message ReqBoxUpdate {
   string operator = 6;
   string concept = 7;
   string workflow = 8;
-  repeated string keywords = 21;
+  repeated ContentInfo keywords = 21;
 }
 
 message ReqBoxKeywords {
   string uid = 1;
   string operator = 2;
   bool reviewer = 3;
-  repeated string keywords = 21;
+  repeated ContentInfo keywords = 21;
 }
 
 message ReplyBoxInfo {
