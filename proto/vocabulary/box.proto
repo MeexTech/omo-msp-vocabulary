@@ -47,6 +47,7 @@ message ContentInfo {
   string name = 2;
   uint32 status = 3;
   uint32 count = 4;
+  string add = 5;
 }
 
 message ReqBoxAdd {
