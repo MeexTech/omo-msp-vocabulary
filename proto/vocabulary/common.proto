@@ -47,6 +47,8 @@ message RequestPage {
     uint32 status = 2;
     int32 number = 3;
     int32 page = 4;
+    string key = 5;
+    string value = 6;
 }
 
 message RequestFilter {
