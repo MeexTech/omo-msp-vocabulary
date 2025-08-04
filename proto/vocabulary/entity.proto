@@ -98,13 +98,14 @@ message ReqEventBrief {
 
 message PropertyInfo {
     string uid = 1;
-    repeated WordInfo words = 2;
+    string key = 2;
+    string name = 3;
+    repeated WordInfo words = 10;
 }
 
 message WordInfo {
     string uid = 1;
     string name = 2;
-    string key = 3;
     string label = 4;
 }
 
