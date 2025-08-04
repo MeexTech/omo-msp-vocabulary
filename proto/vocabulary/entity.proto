@@ -104,6 +104,8 @@ message PropertyInfo {
 message WordInfo {
     string uid = 1;
     string name = 2;
+    string key = 3;
+    string label = 4;
 }
 
 message ReqEntityAdd {

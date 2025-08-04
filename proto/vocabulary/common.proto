@@ -3,15 +3,6 @@ syntax = "proto3";
 package omo.msp.vocabulary;
 option go_package= "proto/vocabulary";
 
-enum ResultStatus {
-    Success = 0;
-    MaxLimit = 1;
-    Repeated = 2;
-    NotExisted = 3;
-    DBException = 4;
-    Empty = 5;
-}
-
 enum DirectionType {
     Double = 0;
     FromTo = 1;
@@ -65,6 +56,8 @@ message RequestFilter {
     string key = 4;
     string value = 5;
     bool brief = 6;
+    string owner = 7;
+    uint32 range = 8;
     repeated string values = 11;
 }
 
